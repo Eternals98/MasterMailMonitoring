@@ -1,0 +1,140 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jagomez\\source\\MailMonitor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\entities\\companies\\company.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\entities\\companies\\company.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\entities\\companies\\events\\companydeleteddomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\entities\\companies\\events\\companydeleteddomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\abstractions\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\abstractions\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\abstractions\\domainerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\domainerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jagomez\\source\\mailmonitor\\mailmonitor.domain\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Company.cs",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Entities\\Companies\\Company.cs",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\Entities\\Companies\\Company.cs",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Entities\\Companies\\Company.cs",
+              "RelativeToolTip": "MailMonitor.Domain\\Entities\\Companies\\Company.cs",
+              "ViewState": "AgIAAPUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T19:30:40.823Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CompanyDeletedDomainEvent.cs",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
+              "RelativeToolTip": "MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T19:30:39.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Error.cs",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\Error.cs",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\Error.cs",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\Error.cs",
+              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\Error.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T19:30:34.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DomainErrors.cs",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
+              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T19:28:16.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\README.md",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\README.md",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\README.md",
+              "RelativeToolTip": "MailMonitor.Domain\\README.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-03-27T19:30:22.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Entity.cs",
+              "DocumentMoniker": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\Entity.cs",
+              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\Entity.cs",
+              "ToolTip": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\Abstractions\\Entity.cs",
+              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\Entity.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAA0wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T16:59:34.632Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 277,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

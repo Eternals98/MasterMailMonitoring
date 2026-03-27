@@ -1,0 +1,57 @@
+namespace MailMonitor.Domain.Abstractions
+{
+    public static class DomainErrors
+    {
+        public static class Company
+        {
+            public static readonly Error NameRequired = new("Company.NameRequired", "Company name is required.");
+            public static readonly Error MailRequired = new("Company.MailRequired", "Company mail is required.");
+            public static readonly Error StorageFolderRequired = new("Company.StorageFolderRequired", "Storage folder is required.");
+            public static readonly Error ReportOutputFolderRequired = new("Company.ReportOutputFolderRequired", "Report output folder is required.");
+            public static readonly Error InvalidStartFrom = new("Company.InvalidStartFrom", "StartFrom must be a valid date in ISO format or a parseable date value.");
+            public static readonly Error ProcessingTagRequired = new("Company.ProcessingTagRequired", "Processing tag is required.");
+            public static readonly Error ProcessedSubjectRequired = new("Company.ProcessedSubjectRequired", "Processed subject is required.");
+            public static readonly Error InvalidProcessedAttachmentCount = new("Company.InvalidProcessedAttachmentCount", "Processed attachments count cannot be negative.");
+        }
+
+        public static class Trigger
+        {
+            public static readonly Error NameRequired = new("Trigger.NameRequired", "Trigger name is required.");
+            public static readonly Error CronExpressionRequired = new("Trigger.CronExpressionRequired", "Trigger cron expression is required.");
+        }
+
+        public static class Job
+        {
+            public static readonly Error NameRequired = new("Job.NameRequired", "Job name is required.");
+        }
+
+        public static class GraphSetting
+        {
+            public static readonly Error InstanceRequired = new("GraphSetting.InstanceRequired", "Graph instance URL is required.");
+            public static readonly Error ClientIdRequired = new("GraphSetting.ClientIdRequired", "Graph client id is required.");
+            public static readonly Error TenantIdRequired = new("GraphSetting.TenantIdRequired", "Graph tenant id is required.");
+            public static readonly Error ClientSecretRequired = new("GraphSetting.ClientSecretRequired", "Graph client secret is required.");
+            public static readonly Error InvalidScopesJson = new("GraphSetting.InvalidScopesJson", "Graph scopes must be valid JSON array.");
+        }
+
+        public static class AppSetting
+        {
+            public static readonly Error KeyRequired = new("AppSetting.KeyRequired", "App setting key is required.");
+            public static readonly Error ValueRequired = new("AppSetting.ValueRequired", "App setting value is required.");
+        }
+
+        public static class Setting
+        {
+            public static readonly Error BaseStorageFolderRequired = new("Setting.BaseStorageFolderRequired", "Base storage folder is required.");
+            public static readonly Error ProcessingTagRequired = new("Setting.ProcessingTagRequired", "Processing tag is required.");
+        }
+
+        public static class EmailProcessStatistic
+        {
+            public static readonly Error CompanyNameRequired = new("EmailProcessStatistic.CompanyNameRequired", "Company name is required.");
+            public static readonly Error UserMailRequired = new("EmailProcessStatistic.UserMailRequired", "User mail is required.");
+            public static readonly Error SubjectRequired = new("EmailProcessStatistic.SubjectRequired", "Email subject is required.");
+            public static readonly Error InvalidAttachmentsCount = new("EmailProcessStatistic.InvalidAttachmentsCount", "Attachments count cannot be negative.");
+        }
+    }
+}

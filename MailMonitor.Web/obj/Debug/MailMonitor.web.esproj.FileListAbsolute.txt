@@ -1,0 +1,1 @@
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Web\obj\Debug\MailMonitor.web.esproj.CoreCompileInputs.cache

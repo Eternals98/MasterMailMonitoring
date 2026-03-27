@@ -1,0 +1,15 @@
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.csproj.AssemblyReference.cache
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.AssemblyInfoInputs.cache
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.AssemblyInfo.cs
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.csproj.CoreCompileInputs.cache
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\bin\Debug\net8.0\MailMonitor.Application.deps.json
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\bin\Debug\net8.0\MailMonitor.Application.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\bin\Debug\net8.0\MailMonitor.Application.pdb
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\bin\Debug\net8.0\MailMonitor.Domain.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\bin\Debug\net8.0\MailMonitor.Domain.pdb
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMoni.3942CB17.Up2Date
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\refint\MailMonitor.Application.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.pdb
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Application\obj\Debug\net8.0\ref\MailMonitor.Application.dll

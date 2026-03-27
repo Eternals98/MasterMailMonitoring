@@ -1,0 +1,11 @@
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.AssemblyInfoInputs.cache
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.AssemblyInfo.cs
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.csproj.CoreCompileInputs.cache
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\bin\Debug\net8.0\MailMonitor.Domain.deps.json
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\bin\Debug\net8.0\MailMonitor.Domain.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\bin\Debug\net8.0\MailMonitor.Domain.pdb
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\refint\MailMonitor.Domain.dll
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\MailMonitor.Domain.pdb
+C:\Users\jagomez\source\MailMonitor\MailMonitor.Domain\obj\Debug\net8.0\ref\MailMonitor.Domain.dll
