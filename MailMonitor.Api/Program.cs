@@ -1,4 +1,5 @@
 using MailMonitor.Infrastructure;
+using System.Text.Json;
 
 namespace MailMonitor.Api
 {
@@ -9,7 +10,13 @@ namespace MailMonitor.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructure(builder.Configuration);
-            builder.Services.AddControllers();
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+                });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
