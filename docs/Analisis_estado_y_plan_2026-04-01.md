@@ -223,6 +223,84 @@ Se considera listo cuando se cumpla todo:
 ### Prompt 14 — Empaquetado servicio Windows + runbook
 "Documenta e implementa scripts de despliegue para registrar `MailMonitor.Worker` como Windows Service, configuración por ambiente, rotación de logs y procedimiento de rollback. Genera `docs/Runbook_Operacion.md`."
 
+
+## 7.1) Prompts prácticos y pequeños para ejecutar SOLO el Día 1
+
+> Estos prompts están pensados para correr en sesiones separadas de Codex, con alcance reducido, entregable claro y fácil de validar.
+
+### D1-P01 — Crear carpeta de contratos API
+"En `MailMonitor.Api`, crea la estructura de carpetas `Contracts/Settings`, `Contracts/Companies`, `Contracts/GraphSettings`, `Contracts/Triggers`, `Contracts/Statistics`. No implementes lógica todavía; solo estructura y archivos vacíos con comentarios TODO."
+
+### D1-P02 — DTO de lectura de Settings
+"Crea `SettingsResponse` en `MailMonitor.Api/Contracts/Settings` con campos: `baseStorageFolder`, `mailSubjectKeywords`, `processingTag`. Ajusta serialización para camelCase."
+
+### D1-P03 — DTO de actualización de Settings
+"Crea `UpdateSettingsRequest` con validaciones mínimas (`baseStorageFolder` requerido). No implementes endpoint aún; solo DTO + data annotations."
+
+### D1-P04 — Endpoint GET /api/settings
+"Implementa `GET /api/settings` en un controlador API real (no MVC view), consumiendo `IConfigurationService.GetSettingsAsync()`, mapeando a `SettingsResponse`, devolviendo `200 OK`."
+
+### D1-P05 — Endpoint PUT /api/settings
+"Implementa `PUT /api/settings` que reciba `UpdateSettingsRequest`, valide modelo, persista con `IConfigurationService.UpdateSettingsAsync`, y responda `204 NoContent` o `400 BadRequest` con errores de validación."
+
+### D1-P06 — DTOs base de Company
+"Crea `CompanyListItemResponse`, `CompanyDetailResponse` y `UpsertCompanyRequest` en `Contracts/Companies` con campos necesarios del dominio actual. Incluye listas `mailBox`, `fileTypes`, `attachmentKeywords`."
+
+### D1-P07 — GET /api/companies (lista)
+"Implementa `GET /api/companies` con respuesta de lista. Añade filtros query opcionales `name` y `mail` (contains, case-insensitive)."
+
+### D1-P08 — GET /api/companies/{id}
+"Implementa `GET /api/companies/{id}` con `404` si no existe y `200` con `CompanyDetailResponse` si existe."
+
+### D1-P09 — POST /api/companies
+"Implementa `POST /api/companies` usando `UpsertCompanyRequest`, mapeo a `Company`, persistencia con `AddOrUpdateCompanyAsync` y respuesta `201 Created` con `Location`."
+
+### D1-P10 — PUT /api/companies/{id}
+"Implementa `PUT /api/companies/{id}` con validación de consistencia de `id` ruta vs body, actualización y respuesta `204` / `404`."
+
+### D1-P11 — DELETE /api/companies/{id}
+"Implementa `DELETE /api/companies/{id}` usando `DeleteCompanyAsync`, retornando `204` si elimina y `404` si no existe."
+
+### D1-P12 — DTOs de GraphSettings
+"Crea `GraphSettingsResponse` (con `clientSecretMasked`) y `UpdateGraphSettingsRequest`. No expongas `clientSecret` completo en respuestas."
+
+### D1-P13 — GET /api/graph-settings
+"Implementa `GET /api/graph-settings` con enmascaramiento de secreto (solo últimos 4 caracteres visibles)."
+
+### D1-P14 — PUT /api/graph-settings
+"Implementa `PUT /api/graph-settings` con validación de JSON de scopes, persistencia y respuesta `204`/`400`."
+
+### D1-P15 — DTOs de Trigger
+"Crea `TriggerResponse` y `UpsertTriggerRequest` en `Contracts/Triggers` con validación de `name` y `cronExpression` requeridos."
+
+### D1-P16 — GET /api/triggers
+"Implementa `GET /api/triggers` retornando todos los triggers configurados."
+
+### D1-P17 — POST /api/triggers
+"Implementa `POST /api/triggers` con validación de cron expression (usa librería existente o validación básica) y `201 Created`."
+
+### D1-P18 — PUT /api/triggers/{id}
+"Implementa `PUT /api/triggers/{id}` con validación de id y cron expression, respuesta `204`/`404`/`400`."
+
+### D1-P19 — DELETE /api/triggers/{id}
+"Implementa `DELETE /api/triggers/{id}` con respuesta `204`/`404`."
+
+### D1-P20 — Endpoint de estadísticas (MVP)
+"Implementa `GET /api/email-statistics` versión mínima con filtros opcionales `from`, `to`, `company`, `processed`, sin paginación aún; devuelve lista ordenada desc por fecha."
+
+### D1-P21 — Export Excel (MVP)
+"Implementa `GET /api/reports/export` que recupere estadísticas, genere archivo temporal con `IEmailStatisticsExporter` y lo devuelva como `FileResult`."
+
+### D1-P22 — Swagger: ejemplos y descripciones
+"Agrega documentación Swagger para todos los endpoints del Día 1: summary, códigos de respuesta, y ejemplos request/response."
+
+### D1-P23 — Archivo de pruebas HTTP
+"Actualiza `MailMonitor.Api.http` con ejemplos ejecutables para cada endpoint del Día 1 (GET/POST/PUT/DELETE), incluyendo casos de error 400 y 404."
+
+### D1-P24 — Checklist de cierre Día 1
+"Crea `docs/checklists/Dia1_API_Checklist.md` con checklist de verificación funcional endpoint por endpoint (status code esperado, payload ejemplo, evidencia)."
+
+
 ## 8) Recomendación final
 
 Dado el estado actual, la estrategia óptima es:
