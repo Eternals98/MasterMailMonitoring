@@ -6,28 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 namespace MailMonitor.Api.Controllers;
 
 [ApiController]
-[Route("api/email-statistics")]
-public sealed class EmailStatisticsController : ControllerBase
+[Route("api/reports")]
+public sealed class ReportsController : ControllerBase
 {
     private readonly IReportingService _reportingService;
+    private readonly IEmailStatisticsExporter _emailStatisticsExporter;
 
-    public EmailStatisticsController(IReportingService reportingService)
+    public ReportsController(
+        IReportingService reportingService,
+        IEmailStatisticsExporter emailStatisticsExporter)
     {
         _reportingService = reportingService;
+        _emailStatisticsExporter = emailStatisticsExporter;
     }
 
     /// <summary>
-    /// Obtiene estadísticas de procesamiento de correos con filtros opcionales.
+    /// Exporta estadísticas de correo a un archivo Excel.
     /// </summary>
     /// <param name="query">Filtros opcionales: from, to, company, processed.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>Lista de estadísticas ordenada por fecha descendente.</returns>
-    /// <response code="200">Lista de estadísticas filtrada. Ejemplo: [{"date":"2026-03-20T09:30:00Z","company":"Contoso","processed":true,"subject":"Factura Marzo"}]</response>
+    /// <returns>Archivo .xlsx con los resultados.</returns>
+    /// <response code="200">Archivo Excel generado correctamente.</response>
     /// <response code="400">Rango de fechas inválido. Ejemplo: {"errors":{"to":["'to' must be greater than or equal to 'from'."]}}</response>
-    [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyCollection<EmailStatisticsItemResponse>), StatusCodes.Status200OK)]
+    [HttpGet("export")]
+    [Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
+    [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-    public ActionResult<IReadOnlyCollection<EmailStatisticsItemResponse>> GetAsync(
+    public async Task<IActionResult> ExportAsync(
         [FromQuery] EmailStatisticsQueryRequest query,
         CancellationToken cancellationToken)
     {
@@ -61,23 +66,22 @@ public sealed class EmailStatisticsController : ControllerBase
             statistics = statistics.Where(item => item.Processed == query.Processed.Value);
         }
 
-        var response = statistics
+        var filteredStatistics = statistics
             .OrderByDescending(item => item.Date)
-            .Select(item => new EmailStatisticsItemResponse(
-                item.Id,
-                item.Date,
-                item.CompanyName,
-                item.UserMail,
-                item.Processed,
-                item.Subject,
-                item.AttachmentsCount,
-                item.ReasonIgnored,
-                item.Mailbox,
-                item.StorageFolder,
-                item.StoredAttachments.ToArray(),
-                item.MessageId))
             .ToList();
 
-        return Ok(response);
+        var outputPath = Path.Combine(Path.GetTempPath(), $"email-statistics-{DateTime.UtcNow:yyyyMMddHHmmssfff}.xlsx");
+
+        await _emailStatisticsExporter.ExportAsync(filteredStatistics, outputPath, cancellationToken);
+
+        var bytes = await System.IO.File.ReadAllBytesAsync(outputPath, cancellationToken);
+        System.IO.File.Delete(outputPath);
+
+        var fileName = $"email-statistics-{DateTime.UtcNow:yyyyMMddHHmmss}.xlsx";
+
+        return File(
+            bytes,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            fileName);
     }
 }
