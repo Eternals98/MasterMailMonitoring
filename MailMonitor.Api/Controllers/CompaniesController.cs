@@ -1,5 +1,6 @@
 using MailMonitor.Api.Contracts.Companies;
 using MailMonitor.Application.Abstractions.Configuration;
+using MailMonitor.Domain.Entities.Companies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MailMonitor.Api.Controllers;
@@ -77,5 +78,57 @@ public sealed class CompaniesController : ControllerBase
             company.ProcessedAttachmentsCount);
 
         return Ok(response);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(CompanyDetailResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CompanyDetailResponse>> CreateAsync(
+        [FromBody] UpsertCompanyRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var companyResult = Company.CreateValidated(
+            request.Name,
+            request.Mail,
+            request.StartFrom,
+            request.MailBox,
+            request.FileTypes,
+            request.AttachmentKeywords,
+            request.StorageFolder,
+            request.ReportOutputFolder,
+            request.ProcessingTag);
+
+        if (companyResult.IsFailure)
+        {
+            ModelState.AddModelError(nameof(request), companyResult.Error.Message);
+            return ValidationProblem(ModelState);
+        }
+
+        await _configurationService.AddOrUpdateCompanyAsync(companyResult.Value);
+
+        var response = new CompanyDetailResponse(
+            companyResult.Value.Id,
+            companyResult.Value.Name,
+            companyResult.Value.Mail,
+            companyResult.Value.StartFrom,
+            companyResult.Value.MailBox,
+            companyResult.Value.FileTypes,
+            companyResult.Value.AttachmentKeywords,
+            companyResult.Value.StorageFolder,
+            companyResult.Value.ReportOutputFolder,
+            companyResult.Value.ProcessingTag,
+            companyResult.Value.RecordType,
+            companyResult.Value.ProcessedSubject,
+            companyResult.Value.ProcessedDate,
+            companyResult.Value.ProcessedAttachmentsCount);
+
+        return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
     }
 }
