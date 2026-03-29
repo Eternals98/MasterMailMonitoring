@@ -18,6 +18,10 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet]
+    /// <summary>
+    /// Obtiene configuración general del sistema.
+    /// </summary>
+    /// <response code="200">Configuración actual. Ejemplo: {"baseStorageFolder":"c:\\mail","mailSubjectKeywords":["factura","orden"]}</response>
     [ProducesResponseType(typeof(SettingsResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<SettingsResponse>> GetAsync(CancellationToken cancellationToken)
     {
@@ -35,6 +39,11 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpPut]
+    /// <summary>
+    /// Actualiza configuración general del sistema.
+    /// </summary>
+    /// <response code="204">Configuración actualizada.</response>
+    /// <response code="400">Payload inválido.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAsync(

@@ -17,6 +17,10 @@ public sealed class CompaniesController : ControllerBase
     }
 
     [HttpGet]
+    /// <summary>
+    /// Lista compañías con filtros opcionales por nombre y correo.
+    /// </summary>
+    /// <response code="200">Listado de compañías. Ejemplo: [{"id":"11111111-1111-1111-1111-111111111111","name":"Contoso","mail":"contoso@tenant.com"}]</response>
     [ProducesResponseType(typeof(IReadOnlyCollection<CompanyListItemResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyCollection<CompanyListItemResponse>>> GetAsync(
         [FromQuery] string? name,
@@ -47,6 +51,11 @@ public sealed class CompaniesController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    /// <summary>
+    /// Obtiene una compañía por identificador.
+    /// </summary>
+    /// <response code="200">Detalle de compañía.</response>
+    /// <response code="404">No existe una compañía con el id indicado.</response>
     [ProducesResponseType(typeof(CompanyDetailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CompanyDetailResponse>> GetByIdAsync(
@@ -81,6 +90,11 @@ public sealed class CompaniesController : ControllerBase
     }
 
     [HttpPost]
+    /// <summary>
+    /// Crea una compañía.
+    /// </summary>
+    /// <response code="201">Compañía creada. Ejemplo body: {"name":"Contoso","mail":"contoso@tenant.com","storageFolder":"c:\\mail\\contoso"}</response>
+    /// <response code="400">Payload inválido o reglas de dominio incumplidas.</response>
     [ProducesResponseType(typeof(CompanyDetailResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CompanyDetailResponse>> CreateAsync(
@@ -133,6 +147,12 @@ public sealed class CompaniesController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    /// <summary>
+    /// Actualiza una compañía existente.
+    /// </summary>
+    /// <response code="204">Compañía actualizada.</response>
+    /// <response code="400">Payload inválido (incluye mismatch id ruta/body).</response>
+    /// <response code="404">No existe la compañía.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -183,6 +203,11 @@ public sealed class CompaniesController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    /// <summary>
+    /// Elimina una compañía.
+    /// </summary>
+    /// <response code="204">Compañía eliminada.</response>
+    /// <response code="404">No existe la compañía.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteAsync(

@@ -17,6 +17,10 @@ public sealed class TriggersController : ControllerBase
     }
 
     [HttpGet]
+    /// <summary>
+    /// Lista todos los triggers configurados.
+    /// </summary>
+    /// <response code="200">Listado de triggers.</response>
     [ProducesResponseType(typeof(IReadOnlyCollection<TriggerResponse>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyCollection<TriggerResponse>>> GetAsync(CancellationToken cancellationToken)
     {
@@ -32,6 +36,11 @@ public sealed class TriggersController : ControllerBase
     }
 
     [HttpPost]
+    /// <summary>
+    /// Crea un nuevo trigger.
+    /// </summary>
+    /// <response code="201">Trigger creado. Ejemplo request: {"name":"Daily Report","cronExpression":"0 0 * * *"}</response>
+    /// <response code="400">Cron inválido o payload inválido.</response>
     [ProducesResponseType(typeof(TriggerResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TriggerResponse>> CreateAsync(
@@ -70,6 +79,11 @@ public sealed class TriggersController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    /// <summary>
+    /// Obtiene un trigger por id.
+    /// </summary>
+    /// <response code="200">Trigger encontrado.</response>
+    /// <response code="404">No existe trigger con ese id.</response>
     [ProducesResponseType(typeof(TriggerResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TriggerResponse>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -87,6 +101,12 @@ public sealed class TriggersController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    /// <summary>
+    /// Actualiza un trigger existente.
+    /// </summary>
+    /// <response code="204">Trigger actualizado.</response>
+    /// <response code="400">Payload inválido o cron inválido.</response>
+    /// <response code="404">No existe trigger con ese id.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -135,6 +155,11 @@ public sealed class TriggersController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    /// <summary>
+    /// Elimina un trigger existente.
+    /// </summary>
+    /// <response code="204">Trigger eliminado.</response>
+    /// <response code="404">No existe trigger con ese id.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)

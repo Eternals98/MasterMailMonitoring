@@ -1,6 +1,148 @@
 @MailMonitor.Api_HostAddress = http://localhost:5146
+@json = application/json
 
-GET {{MailMonitor.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Day 1 - Settings: Get
+GET {{MailMonitor.Api_HostAddress}}/api/settings
+Accept: {{json}}
 
-###
+### Day 1 - Settings: Update
+PUT {{MailMonitor.Api_HostAddress}}/api/settings
+Content-Type: {{json}}
+
+{
+  "baseStorageFolder": "C:\\MailMonitor\\Storage"
+}
+
+### Day 1 - Settings: Update (400 invalid payload)
+PUT {{MailMonitor.Api_HostAddress}}/api/settings
+Content-Type: {{json}}
+
+{
+  "baseStorageFolder": ""
+}
+
+### Day 1 - Graph Settings: Get
+GET {{MailMonitor.Api_HostAddress}}/api/graph-settings
+Accept: {{json}}
+
+### Day 1 - Graph Settings: Update
+PUT {{MailMonitor.Api_HostAddress}}/api/graph-settings
+Content-Type: {{json}}
+
+{
+  "instance": "https://login.microsoftonline.com/",
+  "clientId": "11111111-2222-3333-4444-555555555555",
+  "tenantId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "clientSecret": "super-secret-value",
+  "graphUserScopesJson": "[\"Mail.Read\",\"Mail.ReadWrite\"]"
+}
+
+### Day 1 - Graph Settings: Update (400 invalid scopes JSON)
+PUT {{MailMonitor.Api_HostAddress}}/api/graph-settings
+Content-Type: {{json}}
+
+{
+  "instance": "https://login.microsoftonline.com/",
+  "clientId": "11111111-2222-3333-4444-555555555555",
+  "tenantId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "clientSecret": "super-secret-value",
+  "graphUserScopesJson": "{invalid-json}"
+}
+
+### Day 1 - Companies: List
+GET {{MailMonitor.Api_HostAddress}}/api/companies?name=contoso
+Accept: {{json}}
+
+### Day 1 - Companies: Create
+POST {{MailMonitor.Api_HostAddress}}/api/companies
+Content-Type: {{json}}
+
+{
+  "name": "Contoso",
+  "mail": "contoso@tenant.com",
+  "startFrom": "Inbox",
+  "mailBox": ["Inbox", "Facturas"],
+  "fileTypes": ["pdf", "xml"],
+  "attachmentKeywords": ["factura", "invoice"],
+  "storageFolder": "C:\\MailMonitor\\Contoso",
+  "reportOutputFolder": "C:\\MailMonitor\\Reports",
+  "processingTag": "PROCESSED"
+}
+
+### Day 1 - Companies: Get by id (404)
+GET {{MailMonitor.Api_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
+Accept: {{json}}
+
+### Day 1 - Companies: Update (400 route/body id mismatch)
+PUT {{MailMonitor.Api_HostAddress}}/api/companies/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+Content-Type: {{json}}
+
+{
+  "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+  "name": "Contoso Updated",
+  "mail": "contoso@tenant.com",
+  "startFrom": "Inbox",
+  "mailBox": ["Inbox"],
+  "fileTypes": ["pdf"],
+  "attachmentKeywords": ["factura"],
+  "storageFolder": "C:\\MailMonitor\\Contoso",
+  "reportOutputFolder": "C:\\MailMonitor\\Reports",
+  "processingTag": "PROCESSED"
+}
+
+### Day 1 - Companies: Delete (404)
+DELETE {{MailMonitor.Api_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
+
+### Day 1 - Triggers: List
+GET {{MailMonitor.Api_HostAddress}}/api/triggers
+Accept: {{json}}
+
+### Day 1 - Triggers: Create
+POST {{MailMonitor.Api_HostAddress}}/api/triggers
+Content-Type: {{json}}
+
+{
+  "name": "Daily Report",
+  "cronExpression": "0 0 * * *"
+}
+
+### Day 1 - Triggers: Create (400 invalid cron)
+POST {{MailMonitor.Api_HostAddress}}/api/triggers
+Content-Type: {{json}}
+
+{
+  "name": "Broken Trigger",
+  "cronExpression": "invalid-cron"
+}
+
+### Day 1 - Triggers: Get by id (404)
+GET {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+Accept: {{json}}
+
+### Day 1 - Triggers: Update (404)
+PUT {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+Content-Type: {{json}}
+
+{
+  "name": "Daily Report Updated",
+  "cronExpression": "0 */6 * * *"
+}
+
+### Day 1 - Triggers: Delete (404)
+DELETE {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+
+### Day 1 - Email statistics: Get with filters
+GET {{MailMonitor.Api_HostAddress}}/api/email-statistics?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z&company=contoso&processed=true
+Accept: {{json}}
+
+### Day 1 - Email statistics: Get (400 invalid range)
+GET {{MailMonitor.Api_HostAddress}}/api/email-statistics?from=2026-03-31T23:59:59Z&to=2026-03-01T00:00:00Z
+Accept: {{json}}
+
+### Day 1 - Reports: Export excel
+GET {{MailMonitor.Api_HostAddress}}/api/reports/export?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z&processed=true
+Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+### Day 1 - Reports: Export excel (400 invalid range)
+GET {{MailMonitor.Api_HostAddress}}/api/reports/export?from=2026-03-31T23:59:59Z&to=2026-03-01T00:00:00Z
+Accept: {{json}}
