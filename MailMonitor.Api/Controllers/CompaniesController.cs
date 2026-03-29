@@ -181,4 +181,18 @@ public sealed class CompaniesController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var deleteResult = await _configurationService.DeleteCompanyAsync(id);
+
+        return deleteResult.IsSuccess ? NoContent() : NotFound();
+    }
 }
