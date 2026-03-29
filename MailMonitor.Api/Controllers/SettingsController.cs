@@ -33,4 +33,26 @@ public sealed class SettingsController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateAsync(
+        [FromBody] UpdateSettingsRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var currentSettings = await _configurationService.GetSettingsAsync();
+        currentSettings.BaseStorageFolder = request.BaseStorageFolder;
+
+        await _configurationService.UpdateSettingsAsync(currentSettings);
+
+        return NoContent();
+    }
 }
