@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MailMonitor.Worker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81def290f19bf55f231ff61b4551a6a4c1345077")]
 [assembly: System.Reflection.AssemblyProductAttribute("MailMonitor.Worker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MailMonitor.Worker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

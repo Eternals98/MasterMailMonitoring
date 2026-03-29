@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Worker\\MailMonitor.Worker.csproj": {}
+    "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Worker\\MailMonitor.Worker.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj": {
+    "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj",
+        "projectUniqueName": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj",
         "projectName": "MailMonitor.Application",
-        "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj",
-        "packagesPath": "C:\\Users\\jagomez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\obj\\",
+        "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj",
+        "packagesPath": "C:\\Users\\jarig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jagomez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jarig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
-                "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj"
+              "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
+                "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj"
               }
             }
           }
@@ -48,7 +48,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -91,24 +91,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
+    "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj",
         "projectName": "MailMonitor.Domain",
-        "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj",
-        "packagesPath": "C:\\Users\\jagomez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\obj\\",
+        "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj",
+        "packagesPath": "C:\\Users\\jarig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jagomez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jarig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -135,7 +135,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -156,24 +156,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj": {
+    "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj",
         "projectName": "MailMonitor.Infrastructure",
-        "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\jagomez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\jarig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jagomez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jarig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -188,11 +188,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj": {
-                "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj"
+              "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj": {
+                "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj"
               },
-              "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
-                "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Domain\\MailMonitor.Domain.csproj"
+              "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj": {
+                "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\MailMonitor.Domain.csproj"
               }
             }
           }
@@ -207,7 +207,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -270,24 +270,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Worker\\MailMonitor.Worker.csproj": {
+    "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Worker\\MailMonitor.Worker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Worker\\MailMonitor.Worker.csproj",
+        "projectUniqueName": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Worker\\MailMonitor.Worker.csproj",
         "projectName": "MailMonitor.Worker",
-        "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Worker\\MailMonitor.Worker.csproj",
-        "packagesPath": "C:\\Users\\jagomez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Worker\\obj\\",
+        "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Worker\\MailMonitor.Worker.csproj",
+        "packagesPath": "C:\\Users\\jarig\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Worker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jagomez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jarig\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -302,11 +302,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj": {
-                "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Application\\MailMonitor.Application.csproj"
+              "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj": {
+                "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application\\MailMonitor.Application.csproj"
               },
-              "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\jagomez\\source\\MailMonitor\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj"
+              "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure\\MailMonitor.Infrastructure.csproj"
               }
             }
           }
@@ -321,7 +321,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -330,6 +330,22 @@
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Hosting.WindowsServices": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Quartz.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[3.16.1, )"
+            },
+            "Serilog.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -348,7 +364,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,11 +1,15 @@
 @MailMonitor.Api_HostAddress = http://localhost:5146
 @json = application/json
+@existingCompanyId = 11111111-1111-1111-1111-111111111111
+@missingCompanyId = 00000000-0000-0000-0000-000000000000
+@existingTriggerId = 22222222-2222-2222-2222-222222222222
+@missingTriggerId = 00000000-0000-0000-0000-000000000000
 
-### Day 1 - Settings: Get
+### SETTINGS - SUCCESS (200)
 GET {{MailMonitor.Api_HostAddress}}/api/settings
 Accept: {{json}}
 
-### Day 1 - Settings: Update
+### SETTINGS - SUCCESS (204)
 PUT {{MailMonitor.Api_HostAddress}}/api/settings
 Content-Type: {{json}}
 
@@ -13,7 +17,7 @@ Content-Type: {{json}}
   "baseStorageFolder": "C:\\MailMonitor\\Storage"
 }
 
-### Day 1 - Settings: Update (400 invalid payload)
+### SETTINGS - ERROR (400)
 PUT {{MailMonitor.Api_HostAddress}}/api/settings
 Content-Type: {{json}}
 
@@ -21,11 +25,11 @@ Content-Type: {{json}}
   "baseStorageFolder": ""
 }
 
-### Day 1 - Graph Settings: Get
+### GRAPH SETTINGS - SUCCESS (200)
 GET {{MailMonitor.Api_HostAddress}}/api/graph-settings
 Accept: {{json}}
 
-### Day 1 - Graph Settings: Update
+### GRAPH SETTINGS - SUCCESS (204)
 PUT {{MailMonitor.Api_HostAddress}}/api/graph-settings
 Content-Type: {{json}}
 
@@ -37,7 +41,7 @@ Content-Type: {{json}}
   "graphUserScopesJson": "[\"Mail.Read\",\"Mail.ReadWrite\"]"
 }
 
-### Day 1 - Graph Settings: Update (400 invalid scopes JSON)
+### GRAPH SETTINGS - ERROR (400 invalid JSON)
 PUT {{MailMonitor.Api_HostAddress}}/api/graph-settings
 Content-Type: {{json}}
 
@@ -49,55 +53,108 @@ Content-Type: {{json}}
   "graphUserScopesJson": "{invalid-json}"
 }
 
-### Day 1 - Companies: List
-GET {{MailMonitor.Api_HostAddress}}/api/companies?name=contoso
+### COMPANIES - SUCCESS (200 list, filters name/mail contains)
+GET {{MailMonitor.Api_HostAddress}}/api/companies?name=contoso&mail=tenant.com
 Accept: {{json}}
 
-### Day 1 - Companies: Create
+### COMPANIES - SUCCESS (201 create)
 POST {{MailMonitor.Api_HostAddress}}/api/companies
 Content-Type: {{json}}
 
 {
   "name": "Contoso",
   "mail": "contoso@tenant.com",
-  "startFrom": "Inbox",
+  "startFrom": "2026-03-01T00:00:00Z",
   "mailBox": ["Inbox", "Facturas"],
   "fileTypes": ["pdf", "xml"],
   "attachmentKeywords": ["factura", "invoice"],
   "storageFolder": "C:\\MailMonitor\\Contoso",
   "reportOutputFolder": "C:\\MailMonitor\\Reports",
-  "processingTag": "PROCESSED"
+  "processingTag": "ONBASE"
 }
 
-### Day 1 - Companies: Get by id (404)
-GET {{MailMonitor.Api_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
-Accept: {{json}}
-
-### Day 1 - Companies: Update (400 route/body id mismatch)
-PUT {{MailMonitor.Api_HostAddress}}/api/companies/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+### COMPANIES - ERROR (400 create invalid payload)
+POST {{MailMonitor.Api_HostAddress}}/api/companies
 Content-Type: {{json}}
 
 {
-  "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+  "name": "",
+  "mail": "",
+  "storageFolder": "",
+  "reportOutputFolder": "",
+  "processingTag": ""
+}
+
+### COMPANIES - SUCCESS (200 get by id)
+GET {{MailMonitor.Api_HostAddress}}/api/companies/{{existingCompanyId}}
+Accept: {{json}}
+
+### COMPANIES - ERROR (404 get by id)
+GET {{MailMonitor.Api_HostAddress}}/api/companies/{{missingCompanyId}}
+Accept: {{json}}
+
+### COMPANIES - SUCCESS (204 update)
+PUT {{MailMonitor.Api_HostAddress}}/api/companies/{{existingCompanyId}}
+Content-Type: {{json}}
+
+{
+  "id": "{{existingCompanyId}}",
   "name": "Contoso Updated",
-  "mail": "contoso@tenant.com",
-  "startFrom": "Inbox",
+  "mail": "contoso-updated@tenant.com",
+  "startFrom": "2026-03-01T00:00:00Z",
   "mailBox": ["Inbox"],
   "fileTypes": ["pdf"],
   "attachmentKeywords": ["factura"],
   "storageFolder": "C:\\MailMonitor\\Contoso",
   "reportOutputFolder": "C:\\MailMonitor\\Reports",
-  "processingTag": "PROCESSED"
+  "processingTag": "ONBASE"
 }
 
-### Day 1 - Companies: Delete (404)
-DELETE {{MailMonitor.Api_HostAddress}}/api/companies/00000000-0000-0000-0000-000000000000
+### COMPANIES - ERROR (400 id mismatch)
+PUT {{MailMonitor.Api_HostAddress}}/api/companies/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+Content-Type: {{json}}
 
-### Day 1 - Triggers: List
+{
+  "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+  "name": "Contoso",
+  "mail": "contoso@tenant.com",
+  "startFrom": "2026-03-01T00:00:00Z",
+  "mailBox": ["Inbox"],
+  "fileTypes": ["pdf"],
+  "attachmentKeywords": ["factura"],
+  "storageFolder": "C:\\MailMonitor\\Contoso",
+  "reportOutputFolder": "C:\\MailMonitor\\Reports",
+  "processingTag": "ONBASE"
+}
+
+### COMPANIES - ERROR (404 update)
+PUT {{MailMonitor.Api_HostAddress}}/api/companies/{{missingCompanyId}}
+Content-Type: {{json}}
+
+{
+  "id": "{{missingCompanyId}}",
+  "name": "Not Found",
+  "mail": "none@tenant.com",
+  "startFrom": "2026-03-01T00:00:00Z",
+  "mailBox": ["Inbox"],
+  "fileTypes": ["pdf"],
+  "attachmentKeywords": ["none"],
+  "storageFolder": "C:\\MailMonitor\\None",
+  "reportOutputFolder": "C:\\MailMonitor\\Reports",
+  "processingTag": "ONBASE"
+}
+
+### COMPANIES - SUCCESS (204 delete)
+DELETE {{MailMonitor.Api_HostAddress}}/api/companies/{{existingCompanyId}}
+
+### COMPANIES - ERROR (404 delete)
+DELETE {{MailMonitor.Api_HostAddress}}/api/companies/{{missingCompanyId}}
+
+### TRIGGERS - SUCCESS (200 list)
 GET {{MailMonitor.Api_HostAddress}}/api/triggers
 Accept: {{json}}
 
-### Day 1 - Triggers: Create
+### TRIGGERS - SUCCESS (201 create)
 POST {{MailMonitor.Api_HostAddress}}/api/triggers
 Content-Type: {{json}}
 
@@ -106,7 +163,7 @@ Content-Type: {{json}}
   "cronExpression": "0 0 * * *"
 }
 
-### Day 1 - Triggers: Create (400 invalid cron)
+### TRIGGERS - ERROR (400 invalid cron)
 POST {{MailMonitor.Api_HostAddress}}/api/triggers
 Content-Type: {{json}}
 
@@ -115,12 +172,16 @@ Content-Type: {{json}}
   "cronExpression": "invalid-cron"
 }
 
-### Day 1 - Triggers: Get by id (404)
-GET {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+### TRIGGERS - SUCCESS (200 get by id)
+GET {{MailMonitor.Api_HostAddress}}/api/triggers/{{existingTriggerId}}
 Accept: {{json}}
 
-### Day 1 - Triggers: Update (404)
-PUT {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+### TRIGGERS - ERROR (404 get by id)
+GET {{MailMonitor.Api_HostAddress}}/api/triggers/{{missingTriggerId}}
+Accept: {{json}}
+
+### TRIGGERS - SUCCESS (204 update)
+PUT {{MailMonitor.Api_HostAddress}}/api/triggers/{{existingTriggerId}}
 Content-Type: {{json}}
 
 {
@@ -128,21 +189,42 @@ Content-Type: {{json}}
   "cronExpression": "0 */6 * * *"
 }
 
-### Day 1 - Triggers: Delete (404)
-DELETE {{MailMonitor.Api_HostAddress}}/api/triggers/00000000-0000-0000-0000-000000000000
+### TRIGGERS - ERROR (400 update invalid cron)
+PUT {{MailMonitor.Api_HostAddress}}/api/triggers/{{existingTriggerId}}
+Content-Type: {{json}}
 
-### Day 1 - Email statistics: Get with filters
+{
+  "name": "Broken Trigger",
+  "cronExpression": "invalid-cron"
+}
+
+### TRIGGERS - ERROR (404 update)
+PUT {{MailMonitor.Api_HostAddress}}/api/triggers/{{missingTriggerId}}
+Content-Type: {{json}}
+
+{
+  "name": "Missing Trigger",
+  "cronExpression": "0 */6 * * *"
+}
+
+### TRIGGERS - SUCCESS (204 delete)
+DELETE {{MailMonitor.Api_HostAddress}}/api/triggers/{{existingTriggerId}}
+
+### TRIGGERS - ERROR (404 delete)
+DELETE {{MailMonitor.Api_HostAddress}}/api/triggers/{{missingTriggerId}}
+
+### EMAIL STATISTICS - SUCCESS (200 filters + desc date)
 GET {{MailMonitor.Api_HostAddress}}/api/email-statistics?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z&company=contoso&processed=true
 Accept: {{json}}
 
-### Day 1 - Email statistics: Get (400 invalid range)
+### EMAIL STATISTICS - ERROR (400 invalid range)
 GET {{MailMonitor.Api_HostAddress}}/api/email-statistics?from=2026-03-31T23:59:59Z&to=2026-03-01T00:00:00Z
 Accept: {{json}}
 
-### Day 1 - Reports: Export excel
-GET {{MailMonitor.Api_HostAddress}}/api/reports/export?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z&processed=true
+### REPORT EXPORT - SUCCESS (200 Excel)
+GET {{MailMonitor.Api_HostAddress}}/api/reports/export?from=2026-03-01T00:00:00Z&to=2026-03-31T23:59:59Z&company=contoso&processed=true
 Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
-### Day 1 - Reports: Export excel (400 invalid range)
+### REPORT EXPORT - ERROR (400 invalid range)
 GET {{MailMonitor.Api_HostAddress}}/api/reports/export?from=2026-03-31T23:59:59Z&to=2026-03-01T00:00:00Z
 Accept: {{json}}

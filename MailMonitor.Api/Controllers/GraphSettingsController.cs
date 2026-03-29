@@ -17,12 +17,12 @@ public sealed class GraphSettingsController : ControllerBase
         _configurationService = configurationService;
     }
 
-    [HttpGet]
     /// <summary>
-    /// Obtiene configuración de Microsoft Graph.
+    /// Gets Microsoft Graph settings with masked secret.
     /// </summary>
-    /// <response code="200">Configuración encontrada. El secreto se devuelve enmascarado.</response>
-    /// <response code="404">No existe configuración cargada.</response>
+    /// <response code="200">Graph settings found. Example: {"instance":"https://login.microsoftonline.com/","clientSecretMasked":"******cret"}</response>
+    /// <response code="404">Graph settings not found.</response>
+    [HttpGet]
     [ProducesResponseType(typeof(GraphSettingsResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GraphSettingsResponse>> GetAsync(CancellationToken cancellationToken)
@@ -45,12 +45,12 @@ public sealed class GraphSettingsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut]
     /// <summary>
-    /// Actualiza configuración de Microsoft Graph.
+    /// Updates Microsoft Graph settings.
     /// </summary>
-    /// <response code="204">Configuración actualizada.</response>
-    /// <response code="400">Payload inválido o GraphUserScopesJson no válido.</response>
+    /// <response code="204">Settings updated.</response>
+    /// <response code="400">Invalid payload or invalid scopes JSON. Example: {"errors":{"graphUserScopesJson":["GraphUserScopesJson must be a valid JSON array of strings."]}}</response>
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAsync(
@@ -85,7 +85,7 @@ public sealed class GraphSettingsController : ControllerBase
         var validationResult = graphSettings.Validate();
         if (validationResult.IsFailure)
         {
-            ModelState.AddModelError(nameof(request), validationResult.Error.Message);
+            ModelState.AddModelError(nameof(request), validationResult.Error.Name);
             return ValidationProblem(ModelState);
         }
 
@@ -96,10 +96,28 @@ public sealed class GraphSettingsController : ControllerBase
 
     private static bool IsValidScopesJson(string scopesJson)
     {
+        if (string.IsNullOrWhiteSpace(scopesJson))
+        {
+            return false;
+        }
+
         try
         {
-            var scopes = JsonSerializer.Deserialize<List<string>>(scopesJson);
-            return scopes is not null;
+            using var document = JsonDocument.Parse(scopesJson);
+            if (document.RootElement.ValueKind != JsonValueKind.Array)
+            {
+                return false;
+            }
+
+            foreach (var item in document.RootElement.EnumerateArray())
+            {
+                if (item.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(item.GetString()))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
         catch (JsonException)
         {

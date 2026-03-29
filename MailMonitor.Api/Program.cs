@@ -1,5 +1,5 @@
 using MailMonitor.Infrastructure;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Text.Json;
 using System.Reflection;
 
