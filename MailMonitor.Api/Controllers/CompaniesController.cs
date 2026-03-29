@@ -131,4 +131,54 @@ public sealed class CompaniesController : ControllerBase
 
         return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
     }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateAsync(
+        Guid id,
+        [FromBody] UpdateCompanyRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        if (id != request.Id)
+        {
+            ModelState.AddModelError(nameof(request.Id), "The route id must match body id.");
+            return ValidationProblem(ModelState);
+        }
+
+        var company = await _configurationService.GetCompanyByIdAsync(id);
+        if (company is null)
+        {
+            return NotFound();
+        }
+
+        var updateResult = company.Update(
+            request.Name,
+            request.Mail,
+            request.StartFrom,
+            request.MailBox,
+            request.FileTypes,
+            request.AttachmentKeywords,
+            request.StorageFolder,
+            request.ReportOutputFolder,
+            request.ProcessingTag);
+
+        if (updateResult.IsFailure)
+        {
+            ModelState.AddModelError(nameof(request), updateResult.Error.Message);
+            return ValidationProblem(ModelState);
+        }
+
+        await _configurationService.AddOrUpdateCompanyAsync(company);
+
+        return NoContent();
+    }
 }
