@@ -18,6 +18,11 @@ public sealed class GraphSettingsController : ControllerBase
     }
 
     [HttpGet]
+    /// <summary>
+    /// Obtiene configuración de Microsoft Graph.
+    /// </summary>
+    /// <response code="200">Configuración encontrada. El secreto se devuelve enmascarado.</response>
+    /// <response code="404">No existe configuración cargada.</response>
     [ProducesResponseType(typeof(GraphSettingsResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GraphSettingsResponse>> GetAsync(CancellationToken cancellationToken)
@@ -41,6 +46,11 @@ public sealed class GraphSettingsController : ControllerBase
     }
 
     [HttpPut]
+    /// <summary>
+    /// Actualiza configuración de Microsoft Graph.
+    /// </summary>
+    /// <response code="204">Configuración actualizada.</response>
+    /// <response code="400">Payload inválido o GraphUserScopesJson no válido.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateAsync(
