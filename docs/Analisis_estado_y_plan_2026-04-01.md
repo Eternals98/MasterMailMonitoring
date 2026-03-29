@@ -301,6 +301,108 @@ Se considera listo cuando se cumpla todo:
 "Crea `docs/checklists/Dia1_API_Checklist.md` con checklist de verificación funcional endpoint por endpoint (status code esperado, payload ejemplo, evidencia)."
 
 
+## 7.1.1) Validación de ejecución de D1 (rama actual)
+
+> Resultado de validación técnica sobre esta rama al **2026-03-29**.
+> Se refleja doble estado para transparencia:
+> - **Reportado por ejecución**: lo que indicaste que ya corriste.
+> - **Validado en código**: evidencia real encontrada en esta rama.
+
+| Prompt D1 | Reportado por ejecución | Validado en código (rama actual) | Evidencia rápida |
+|---|---|---|---|
+| D1-P01 a D1-P03 (estructura contracts + DTO settings) | ✅ | ❌ | No existe carpeta `MailMonitor.Api/Contracts/*` en la rama actual. |
+| D1-P04 a D1-P05 (`GET/PUT /api/settings`) | ✅ | ❌ | `SettingsController` sigue en `Index()` MVC sin rutas API. |
+| D1-P06 a D1-P11 (DTOs + CRUD companies) | ✅ | ❌ | `CompaniesController` sigue en `Index()` MVC sin CRUD REST. |
+| D1-P12 a D1-P14 (DTOs + API graph-settings) | ✅ | ❌ | `GraphSettingsController` sigue en `Index()` MVC sin endpoints. |
+| D1-P15 a D1-P19 (DTOs + CRUD triggers) | ✅ | ❌ | `TriggersController` sigue en `Index()` MVC sin endpoints. |
+| D1-P20 (GET email-statistics MVP) | ✅ | ❌ | No hay endpoint API expuesto (solo `WeatherForecast`). |
+| D1-P21 (GET reports/export MVP) | ✅ | ❌ | No hay endpoint `/api/reports/export`. |
+| D1-P22 (Swagger docs Día 1) | ✅ | ❌ | Swagger existe base, pero no hay endpoints Día 1 para documentar. |
+| D1-P23 (`MailMonitor.Api.http` completo) | ✅ | ❌ | Archivo `.http` solo contiene `weatherforecast`. |
+| D1-P24 (checklist cierre Día 1) | ✅ | ❌ | No existe `docs/checklists/Dia1_API_Checklist.md`. |
+
+### Estado D1 consolidado
+
+- **Completado reportado:** 24/24.
+- **Completado validado en esta rama:** 0/24.
+- **Conclusión:** falta integrar/commitear a esta rama los cambios ejecutados de D1.
+
+## 7.2) Prompts prácticos y pequeños para ejecutar el Día 2 (Frontend mínimo funcional)
+
+> Igual que D1, están diseñados para correr en sesiones separadas y cortas de Codex.
+
+### D2-P01 — Inicializar estructura de `src`
+"En `MailMonitor.Web`, crea estructura mínima: `src/main.ts`, `src/App.tsx` (o equivalente framework detectado), `src/pages`, `src/components`, `src/services`, `src/types`. No implementar lógica todavía; solo wiring base para arrancar la app."
+
+### D2-P02 — Router base
+"Implementa router con rutas: `/companies`, `/settings`, `/graph-settings`, `/monitoring`. Agrega una página Home simple con links de navegación."
+
+### D2-P03 — Cliente HTTP central
+"Refactoriza/crea `src/services/httpClient` con baseURL configurable por `VITE_API_BASE_URL`, timeout y manejo básico de errores HTTP."
+
+### D2-P04 — Tipos de dominio frontend
+"Define tipos/interfaces TS para `Setting`, `Company`, `GraphSetting`, `Trigger`, `EmailStatistic` alineados a los contratos API del Día 1."
+
+### D2-P05 — Servicio API de Settings
+"Crea `settingsService` con `getSettings()` y `updateSettings(payload)`; maneja errores de validación y parseo de respuesta."
+
+### D2-P06 — Página Settings (lectura)
+"Construye página `/settings` que cargue valores en mount y muestre estado loading/error/empty."
+
+### D2-P07 — Página Settings (edición)
+"Añade formulario editable para `baseStorageFolder`, `mailSubjectKeywords`, `processingTag`, `loopDelaySeconds` (si está disponible en API). Guardado con feedback visual."
+
+### D2-P08 — Servicio API de Companies
+"Crea `companiesService` con `list`, `getById`, `create`, `update`, `remove`, y soporte de filtros `name` y `mail`."
+
+### D2-P09 — Página Companies (tabla)
+"Implementa tabla de companies con columnas clave y acciones `Editar`/`Eliminar`; incluye estados loading/error."
+
+### D2-P10 — Página Companies (crear/editar)
+"Implementa formulario modal o página para alta/edición de company con campos multivalor (`mailBox`, `fileTypes`, `attachmentKeywords`)."
+
+### D2-P11 — Validación de formulario Companies
+"Agrega validaciones de frontend: correo requerido, rutas requeridas, fecha válida, y limpieza de listas sin duplicados."
+
+### D2-P12 — Confirmación de borrado Company
+"Agrega diálogo de confirmación para `DELETE /api/companies/{id}` y refresco de tabla al eliminar."
+
+### D2-P13 — Servicio API de Graph Settings
+"Crea `graphSettingsService` con `get` y `update`; respeta `clientSecretMasked` y flujo de actualización de secreto opcional."
+
+### D2-P14 — Página Graph Settings
+"Construye pantalla `/graph-settings` con formulario y ayuda contextual para scopes; mostrar máscara del secreto actual."
+
+### D2-P15 — Servicio API de Monitoring
+"Crea `statisticsService` con `list({from,to,company,processed})` y `exportExcel(filters)`."
+
+### D2-P16 — Página Monitoring (filtros)
+"Implementa filtros por fecha, company y estado procesado/ignorado. Al aplicar, recarga tabla con resultados."
+
+### D2-P17 — Página Monitoring (tabla + KPI)
+"Muestra tabla de estadísticas + resumen rápido: total procesados, total ignorados, último procesamiento."
+
+### D2-P18 — Botón Exportar Excel
+"En Monitoring, agrega botón `Exportar Excel` que llame al endpoint y dispare descarga del archivo."
+
+### D2-P19 — Layout + navegación
+"Crea layout base con menú lateral o superior, breadcrumb simple y título por página. Mantén estilo neutro y limpio."
+
+### D2-P20 — Componente reutilizable de feedback
+"Crea componentes reutilizables para `Loading`, `ErrorMessage`, `EmptyState`, `Toast` y úsalo en todas las páginas del Día 2."
+
+### D2-P21 — Manejo de errores de API global
+"Implementa interceptor o wrapper para mostrar errores comunes (400, 404, 500, network) de forma consistente."
+
+### D2-P22 — Archivo `.env.example`
+"Agrega `.env.example` en `MailMonitor.Web` con `VITE_API_BASE_URL=http://localhost:xxxx` y breve README de uso."
+
+### D2-P23 — Pruebas manuales guiadas Día 2
+"Crea `docs/checklists/Dia2_Web_Checklist.md` con pruebas manuales por pantalla: carga inicial, validaciones, guardar, editar, eliminar, filtrar, exportar."
+
+### D2-P24 — Ajustes UX mínimos
+"Mejora UX básica: deshabilitar botones durante submit, mensajes de éxito cortos y focus automático en primer error."
+
 ## 8) Recomendación final
 
 Dado el estado actual, la estrategia óptima es:
