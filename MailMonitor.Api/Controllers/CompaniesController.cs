@@ -44,4 +44,38 @@ public sealed class CompaniesController : ControllerBase
 
         return Ok(filteredCompanies);
     }
+
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(CompanyDetailResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<CompanyDetailResponse>> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var company = await _configurationService.GetCompanyByIdAsync(id);
+        if (company is null)
+        {
+            return NotFound();
+        }
+
+        var response = new CompanyDetailResponse(
+            company.Id,
+            company.Name,
+            company.Mail,
+            company.StartFrom,
+            company.MailBox,
+            company.FileTypes,
+            company.AttachmentKeywords,
+            company.StorageFolder,
+            company.ReportOutputFolder,
+            company.ProcessingTag,
+            company.RecordType,
+            company.ProcessedSubject,
+            company.ProcessedDate,
+            company.ProcessedAttachmentsCount);
+
+        return Ok(response);
+    }
 }
