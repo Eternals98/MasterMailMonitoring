@@ -293,4 +293,33 @@ D5 consolida calidad y gobernanza de entrega: cierre de críticos, validación d
 
 ### D5-P08
 "Publica documento final de entrega `docs/Entrega_Final_2026-04-01.md` con riesgos remanentes y próximos pasos."
+## Estado de validacion (2026-03-29)
 
+### D2 comprobado
+- [x] D2-P01
+- [x] D2-P02
+- [x] D2-P03
+- [x] D2-P04
+- [x] D2-P05
+- [x] D2-P06
+- [x] D2-P07
+- [x] D2-P08
+- [x] D2-P09
+- [x] D2-P10
+- [x] D2-P11
+- [x] D2-P12
+- [x] D2-P13
+- [x] D2-P14
+- [x] D2-P15
+- [x] D2-P16
+- [x] D2-P17
+- [x] D2-P18
+- [x] D2-P19
+- [x] D2-P20
+- [x] D2-P21
+- [x] D2-P22
+- [x] D2-P23
+- [x] D2-P24
+
+Validacion tecnica ejecutada:
+- [x] `npm.cmd run build` exitoso en `MailMonitor.Web`.
