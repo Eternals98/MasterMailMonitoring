@@ -34,36 +34,7 @@ namespace MailMonitor.Infrastructure.Reporting
 
                 var storedAttachments = statistic.StoredAttachments?.ToArray() ?? Array.Empty<string>();
                 statistic.StoredAttachments = storedAttachments;
-
-                if (!string.IsNullOrWhiteSpace(statistic.MessageId))
-                {
-                    var existingEntry = context.EmailStatistics.FirstOrDefault(item => item.MessageId == statistic.MessageId);
-
-                    if (existingEntry is not null)
-                    {
-                        existingEntry.CompanyName = statistic.CompanyName;
-                        existingEntry.UserMail = statistic.UserMail;
-                        existingEntry.Date = statistic.Date;
-                        existingEntry.Processed = statistic.Processed;
-                        existingEntry.Subject = statistic.Subject;
-                        existingEntry.AttachmentsCount = statistic.AttachmentsCount;
-                        existingEntry.ReasonIgnored = statistic.ReasonIgnored;
-                        existingEntry.Mailbox = statistic.Mailbox;
-                        existingEntry.StoredAttachments = storedAttachments;
-                        existingEntry.StorageFolder = statistic.StorageFolder;
-                        existingEntry.MessageId = statistic.MessageId;
-
-                        context.EmailStatistics.Update(existingEntry);
-                    }
-                    else
-                    {
-                        context.EmailStatistics.Add(statistic);
-                    }
-                }
-                else
-                {
-                    context.EmailStatistics.Add(statistic);
-                }
+                context.EmailStatistics.Add(statistic);
 
                 context.SaveChanges();
 
@@ -135,6 +106,20 @@ namespace MailMonitor.Infrastructure.Reporting
                 .AsNoTracking()
                 .OrderByDescending(statistic => statistic.Date)
                 .ToList();
+        }
+
+        public bool HasProcessedMessage(string messageId)
+        {
+            if (string.IsNullOrWhiteSpace(messageId))
+            {
+                return false;
+            }
+
+            using var context = CreateContext();
+
+            return context.EmailStatistics
+                .AsNoTracking()
+                .Any(item => item.MessageId == messageId && item.Processed);
         }
     }
 }

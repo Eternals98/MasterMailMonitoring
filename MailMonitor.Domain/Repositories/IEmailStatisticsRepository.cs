@@ -6,5 +6,6 @@ namespace MailMonitor.Domain.Repositories
     {
         void LogEmailProcess(EmailProcessStatistic statistic);
         IEnumerable<EmailProcessStatistic> GetEmailStatistics();
+        bool HasProcessedMessage(string messageId);
     }
 }

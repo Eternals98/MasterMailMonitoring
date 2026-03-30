@@ -1,76 +1,62 @@
 using System.Globalization;
 using MailMonitor.Application.Abstractions.Configuration;
-using MailMonitor.Application.Abstractions.Graph;
-using MailMonitor.Application.Abstractions.Reporting;
-using MailMonitor.Application.Abstractions.Storage;
 using MailMonitor.Domain.Entities.Companies;
-using MailMonitor.Domain.Entities.Reporting;
 using MailMonitor.Domain.Entities.Settings;
+using MailMonitor.Worker.Models;
+using MailMonitor.Worker.Services;
 using Microsoft.Graph.Models;
 
 namespace MailMonitor.Worker
 {
-    public class Worker : BackgroundService
+    public sealed class Worker
     {
         private readonly ILogger<Worker> _logger;
         private readonly IConfigurationService _configurationService;
-        private readonly IGraphClient _graphClient;
-        private readonly IAttachmentStorageService _attachmentStorageService;
-        private readonly IReportingService _reportingService;
-        private readonly int _loopDelaySeconds;
+        private readonly IMailboxReader _mailboxReader;
+        private readonly IMessageFilterService _messageFilterService;
+        private readonly IAttachmentPersistenceService _attachmentPersistenceService;
+        private readonly IMessageTaggingService _messageTaggingService;
+        private readonly IProcessingLogService _processingLogService;
 
         public Worker(
             ILogger<Worker> logger,
             IConfigurationService configurationService,
-            IGraphClient graphClient,
-            IAttachmentStorageService attachmentStorageService,
-            IReportingService reportingService,
-            IConfiguration configuration)
+            IMailboxReader mailboxReader,
+            IMessageFilterService messageFilterService,
+            IAttachmentPersistenceService attachmentPersistenceService,
+            IMessageTaggingService messageTaggingService,
+            IProcessingLogService processingLogService)
         {
             _logger = logger;
             _configurationService = configurationService;
-            _graphClient = graphClient;
-            _attachmentStorageService = attachmentStorageService;
-            _reportingService = reportingService;
-            _loopDelaySeconds = Math.Max(configuration.GetValue<int?>("Processing:LoopDelaySeconds") ?? 60, 5);
+            _mailboxReader = mailboxReader;
+            _messageFilterService = messageFilterService;
+            _attachmentPersistenceService = attachmentPersistenceService;
+            _messageTaggingService = messageTaggingService;
+            _processingLogService = processingLogService;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async Task<ProcessingCycleMetrics> RunCycleAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Mail monitor worker started. Loop delay: {DelaySeconds} seconds.", _loopDelaySeconds);
+            var cycleMetrics = new ProcessingCycleMetrics();
+            var cycleId = Guid.NewGuid().ToString("N");
 
-            while (!stoppingToken.IsCancellationRequested)
+            using var cycleScope = _logger.BeginScope(new Dictionary<string, object?>
             {
-                var cycleStartedAt = DateTime.UtcNow;
+                ["cycleId"] = cycleId
+            });
 
-                try
-                {
-                    await ProcessCycleAsync(stoppingToken);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Unexpected error during mail monitoring cycle.");
-                }
-
-                var elapsed = DateTime.UtcNow - cycleStartedAt;
-                var remainingDelay = TimeSpan.FromSeconds(_loopDelaySeconds) - elapsed;
-
-                if (remainingDelay > TimeSpan.Zero)
-                {
-                    await Task.Delay(remainingDelay, stoppingToken);
-                }
-            }
-        }
-
-        private async Task ProcessCycleAsync(CancellationToken cancellationToken)
-        {
             var settings = await _configurationService.GetSettingsAsync();
             var validation = settings.Validate();
 
             if (validation.IsFailure)
             {
-                _logger.LogWarning("Global settings are invalid: {ErrorCode} - {ErrorName}", validation.Error.Code, validation.Error.Name);
-                return;
+                _logger.LogWarning(
+                    "Global settings are invalid: {ErrorCode} - {ErrorName}",
+                    validation.Error.Code,
+                    validation.Error.Name);
+
+                return cycleMetrics;
             }
 
             var companies = settings.CompanySettings
@@ -80,16 +66,29 @@ namespace MailMonitor.Worker
             if (companies.Count == 0)
             {
                 _logger.LogDebug("No companies configured for monitoring.");
-                return;
+                return cycleMetrics;
             }
 
             foreach (var company in companies)
             {
-                await ProcessCompanyAsync(company, settings, cancellationToken);
+                await ProcessCompanyAsync(company, settings, cycleMetrics, cancellationToken);
             }
+
+            _logger.LogInformation(
+                "Mail processing cycle finished. Read: {Read}, Processed: {Processed}, Ignored: {Ignored}, Failed: {Failed}.",
+                cycleMetrics.Read,
+                cycleMetrics.Processed,
+                cycleMetrics.Ignored,
+                cycleMetrics.Failed);
+
+            return cycleMetrics;
         }
 
-        private async Task ProcessCompanyAsync(Company company, Setting settings, CancellationToken cancellationToken)
+        private async Task ProcessCompanyAsync(
+            Company company,
+            Setting settings,
+            ProcessingCycleMetrics cycleMetrics,
+            CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(company.Mail))
             {
@@ -113,11 +112,30 @@ namespace MailMonitor.Worker
 
             foreach (var mailboxId in mailboxIds)
             {
-                var messages = await _graphClient.GetMessagesAsync(company.Mail, mailboxId, startFromUtc, cancellationToken);
+                using var mailboxScope = _logger.BeginScope(new Dictionary<string, object?>
+                {
+                    ["company"] = company.Name,
+                    ["mailbox"] = mailboxId
+                });
+
+                var messages = await _mailboxReader.GetMessagesAsync(
+                    company.Mail,
+                    mailboxId,
+                    startFromUtc,
+                    cancellationToken);
 
                 foreach (var message in messages)
                 {
-                    await ProcessMessageAsync(company, settings, mailboxId, message, cancellationToken);
+                    cycleMetrics.IncrementRead();
+                    try
+                    {
+                        await ProcessMessageAsync(company, settings, mailboxId, message, cycleMetrics, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        cycleMetrics.IncrementFailed();
+                        _logger.LogError(ex, "Unexpected error while processing message.");
+                    }
                 }
             }
         }
@@ -127,115 +145,114 @@ namespace MailMonitor.Worker
             Setting settings,
             string mailboxId,
             Message message,
+            ProcessingCycleMetrics cycleMetrics,
             CancellationToken cancellationToken)
         {
-            var messageId = message.Id;
-            if (string.IsNullOrWhiteSpace(messageId))
+            var messageId = message.Id?.Trim();
+            using var messageScope = _logger.BeginScope(new Dictionary<string, object?>
             {
+                ["messageId"] = messageId ?? string.Empty,
+                ["company"] = company.Name,
+                ["mailbox"] = mailboxId
+            });
+
+            var filterResult = _messageFilterService.EvaluateMessage(
+                company,
+                settings,
+                message,
+                messageId);
+
+            if (filterResult.ShouldSkip)
+            {
+                cycleMetrics.IncrementIgnored();
+                _processingLogService.LogStatistic(
+                    company,
+                    mailboxId,
+                    messageId,
+                    filterResult.Subject,
+                    false,
+                    0,
+                    filterResult.Reason,
+                    []);
+
                 return;
             }
 
-            var subject = string.IsNullOrWhiteSpace(message.Subject)
-                ? "(No Subject)"
-                : message.Subject.Trim();
-
-            var subjectKeywords = SplitValues(settings.MailSubjectKeywords);
-            if (subjectKeywords.Count > 0 && !ContainsAny(subject, subjectKeywords))
-            {
-                LogStatistic(company, mailboxId, messageId, subject, false, 0, "Subject does not match global keywords", []);
-                return;
-            }
-
-            if (message.HasAttachments != true)
-            {
-                LogStatistic(company, mailboxId, messageId, subject, false, 0, "Message has no attachments", []);
-                return;
-            }
-
-            var attachments = await _graphClient.GetFileAttachmentsAsync(company.Mail, messageId, cancellationToken);
-            var filteredAttachments = FilterAttachments(company, attachments).ToList();
+            var attachments = await _mailboxReader.GetFileAttachmentsAsync(company.Mail, messageId!, cancellationToken);
+            var filteredAttachments = _messageFilterService.FilterAttachments(company, attachments);
 
             if (filteredAttachments.Count == 0)
             {
-                LogStatistic(company, mailboxId, messageId, subject, false, 0, "No attachments matched configured filters", []);
+                cycleMetrics.IncrementIgnored();
+                _processingLogService.LogStatistic(
+                    company,
+                    mailboxId,
+                    messageId,
+                    filterResult.Subject,
+                    false,
+                    0,
+                    "No attachments matched configured filters",
+                    []);
+
                 return;
             }
 
-            var storedAttachmentPaths = new List<string>();
+            var persistenceResult = _attachmentPersistenceService.StoreAttachments(
+                company,
+                settings,
+                filterResult.Subject,
+                filteredAttachments);
 
-            foreach (var attachment in filteredAttachments)
+            if (persistenceResult.StoredAttachmentPaths.Count == 0)
             {
-                var storageResult = _attachmentStorageService.StoreFile(company, subject, attachment, settings);
-                if (storageResult.IsSuccess)
-                {
-                    storedAttachmentPaths.Add(storageResult.Value.FilePath);
-                }
+                cycleMetrics.IncrementFailed();
+                _processingLogService.LogStatistic(
+                    company,
+                    mailboxId,
+                    messageId,
+                    filterResult.Subject,
+                    false,
+                    filteredAttachments.Count,
+                    persistenceResult.FailureReason,
+                    []);
+
+                return;
             }
 
-            var processed = storedAttachmentPaths.Count > 0;
-
-            if (processed)
+            if (persistenceResult.FailedAttachmentsCount > 0)
             {
-                var tag = string.IsNullOrWhiteSpace(company.ProcessingTag)
-                    ? settings.ProcessingTag
-                    : company.ProcessingTag;
-
-                if (string.IsNullOrWhiteSpace(tag))
-                {
-                    tag = Company.DefaultProcessingTag;
-                }
-
-                var tagResult = await _graphClient.TagMessageAsync(company.Mail, messageId, tag, cancellationToken);
-                if (tagResult.IsFailure)
-                {
-                    _logger.LogWarning(
-                        "Message {MessageId} processed but tag could not be applied. Error: {ErrorCode} - {ErrorName}",
-                        messageId,
-                        tagResult.Error.Code,
-                        tagResult.Error.Name);
-                }
+                _logger.LogWarning(
+                    "Stored {StoredCount}/{TotalCount} attachments. Partial failures: {FailureReason}",
+                    persistenceResult.StoredAttachmentPaths.Count,
+                    filteredAttachments.Count,
+                    persistenceResult.FailureReason);
             }
 
-            var reason = processed ? string.Empty : "No attachments could be stored";
-            LogStatistic(company, mailboxId, messageId, subject, processed, filteredAttachments.Count, reason, storedAttachmentPaths);
-        }
+            var tagResult = await _messageTaggingService.TagMessageAsync(
+                company.Mail,
+                messageId!,
+                filterResult.ProcessingTag,
+                cancellationToken);
 
-        private IEnumerable<FileAttachment> FilterAttachments(Company company, IReadOnlyCollection<FileAttachment> attachments)
-        {
-            var allowedTypes = company.FileTypes
-                .Where(value => !string.IsNullOrWhiteSpace(value))
-                .Select(value => value.Trim().TrimStart('.'))
-                .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            var attachmentKeywords = company.AttachmentKeywords
-                .Where(value => !string.IsNullOrWhiteSpace(value))
-                .Select(value => value.Trim())
-                .ToList();
-
-            foreach (var attachment in attachments)
+            if (tagResult.IsFailure)
             {
-                var attachmentName = attachment.Name ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(attachmentName))
-                {
-                    continue;
-                }
-
-                if (allowedTypes.Count > 0)
-                {
-                    var extension = Path.GetExtension(attachmentName).TrimStart('.');
-                    if (!allowedTypes.Contains(extension))
-                    {
-                        continue;
-                    }
-                }
-
-                if (attachmentKeywords.Count > 0 && !ContainsAny(attachmentName, attachmentKeywords))
-                {
-                    continue;
-                }
-
-                yield return attachment;
+                _logger.LogWarning(
+                    "Message processed but tag could not be applied. Error: {ErrorCode} - {ErrorName}",
+                    tagResult.Error.Code,
+                    tagResult.Error.Name);
             }
+
+            cycleMetrics.IncrementProcessed();
+
+            _processingLogService.LogStatistic(
+                company,
+                mailboxId,
+                messageId,
+                filterResult.Subject,
+                true,
+                filteredAttachments.Count,
+                string.Empty,
+                persistenceResult.StoredAttachmentPaths);
         }
 
         private static DateTimeOffset? ParseStartFrom(string? value)
@@ -252,53 +269,6 @@ namespace MailMonitor.Worker
                 out var parsed)
                 ? parsed
                 : null;
-        }
-
-        private static IReadOnlyList<string> SplitValues(string? values)
-        {
-            if (string.IsNullOrWhiteSpace(values))
-            {
-                return [];
-            }
-
-            return values
-                .Split([',', ';', '|'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Where(value => !string.IsNullOrWhiteSpace(value))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-        }
-
-        private static bool ContainsAny(string source, IReadOnlyCollection<string> candidates)
-        {
-            return candidates.Any(candidate => source.Contains(candidate, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private void LogStatistic(
-            Company company,
-            string mailboxId,
-            string messageId,
-            string subject,
-            bool processed,
-            int attachmentsCount,
-            string reasonIgnored,
-            IReadOnlyCollection<string> storedAttachments)
-        {
-            var statistic = new EmailProcessStatistic
-            {
-                Date = DateTime.UtcNow,
-                CompanyName = company.Name,
-                UserMail = company.Mail,
-                Processed = processed,
-                Subject = subject,
-                AttachmentsCount = attachmentsCount,
-                ReasonIgnored = reasonIgnored,
-                Mailbox = mailboxId,
-                StoredAttachments = storedAttachments,
-                StorageFolder = company.StorageFolder,
-                MessageId = messageId
-            };
-
-            _reportingService.LogEmailProcess(statistic);
         }
     }
 }

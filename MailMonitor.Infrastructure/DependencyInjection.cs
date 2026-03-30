@@ -9,6 +9,7 @@ using MailMonitor.Infrastructure.Reporting;
 using MailMonitor.Infrastructure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace MailMonitor.Infrastructure
 {
@@ -17,10 +18,12 @@ namespace MailMonitor.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var dbPath = ResolveDatabasePath(configuration);
+            var storageOptions = ResolveStorageOptions(configuration);
 
             services.AddSingleton(provider => dbPath);
+            services.AddSingleton<IOptions<AttachmentStorageOptions>>(Options.Create(storageOptions));
 
-            services.AddSingleton<ConfigurationService>(provider => new ConfigurationService(dbPath));
+            services.AddSingleton<ConfigurationService>(provider => new ConfigurationService(dbPath, configuration));
             services.AddSingleton<IConfigurationService>(provider => provider.GetRequiredService<ConfigurationService>());
             services.AddSingleton<IConfigurationRepository>(provider => provider.GetRequiredService<ConfigurationService>());
 
@@ -39,6 +42,28 @@ namespace MailMonitor.Infrastructure
             services.AddSingleton<IGraphClient, GraphClient>();
 
             return services;
+        }
+
+        private static AttachmentStorageOptions ResolveStorageOptions(IConfiguration configuration)
+        {
+            var options = new AttachmentStorageOptions();
+
+            if (int.TryParse(configuration["Storage:MaxRetries"], out var maxRetries))
+            {
+                options.MaxRetries = maxRetries;
+            }
+
+            if (int.TryParse(configuration["Storage:BaseDelayMilliseconds"], out var baseDelayMilliseconds))
+            {
+                options.BaseDelayMilliseconds = baseDelayMilliseconds;
+            }
+
+            if (int.TryParse(configuration["Storage:MaxDelayMilliseconds"], out var maxDelayMilliseconds))
+            {
+                options.MaxDelayMilliseconds = maxDelayMilliseconds;
+            }
+
+            return options;
         }
 
         private static string ResolveDatabasePath(IConfiguration configuration)

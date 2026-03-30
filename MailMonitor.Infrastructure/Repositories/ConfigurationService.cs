@@ -9,16 +9,19 @@ using MailMonitor.Domain.Entities.Settings;
 using MailMonitor.Domain.Repositories;
 using MailMonitor.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MailMonitor.Infrastructure.Configuration
 {
     public sealed class ConfigurationService : IConfigurationService, IConfigurationRepository
     {
         private readonly string _dbPath;
+        private readonly IConfiguration _configuration;
 
-        public ConfigurationService(string dbPath)
+        public ConfigurationService(string dbPath, IConfiguration configuration)
         {
             _dbPath = dbPath;
+            _configuration = configuration;
 
             using var context = new ConfigurationDbContext(_dbPath);
             context.Database.EnsureCreated();
@@ -30,6 +33,7 @@ namespace MailMonitor.Infrastructure.Configuration
             SeedDefaultCompany(context);
             SeedDefaultTrigger(context);
             SeedDefaultGraphSettings(context);
+            RemoveLegacySeededGraphSecrets(context);
         }
 
         private ConfigurationDbContext CreateContext()
@@ -99,24 +103,73 @@ namespace MailMonitor.Infrastructure.Configuration
             context.SaveChanges();
         }
 
-        private static void SeedDefaultGraphSettings(ConfigurationDbContext context)
+        private void SeedDefaultGraphSettings(ConfigurationDbContext context)
         {
             if (context.GraphSettings.Any())
             {
                 return;
             }
 
+            var configuredScopes = ReadScopesFromConfiguration();
+            var scopes = configuredScopes is { Length: > 0 }
+                ? configuredScopes
+                : new[] { "https://graph.microsoft.com/.default" };
+
             var defaultGraphSettings = new GraphSetting
             {
-                Instance = "https://login.microsoftonline.com/",
-                ClientId = "0VuXLB0dfOCIRk9dkyZzuL9wS1VnzUd3AzetVr+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==",
-                TenantId = "OsBnxBqaQqJafpT3oqB0JhbSMKoLJO4DJJGZdCnLdG4yVKgvYDVTOBLL7XYofuwaca3tXxqEGccRPAwxvpJxnQ==",
-                ClientSecret = "BhOpd6467I3WHEXmtGNrD7IX1svvn4pqK7D5E0d8lnFUvxH8acFqBRs2+EHcKxVKECAVjhzTRzWSQ1Zd+LYRGQ==",
-                GraphUserScopesJson = JsonSerializer.Serialize(new[] { "https://graph.microsoft.com/.default" })
+                Instance = _configuration["Graph:Instance"] ?? "https://login.microsoftonline.com/",
+                ClientId = _configuration["Graph:ClientId"] ?? string.Empty,
+                TenantId = _configuration["Graph:TenantId"] ?? string.Empty,
+                ClientSecret = _configuration["Graph:ClientSecret"] ?? string.Empty,
+                GraphUserScopesJson = JsonSerializer.Serialize(scopes)
             };
 
             context.GraphSettings.Add(defaultGraphSettings);
             context.SaveChanges();
+        }
+
+        private static void RemoveLegacySeededGraphSecrets(ConfigurationDbContext context)
+        {
+            const string legacyClientId = "0VuXLB0dfOCIRk9dkyZzuL9wS1VnzUd3AzetVr+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==";
+            const string legacyTenantId = "OsBnxBqaQqJafpT3oqB0JhbSMKoLJO4DJJGZdCnLdG4yVKgvYDVTOBLL7XYofuwaca3tXxqEGccRPAwxvpJxnQ==";
+            const string legacyClientSecret = "BhOpd6467I3WHEXmtGNrD7IX1svvn4pqK7D5E0d8lnFUvxH8acFqBRs2+EHcKxVKECAVjhzTRzWSQ1Zd+LYRGQ==";
+
+            var graphSettings = context.GraphSettings.ToList();
+            var anyChanges = false;
+
+            foreach (var graphSetting in graphSettings)
+            {
+                var matchesLegacySeed = string.Equals(graphSetting.ClientId, legacyClientId, StringComparison.Ordinal) &&
+                                        string.Equals(graphSetting.TenantId, legacyTenantId, StringComparison.Ordinal) &&
+                                        string.Equals(graphSetting.ClientSecret, legacyClientSecret, StringComparison.Ordinal);
+
+                if (!matchesLegacySeed)
+                {
+                    continue;
+                }
+
+                graphSetting.ClientId = string.Empty;
+                graphSetting.TenantId = string.Empty;
+                graphSetting.ClientSecret = string.Empty;
+                anyChanges = true;
+            }
+
+            if (anyChanges)
+            {
+                context.SaveChanges();
+            }
+        }
+
+        private string[] ReadScopesFromConfiguration()
+        {
+            return _configuration
+                .GetSection("Graph:Scopes")
+                .GetChildren()
+                .Select(section => section.Value)
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .Select(value => value!.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
         }
 
         private static void EnsureCompanySchema(ConfigurationDbContext context)

@@ -53,5 +53,15 @@ namespace MailMonitor.Domain.Abstractions
             public static readonly Error SubjectRequired = new("EmailProcessStatistic.SubjectRequired", "Email subject is required.");
             public static readonly Error InvalidAttachmentsCount = new("EmailProcessStatistic.InvalidAttachmentsCount", "Attachments count cannot be negative.");
         }
+
+        public static class Storage
+        {
+            public static readonly Error InvalidBasePath = new("Storage.InvalidBasePath", "Base storage path is invalid or empty.");
+            public static readonly Error InvalidRelativePath = new("Storage.InvalidRelativePath", "Storage relative path contains invalid values.");
+            public static readonly Error PathTraversalDetected = new("Storage.PathTraversalDetected", "Path traversal attempt detected while building storage path.");
+            public static readonly Error PermissionDenied = new("Storage.PermissionDenied", "Permission denied while writing attachment to storage.");
+            public static readonly Error PathUnavailable = new("Storage.PathUnavailable", "Storage path is unavailable or not reachable.");
+            public static readonly Error TransientNetworkFailure = new("Storage.TransientNetworkFailure", "Transient network/UNC failure while writing attachment.");
+        }
     }
 }

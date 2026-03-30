@@ -195,5 +195,66 @@ namespace MailMonitor.Infrastructure.Graph
                 return Result.Failure(Error.Failure);
             }
         }
+
+        public async Task<GraphConnectivityCheckResult> CheckConnectivityAsync(
+            string userMail,
+            string mailboxId,
+            CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(userMail) || string.IsNullOrWhiteSpace(mailboxId))
+            {
+                return new GraphConnectivityCheckResult(
+                    false,
+                    userMail,
+                    mailboxId,
+                    "GraphHealth.InvalidTarget",
+                    "User mail and mailbox id are required to validate Graph connectivity.");
+            }
+
+            try
+            {
+                var graphClient = await _graphAuthFactory.CreateClientAsync(cancellationToken);
+
+                var response = await graphClient
+                    .Users[userMail]
+                    .MailFolders[mailboxId]
+                    .GetAsync(request =>
+                    {
+                        request.QueryParameters.Select = ["id"];
+                    }, cancellationToken);
+
+                if (response is null || string.IsNullOrWhiteSpace(response.Id))
+                {
+                    return new GraphConnectivityCheckResult(
+                        false,
+                        userMail,
+                        mailboxId,
+                        "GraphHealth.EmptyResponse",
+                        "Graph connectivity check returned an empty mailbox response.");
+                }
+
+                return new GraphConnectivityCheckResult(
+                    true,
+                    userMail,
+                    mailboxId,
+                    string.Empty,
+                    string.Empty);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Graph connectivity check failed for user {UserMail} and mailbox {MailboxId}.",
+                    userMail,
+                    mailboxId);
+
+                return new GraphConnectivityCheckResult(
+                    false,
+                    userMail,
+                    mailboxId,
+                    "GraphHealth.ConnectionFailed",
+                    ex.Message);
+            }
+        }
     }
 }
