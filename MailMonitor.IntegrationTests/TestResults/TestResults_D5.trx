@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a24d9a83-12b1-4082-8078-dd5c55a187a1" name="jarig@ETERNALS 2026-03-29 23:26:51" runUser="ETERNALS\jarig" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-03-29T23:26:51.2614010-05:00" queuing="2026-03-29T23:26:51.2614016-05:00" start="2026-03-29T23:26:42.6531973-05:00" finish="2026-03-29T23:26:53.5659600-05:00" />
+  <TestSettings name="default" id="5f6dc6c8-d03c-46ea-bd01-be35f637c110">
+    <Deployment runDeploymentRoot="jarig_ETERNALS_2026-03-29_23_26_51" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a66b9182-5251-4994-a9b8-f3a667bbfa42" testId="3fcb46bd-b07b-4ce8-2e67-740bf3339bb4" testName="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests.Put_ShouldPersistBaseStorageFolder_InSqlite" computerName="ETERNALS" duration="00:00:00.3107132" startTime="2026-03-29T23:26:51.4879185-05:00" endTime="2026-03-29T23:26:51.4879189-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a66b9182-5251-4994-a9b8-f3a667bbfa42" />
+    <UnitTestResult executionId="c5641ee1-0212-4238-ad58-7f43bb4a60cc" testId="f0012e1f-72a3-c25f-a3c6-ec8f862f935c" testName="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests.Get_ShouldReturnDataFilteredByCompanyProcessedAndDateRange" computerName="ETERNALS" duration="00:00:07.8582713" startTime="2026-03-29T23:26:53.2220627-05:00" endTime="2026-03-29T23:26:53.2220631-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5641ee1-0212-4238-ad58-7f43bb4a60cc" />
+    <UnitTestResult executionId="84e3063d-6d11-4d56-b3b1-d385d9e2f431" testId="957c4e58-722b-98ff-1147-e0c29c1f60e9" testName="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests.Get_ShouldReturnSeededSettings_FromSqlite" computerName="ETERNALS" duration="00:00:05.7844384" startTime="2026-03-29T23:26:51.1755392-05:00" endTime="2026-03-29T23:26:51.1755836-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84e3063d-6d11-4d56-b3b1-d385d9e2f431" />
+    <UnitTestResult executionId="bbd2a55f-c516-4412-8a65-e43576600f00" testId="033ba254-fb22-cd82-e6dc-0a1ddbf7601e" testName="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests.Get_ShouldReturnBadRequest_WhenToIsBeforeFrom" computerName="ETERNALS" duration="00:00:00.0931184" startTime="2026-03-29T23:26:53.3157941-05:00" endTime="2026-03-29T23:26:53.3157945-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bbd2a55f-c516-4412-8a65-e43576600f00" />
+    <UnitTestResult executionId="9810112a-5de9-42c3-8edd-0ba031ae9695" testId="42da67e2-7a3f-4576-32d3-6fed18539b22" testName="MailMonitor.IntegrationTests.Api.CompaniesApiIntegrationTests.Crud_ShouldPersistAndReturnCompany_FromSqlite" computerName="ETERNALS" duration="00:00:06.2175712" startTime="2026-03-29T23:26:51.5816810-05:00" endTime="2026-03-29T23:26:51.5816813-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9810112a-5de9-42c3-8edd-0ba031ae9695" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests.Get_ShouldReturnDataFilteredByCompanyProcessedAndDateRange" storage="c:\users\jarig\source\repos\mastermailmonitoring\mailmonitor.integrationtests\bin\debug\net8.0\mailmonitor.integrationtests.dll" id="f0012e1f-72a3-c25f-a3c6-ec8f862f935c">
+      <Execution id="c5641ee1-0212-4238-ad58-7f43bb4a60cc" />
+      <TestMethod codeBase="C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\MailMonitor.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests" name="Get_ShouldReturnDataFilteredByCompanyProcessedAndDateRange" />
+    </UnitTest>
+    <UnitTest name="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests.Put_ShouldPersistBaseStorageFolder_InSqlite" storage="c:\users\jarig\source\repos\mastermailmonitoring\mailmonitor.integrationtests\bin\debug\net8.0\mailmonitor.integrationtests.dll" id="3fcb46bd-b07b-4ce8-2e67-740bf3339bb4">
+      <Execution id="a66b9182-5251-4994-a9b8-f3a667bbfa42" />
+      <TestMethod codeBase="C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\MailMonitor.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests" name="Put_ShouldPersistBaseStorageFolder_InSqlite" />
+    </UnitTest>
+    <UnitTest name="MailMonitor.IntegrationTests.Api.CompaniesApiIntegrationTests.Crud_ShouldPersistAndReturnCompany_FromSqlite" storage="c:\users\jarig\source\repos\mastermailmonitoring\mailmonitor.integrationtests\bin\debug\net8.0\mailmonitor.integrationtests.dll" id="42da67e2-7a3f-4576-32d3-6fed18539b22">
+      <Execution id="9810112a-5de9-42c3-8edd-0ba031ae9695" />
+      <TestMethod codeBase="C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\MailMonitor.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MailMonitor.IntegrationTests.Api.CompaniesApiIntegrationTests" name="Crud_ShouldPersistAndReturnCompany_FromSqlite" />
+    </UnitTest>
+    <UnitTest name="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests.Get_ShouldReturnBadRequest_WhenToIsBeforeFrom" storage="c:\users\jarig\source\repos\mastermailmonitoring\mailmonitor.integrationtests\bin\debug\net8.0\mailmonitor.integrationtests.dll" id="033ba254-fb22-cd82-e6dc-0a1ddbf7601e">
+      <Execution id="bbd2a55f-c516-4412-8a65-e43576600f00" />
+      <TestMethod codeBase="C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\MailMonitor.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MailMonitor.IntegrationTests.Api.EmailStatisticsApiIntegrationTests" name="Get_ShouldReturnBadRequest_WhenToIsBeforeFrom" />
+    </UnitTest>
+    <UnitTest name="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests.Get_ShouldReturnSeededSettings_FromSqlite" storage="c:\users\jarig\source\repos\mastermailmonitoring\mailmonitor.integrationtests\bin\debug\net8.0\mailmonitor.integrationtests.dll" id="957c4e58-722b-98ff-1147-e0c29c1f60e9">
+      <Execution id="84e3063d-6d11-4d56-b3b1-d385d9e2f431" />
+      <TestMethod codeBase="C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\MailMonitor.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MailMonitor.IntegrationTests.Api.SettingsApiIntegrationTests" name="Get_ShouldReturnSeededSettings_FromSqlite" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="3fcb46bd-b07b-4ce8-2e67-740bf3339bb4" executionId="a66b9182-5251-4994-a9b8-f3a667bbfa42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f0012e1f-72a3-c25f-a3c6-ec8f862f935c" executionId="c5641ee1-0212-4238-ad58-7f43bb4a60cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="957c4e58-722b-98ff-1147-e0c29c1f60e9" executionId="84e3063d-6d11-4d56-b3b1-d385d9e2f431" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="033ba254-fb22-cd82-e6dc-0a1ddbf7601e" executionId="bbd2a55f-c516-4412-8a65-e43576600f00" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42da67e2-7a3f-4576-32d3-6fed18539b22" executionId="9810112a-5de9-42c3-8edd-0ba031ae9695" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Resultados sin formato de lista" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Todos los resultados cargados" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="5" executed="5" passed="5" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.01] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.25)&#xD;
+[xUnit.net 00:00:00.55]   Discovering: MailMonitor.IntegrationTests&#xD;
+[xUnit.net 00:00:00.72]   Discovered:  MailMonitor.IntegrationTests&#xD;
+[xUnit.net 00:00:00.73]   Starting:    MailMonitor.IntegrationTests&#xD;
+[xUnit.net 00:00:08.83]   Finished:    MailMonitor.IntegrationTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

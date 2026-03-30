@@ -10,6 +10,8 @@ namespace MailMonitor.Api.Controllers;
 [Route("api/triggers")]
 public sealed class TriggersController : ControllerBase
 {
+    private const string GetTriggerByIdRouteName = "GetTriggerById";
+
     private readonly IConfigurationService _configurationService;
 
     public TriggersController(IConfigurationService configurationService)
@@ -76,7 +78,7 @@ public sealed class TriggersController : ControllerBase
             triggerResult.Value.Name,
             triggerResult.Value.CronExpression);
 
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
+        return CreatedAtRoute(GetTriggerByIdRouteName, new { id = response.Id }, response);
     }
 
     /// <summary>
@@ -84,7 +86,7 @@ public sealed class TriggersController : ControllerBase
     /// </summary>
     /// <response code="200">Trigger found. Example: {"id":"22222222-2222-2222-2222-222222222222","name":"Daily Report","cronExpression":"0 0 * * *"}</response>
     /// <response code="404">Trigger not found.</response>
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = GetTriggerByIdRouteName)]
     [ProducesResponseType(typeof(TriggerResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<TriggerResponse>> GetByIdAsync(Guid id, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MailMonitor.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29177870b587dc9a7f23465540bc163456bb83b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61d1577c59f4a0368c58b9f525441a8b7f40c730")]
 [assembly: System.Reflection.AssemblyProductAttribute("MailMonitor.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MailMonitor.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

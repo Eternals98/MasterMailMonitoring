@@ -1,0 +1,37 @@
+Usando la configuración de inicio de MailMonitor.Worker\Properties\launchSettings.json...
+Compilando...
+info: Quartz.Core.SchedulerSignalerImpl[0]
+      Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+info: Quartz.Core.QuartzScheduler[0]
+      Quartz Scheduler created
+info: Quartz.Core.QuartzScheduler[0]
+      JobFactory set to: Quartz.Simpl.MicrosoftDependencyInjectionJobFactory
+info: Quartz.Simpl.RAMJobStore[0]
+      RAMJobStore initialized.
+info: Quartz.Impl.StdSchedulerFactory[0]
+      Quartz Scheduler 3.16.1.0 - 'QuartzScheduler' with instanceId 'NON_CLUSTERED' initialized
+info: Quartz.Impl.StdSchedulerFactory[0]
+      Using thread pool 'Quartz.Simpl.DefaultThreadPool', size: 10
+info: Quartz.Impl.StdSchedulerFactory[0]
+      Using job store 'Quartz.Simpl.RAMJobStore', supports persistence: False, clustered: False
+info: MailMonitor.Worker.Services.SchedulerService[0]
+      Scheduled mail monitor job with 1 cron trigger(s) in timezone America/New_York.
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Worker
+info: Quartz.Core.QuartzScheduler[0]
+      Scheduler QuartzScheduler_$_NON_CLUSTERED started.
+info: MailMonitor.Worker.Jobs.MailMonitorJob[0]
+      Mail monitor cycle started at 03/30/2026 05:20:15.
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Error while reading messages for user aaacontabilidadprueba@abonosagro.com and mailbox AAMkADI1NjQ0YWU0LTU2MmEtNDUxMS1iZGM3LWMyMTAwYzU4MmNhNwAuAAAAAABXZQQD1fDNRr2-S3QkRpLTAQBupptc987_QI6OTla8Kr7lAAQWV1SBAAA=.
+      System.InvalidOperationException: Invalid graph settings: GraphSetting.ClientIdRequired - Graph client id is required.
+         at MailMonitor.Infrastructure.Graph.GraphAuthFactory.CreateClientAsync(CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphAuthFactory.cs:line 34
+         at MailMonitor.Infrastructure.Graph.GraphClient.GetMessagesAsync(String userMail, String mailboxId, Nullable`1 startFromUtc, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 34
+info: MailMonitor.Worker.Worker[0]
+      Mail processing cycle finished. Read: 0, Processed: 0, Ignored: 0, Failed: 0.
+info: MailMonitor.Worker.Jobs.MailMonitorJob[0]
+      Mail monitor cycle finished. DurationMs: 398.2426.

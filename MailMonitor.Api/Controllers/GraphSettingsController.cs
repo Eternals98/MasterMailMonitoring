@@ -134,7 +134,7 @@ public sealed class GraphSettingsController : ControllerBase
 
         if (secret.Length <= 4)
         {
-            return secret;
+            return new string('*', secret.Length);
         }
 
         return $"{new string('*', secret.Length - 4)}{secret[^4..]}";
