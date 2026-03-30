@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "MailMonitor.Api\\MailMonitor.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "MailMonitor.Web\\MailMonitor.web.esproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

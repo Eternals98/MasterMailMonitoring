@@ -1,0 +1,1607 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "MailMonitor API",
+    "description": "Day 1 MVP API for configuration, triggers and email statistics.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/companies": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Lists companies using optional filters by name and mail.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mail",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company list. Example: [{\"id\":\"11111111-1111-1111-1111-111111111111\",\"name\":\"Contoso\",\"mail\":\"contoso@tenant.com\"}]",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyListItemResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyListItemResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyListItemResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Creates a company.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertCompanyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertCompanyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertCompanyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Company created. Example request: {\"name\":\"Contoso\",\"mail\":\"contoso@tenant.com\",\"storageFolder\":\"C:\\\\mail\",\"reportOutputFolder\":\"C:\\\\reports\",\"processingTag\":\"ONBASE\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload or domain rule failure. Example: {\"errors\":{\"name\":[\"The Name field is required.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/companies/{id}": {
+      "get": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Gets a company by id.",
+        "operationId": "GetCompanyById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company details. Example: {\"id\":\"11111111-1111-1111-1111-111111111111\",\"name\":\"Contoso\",\"mail\":\"contoso@tenant.com\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Company not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Updates an existing company.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCompanyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Company updated."
+          },
+          "404": {
+            "description": "Company not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload including route/body id mismatch. Example: {\"errors\":{\"id\":[\"The route id must match body id.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Companies"
+        ],
+        "summary": "Deletes a company.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Company deleted."
+          },
+          "404": {
+            "description": "Company not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/email-statistics": {
+      "get": {
+        "tags": [
+          "EmailStatistics"
+        ],
+        "summary": "Obtiene estadísticas de procesamiento de correos con filtros opcionales.",
+        "parameters": [
+          {
+            "name": "From",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "To",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Company",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Processed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de estadísticas filtrada. Ejemplo: [{\"date\":\"2026-03-20T09:30:00Z\",\"company\":\"Contoso\",\"processed\":true,\"subject\":\"Factura Marzo\"}]",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailStatisticsItemResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailStatisticsItemResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailStatisticsItemResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Rango de fechas inválido. Ejemplo: {\"errors\":{\"to\":[\"'to' must be greater than or equal to 'from'.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/graph-settings": {
+      "get": {
+        "tags": [
+          "GraphSettings"
+        ],
+        "summary": "Gets Microsoft Graph settings with masked secret.",
+        "responses": {
+          "200": {
+            "description": "Graph settings found. Example: {\"instance\":\"https://login.microsoftonline.com/\",\"clientSecretMasked\":\"******cret\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphSettingsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphSettingsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphSettingsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Graph settings not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "GraphSettings"
+        ],
+        "summary": "Updates Microsoft Graph settings.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGraphSettingsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGraphSettingsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGraphSettingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Settings updated."
+          },
+          "400": {
+            "description": "Invalid payload or invalid scopes JSON. Example: {\"errors\":{\"graphUserScopesJson\":[\"GraphUserScopesJson must be a valid JSON array of strings.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health/graph": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Validates Microsoft Graph connectivity against a mailbox target.",
+        "parameters": [
+          {
+            "name": "userMail",
+            "in": "query",
+            "description": "Optional user mail. If omitted, the first configured company mailbox is used.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mailboxId",
+            "in": "query",
+            "description": "Optional mailbox id. If omitted, the first configured company mailbox is used.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connectivity check succeeded.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Connectivity check failed or no mailbox target is configured.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphConnectivityHealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reports/export": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Exporta estadísticas de correo a un archivo Excel.",
+        "parameters": [
+          {
+            "name": "From",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "To",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Company",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Processed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivo Excel generado correctamente.",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Rango de fechas inválido. Ejemplo: {\"errors\":{\"to\":[\"'to' must be greater than or equal to 'from'.\"]}}",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/settings": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Gets global system settings.",
+        "responses": {
+          "200": {
+            "description": "Current settings. Example: {\"baseStorageFolder\":\"C:\\\\mail\",\"mailSubjectKeywords\":[\"invoice\"],\"processingTag\":\"ONBASE\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Updates global system settings.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSettingsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSettingsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSettingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Settings updated."
+          },
+          "400": {
+            "description": "Invalid payload. Example: {\"errors\":{\"baseStorageFolder\":[\"The BaseStorageFolder field is required.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/triggers": {
+      "get": {
+        "tags": [
+          "Triggers"
+        ],
+        "summary": "Lists all configured triggers.",
+        "responses": {
+          "200": {
+            "description": "Trigger list. Example: [{\"id\":\"22222222-2222-2222-2222-222222222222\",\"name\":\"Daily Report\",\"cronExpression\":\"0 0 * * *\"}]",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TriggerResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TriggerResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TriggerResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Triggers"
+        ],
+        "summary": "Creates a new trigger.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Trigger created. Example request: {\"name\":\"Daily Report\",\"cronExpression\":\"0 0 * * *\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload or invalid cron expression. Example: {\"errors\":{\"cronExpression\":[\"The cron expression format is invalid.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/triggers/{id}": {
+      "get": {
+        "tags": [
+          "Triggers"
+        ],
+        "summary": "Gets a trigger by id.",
+        "operationId": "GetTriggerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trigger found. Example: {\"id\":\"22222222-2222-2222-2222-222222222222\",\"name\":\"Daily Report\",\"cronExpression\":\"0 0 * * *\"}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriggerResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Trigger not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Triggers"
+        ],
+        "summary": "Updates an existing trigger.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertTriggerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Trigger updated."
+          },
+          "404": {
+            "description": "Trigger not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload or invalid cron expression. Example: {\"errors\":{\"cronExpression\":[\"The cron expression format is invalid.\"]}}",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Triggers"
+        ],
+        "summary": "Deletes an existing trigger.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Trigger deleted."
+          },
+          "404": {
+            "description": "Trigger not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompanyDetailResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "mail": {
+            "type": "string",
+            "nullable": true
+          },
+          "startFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailBox": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "fileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "attachmentKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportOutputFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingTag": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordType": {
+            "type": "string",
+            "nullable": true
+          },
+          "processedSubject": {
+            "type": "string",
+            "nullable": true
+          },
+          "processedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "processedAttachmentsCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CompanyListItemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "mail": {
+            "type": "string",
+            "nullable": true
+          },
+          "startFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "reportOutputFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingTag": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailStatisticsItemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "company": {
+            "type": "string",
+            "nullable": true
+          },
+          "userMail": {
+            "type": "string",
+            "nullable": true
+          },
+          "processed": {
+            "type": "boolean"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "attachmentsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reasonIgnored": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailbox": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "storedAttachments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "messageId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GraphConnectivityHealthResponse": {
+        "type": "object",
+        "properties": {
+          "checkedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "healthy": {
+            "type": "boolean"
+          },
+          "userMail": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailboxId": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GraphSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientSecretMasked": {
+            "type": "string",
+            "nullable": true
+          },
+          "graphUserScopesJson": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "SettingsResponse": {
+        "type": "object",
+        "properties": {
+          "baseStorageFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailSubjectKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "processingTag": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TriggerResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "cronExpression": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateCompanyRequest": {
+        "required": [
+          "id",
+          "mail",
+          "name",
+          "processingTag",
+          "reportOutputFolder",
+          "storageFolder"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mail": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "startFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailBox": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "fileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "attachmentKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageFolder": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reportOutputFolder": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "processingTag": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateGraphSettingsRequest": {
+        "required": [
+          "clientId",
+          "clientSecret",
+          "graphUserScopesJson",
+          "instance",
+          "tenantId"
+        ],
+        "type": "object",
+        "properties": {
+          "instance": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "clientId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tenantId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "clientSecret": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "graphUserScopesJson": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateSettingsRequest": {
+        "required": [
+          "baseStorageFolder"
+        ],
+        "type": "object",
+        "properties": {
+          "baseStorageFolder": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpsertCompanyRequest": {
+        "required": [
+          "mail",
+          "name",
+          "processingTag",
+          "reportOutputFolder",
+          "storageFolder"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mail": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "startFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "mailBox": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "fileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "attachmentKeywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "storageFolder": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reportOutputFolder": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "processingTag": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpsertTriggerRequest": {
+        "required": [
+          "cronExpression",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "cronExpression": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Companies"
+    },
+    {
+      "name": "EmailStatistics"
+    },
+    {
+      "name": "GraphSettings"
+    },
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Reports"
+    },
+    {
+      "name": "Settings"
+    },
+    {
+      "name": "Triggers"
+    },
+    {
+      "name": "WeatherForecast"
+    }
+  ]
+}

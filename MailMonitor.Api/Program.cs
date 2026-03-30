@@ -7,11 +7,27 @@ namespace MailMonitor.Api
 {
     public class Program
     {
+        private const string DevelopmentCorsPolicy = "DevelopmentCorsPolicy";
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(DevelopmentCorsPolicy, policy =>
+                {
+                    policy
+                        .WithOrigins(
+                            "http://localhost:60671",
+                            "https://localhost:60671",
+                            "http://localhost:5173",
+                            "https://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             builder.Services
                 .AddControllers()
                 .AddJsonOptions(options =>
@@ -45,7 +61,11 @@ namespace MailMonitor.Api
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(DevelopmentCorsPolicy);
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
             app.UseAuthorization();
             app.MapControllers();
 
