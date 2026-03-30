@@ -19,6 +19,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MailMonitor.Application\MailMonitor.Application.csproj" />
     <ProjectReference Include="..\MailMonitor.Domain\MailMonitor.Domain.csproj" />
+    <ProjectReference Include="..\MailMonitor.Infrastructure\MailMonitor.Infrastructure.csproj" />
+    <ProjectReference Include="..\MailMonitor.Worker\MailMonitor.Worker.csproj" />
   </ItemGroup>
 
   <ItemGroup>

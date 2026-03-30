@@ -9,6 +9,8 @@ namespace MailMonitor.Api.Controllers;
 [Route("api/companies")]
 public sealed class CompaniesController : ControllerBase
 {
+    private const string GetCompanyByIdRouteName = "GetCompanyById";
+
     private readonly IConfigurationService _configurationService;
 
     public CompaniesController(IConfigurationService configurationService)
@@ -55,7 +57,7 @@ public sealed class CompaniesController : ControllerBase
     /// </summary>
     /// <response code="200">Company details. Example: {"id":"11111111-1111-1111-1111-111111111111","name":"Contoso","mail":"contoso@tenant.com"}</response>
     /// <response code="404">Company not found.</response>
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = GetCompanyByIdRouteName)]
     [ProducesResponseType(typeof(CompanyDetailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CompanyDetailResponse>> GetByIdAsync(
@@ -143,7 +145,7 @@ public sealed class CompaniesController : ControllerBase
             companyResult.Value.ProcessedDate,
             companyResult.Value.ProcessedAttachmentsCount);
 
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = response.Id }, response);
+        return CreatedAtRoute(GetCompanyByIdRouteName, new { id = response.Id }, response);
     }
 
     /// <summary>

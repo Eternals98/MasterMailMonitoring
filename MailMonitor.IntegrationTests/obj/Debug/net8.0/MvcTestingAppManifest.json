@@ -1,0 +1,6 @@
+{
+  "MailMonitor.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Api",
+  "MailMonitor.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Application",
+  "MailMonitor.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain",
+  "MailMonitor.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Infrastructure"
+}

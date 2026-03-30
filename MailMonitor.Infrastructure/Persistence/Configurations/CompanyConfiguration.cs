@@ -40,7 +40,7 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
 
             builder.Property(company => company.MailBox)
                 .IsRequired()
-                .HasDefaultValue("[]");
+                .HasDefaultValueSql("'[]'");
 
             builder.Property(company => company.FileTypes)
                 .HasConversion(
@@ -50,7 +50,7 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
 
             builder.Property(company => company.FileTypes)
                 .IsRequired()
-                .HasDefaultValue("[]");
+                .HasDefaultValueSql("'[]'");
 
             builder.Property(company => company.AttachmentKeywords)
                 .HasConversion(
@@ -60,7 +60,7 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
 
             builder.Property(company => company.AttachmentKeywords)
                 .IsRequired()
-                .HasDefaultValue("[]");
+                .HasDefaultValueSql("'[]'");
 
             builder.Property(company => company.StorageFolder)
                 .IsRequired();

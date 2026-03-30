@@ -61,7 +61,7 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
 
             builder.Property(statistic => statistic.StoredAttachments)
                 .IsRequired()
-                .HasDefaultValue("[]");
+                .HasDefaultValueSql("'[]'");
 
             builder.Property(statistic => statistic.MessageId);
 

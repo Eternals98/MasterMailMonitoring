@@ -63,6 +63,16 @@
             <response code="204">Settings updated.</response>
             <response code="400">Invalid payload or invalid scopes JSON. Example: {"errors":{"graphUserScopesJson":["GraphUserScopesJson must be a valid JSON array of strings."]}}</response>
         </member>
+        <member name="M:MailMonitor.Api.Controllers.HealthController.CheckGraphConnectivityAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Validates Microsoft Graph connectivity against a mailbox target.
+            </summary>
+            <param name="userMail">Optional user mail. If omitted, the first configured company mailbox is used.</param>
+            <param name="mailboxId">Optional mailbox id. If omitted, the first configured company mailbox is used.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <response code="200">Connectivity check succeeded.</response>
+            <response code="503">Connectivity check failed or no mailbox target is configured.</response>
+        </member>
         <member name="M:MailMonitor.Api.Controllers.ReportsController.ExportAsync(MailMonitor.Api.Contracts.Statistics.EmailStatisticsQueryRequest,System.Threading.CancellationToken)">
             <summary>
             Exporta estadísticas de correo a un archivo Excel.
