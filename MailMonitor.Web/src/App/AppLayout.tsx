@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const pageTitles: Record<string, string> = {
   "/": "Inicio",
@@ -18,6 +19,7 @@ const links = [
 
 export function AppLayout(): JSX.Element {
   const location = useLocation();
+  const { session, logout } = useAuth();
   const title = pageTitles[location.pathname] ?? "MailMonitor";
 
   return (
@@ -40,7 +42,13 @@ export function AppLayout(): JSX.Element {
 
       <main className="main-content">
         <header className="page-header">
-          <h2>{title}</h2>
+          <h2 className="page-title">{title}</h2>
+          <div className="top-actions">
+            <span className="user-chip">{session?.username ?? "user"}</span>
+            <button type="button" className="btn secondary" onClick={logout}>
+              Cerrar sesion
+            </button>
+          </div>
         </header>
         <section className="page-body">
           <Outlet />

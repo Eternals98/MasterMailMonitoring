@@ -19,11 +19,27 @@ namespace MailMonitor.Api
                 options.AddPolicy(DevelopmentCorsPolicy, policy =>
                 {
                     policy
-                        .WithOrigins(
-                            "http://localhost:60671",
-                            "https://localhost:60671",
-                            "http://localhost:5173",
-                            "https://localhost:5173")
+                        .SetIsOriginAllowed(origin =>
+                        {
+                            if (string.IsNullOrWhiteSpace(origin))
+                            {
+                                return false;
+                            }
+
+                            if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                            {
+                                return false;
+                            }
+
+                            if (!string.Equals(uri.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) &&
+                                !string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return false;
+                            }
+
+                            return string.Equals(uri.Host, "localhost", StringComparison.OrdinalIgnoreCase) ||
+                                   string.Equals(uri.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase);
+                        })
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });

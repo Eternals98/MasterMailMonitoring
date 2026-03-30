@@ -3,44 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.web\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|solutionrelative:mailmonitor.web\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A8C05490-21AA-4628-842B-01F20B66966F}|MailMonitor.Api\\MailMonitor.Api.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A8C05490-21AA-4628-842B-01F20B66966F}|MailMonitor.Api\\MailMonitor.Api.csproj|solutionrelative:mailmonitor.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.web\\.env.example||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|solutionrelative:mailmonitor.web\\.env.example||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8C05490-21AA-4628-842B-01F20B66966F}|MailMonitor.Api\\MailMonitor.Api.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.api\\controllers\\companiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A8C05490-21AA-4628-842B-01F20B66966F}|MailMonitor.Api\\MailMonitor.Api.csproj|solutionrelative:mailmonitor.api\\controllers\\companiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\entities\\companies\\company.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\entities\\companies\\company.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\entities\\companies\\events\\companydeleteddomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\entities\\companies\\events\\companydeleteddomainevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\abstractions\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\abstractions\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\abstractions\\domainerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\abstractions\\domainerrors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.domain\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{50A177A2-A3E6-40AB-A273-65ED045DAA2B}|MailMonitor.Domain\\MailMonitor.Domain.csproj|solutionrelative:mailmonitor.domain\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+      "AbsoluteMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|c:\\users\\jarig\\source\\repos\\mastermailmonitoring\\mailmonitor.web\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{703FBE89-3A74-EBB6-279E-15895D6CBE1F}|MailMonitor.Web\\MailMonitor.web.esproj|solutionrelative:mailmonitor.web\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,125 +30,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Api\\Program.cs",
               "RelativeDocumentMoniker": "MailMonitor.Api\\Program.cs",
               "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Api\\Program.cs",
               "RelativeToolTip": "MailMonitor.Api\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-30T15:31:27.281Z",
+              "WhenOpened": "2026-03-30T18:05:43.095Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Web\\.env",
               "RelativeDocumentMoniker": "MailMonitor.Web\\.env",
               "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Web\\.env",
               "RelativeToolTip": "MailMonitor.Web\\.env",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-03-30T15:22:59.708Z",
+              "WhenOpened": "2026-03-30T17:46:44.579Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": ".env.example",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Web\\.env.example",
-              "RelativeDocumentMoniker": "MailMonitor.Web\\.env.example",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Web\\.env.example",
-              "RelativeToolTip": "MailMonitor.Web\\.env.example",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-03-30T15:12:25.87Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CompaniesController.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Api\\Controllers\\CompaniesController.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Api\\Controllers\\CompaniesController.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Api\\Controllers\\CompaniesController.cs",
-              "RelativeToolTip": "MailMonitor.Api\\Controllers\\CompaniesController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-29T17:55:39.534Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Company.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Entities\\Companies\\Company.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\Entities\\Companies\\Company.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Entities\\Companies\\Company.cs",
-              "RelativeToolTip": "MailMonitor.Domain\\Entities\\Companies\\Company.cs",
-              "ViewState": "AgIAALUAAAAAAAAAAADwv84AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-28T23:58:43.226Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CompanyDeletedDomainEvent.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
-              "RelativeToolTip": "MailMonitor.Domain\\Entities\\Companies\\Events\\CompanyDeletedDomainEvent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-28T23:58:43.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Error.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\Error.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\Error.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\Error.cs",
-              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\Error.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-28T23:58:43.625Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DomainErrors.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
-              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\DomainErrors.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-28T23:58:43.633Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "README.md",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\README.md",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\README.md",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\README.md",
-              "RelativeToolTip": "MailMonitor.Domain\\README.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2026-03-28T23:58:43.642Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Entity.cs",
-              "DocumentMoniker": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\Entity.cs",
-              "RelativeDocumentMoniker": "MailMonitor.Domain\\Abstractions\\Entity.cs",
-              "ToolTip": "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\MailMonitor.Domain\\Abstractions\\Entity.cs",
-              "RelativeToolTip": "MailMonitor.Domain\\Abstractions\\Entity.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAA0wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-28T23:58:43.65Z"
             }
           ]
         },

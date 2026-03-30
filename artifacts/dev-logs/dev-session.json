@@ -1,0 +1,10 @@
+﻿{
+    "StartedAt":  "2026-03-30T13:43:46.8939108-05:00",
+    "ApiPid":  25464,
+    "WebPid":  14472,
+    "ApiOutLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\artifacts\\dev-logs\\api-20260330-134335.out.log",
+    "ApiErrLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\artifacts\\dev-logs\\api-20260330-134335.err.log",
+    "WebOutLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\artifacts\\dev-logs\\web-20260330-134335.out.log",
+    "WebErrLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\artifacts\\dev-logs\\web-20260330-134335.err.log",
+    "ApiHealthUrl":  "http://localhost:5146/api/settings"
+}
