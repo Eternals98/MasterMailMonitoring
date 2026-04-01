@@ -79,6 +79,32 @@ public sealed class MessageFilterServiceTests
     }
 
     [Fact]
+    public void EvaluateMessage_ShouldUseGlobalTag_WhenCompanyOverrideIsDisabled()
+    {
+        var service = new MessageFilterService(new FakeEmailStatisticsRepository());
+        var company = BuildCompany();
+        company.ProcessingTag = "COMPANY-TAG";
+        company.OverrideGlobalProcessingTag = false;
+
+        var settings = new Setting
+        {
+            ProcessingTag = "GLOBAL-TAG",
+            MailSubjectKeywords = "invoice"
+        };
+
+        var message = new Message
+        {
+            Subject = "Invoice 998",
+            HasAttachments = true
+        };
+
+        var result = service.EvaluateMessage(company, settings, message, "msg-override-001");
+
+        Assert.False(result.ShouldSkip);
+        Assert.Equal("GLOBAL-TAG", result.ProcessingTag);
+    }
+
+    [Fact]
     public void FilterAttachments_ShouldApplyExtensionAndKeywordFilters()
     {
         var service = new MessageFilterService(new FakeEmailStatisticsRepository());

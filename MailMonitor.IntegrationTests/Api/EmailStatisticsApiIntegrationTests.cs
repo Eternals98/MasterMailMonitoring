@@ -4,7 +4,6 @@ using MailMonitor.Domain.Entities.Reporting;
 using MailMonitor.IntegrationTests.Infrastructure;
 using MailMonitor.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 
 namespace MailMonitor.IntegrationTests.Api;
 
@@ -15,13 +14,15 @@ public sealed class EmailStatisticsApiIntegrationTests
     {
         using var factory = new ApiTestFactory();
         using var client = CreateClient(factory);
-        SeedStatistics(factory);
+
+        var dbPath = factory.GetResolvedConfigurationDbPath();
+        var seed = SeedStatistics(dbPath);
 
         var from = new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Utc);
         var to = new DateTime(2026, 3, 30, 23, 59, 59, DateTimeKind.Utc);
 
         var response = await client.GetAsync(
-            $"/api/email-statistics?company={Uri.EscapeDataString("Contoso")}" +
+            $"/api/email-statistics?company={Uri.EscapeDataString(seed.CompanyName)}" +
             $"&processed=true&from={Uri.EscapeDataString(from.ToString("O"))}" +
             $"&to={Uri.EscapeDataString(to.ToString("O"))}");
 
@@ -30,9 +31,10 @@ public sealed class EmailStatisticsApiIntegrationTests
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(payload);
         Assert.Single(payload);
+        Assert.Equal(seed.ExpectedMessageId, payload[0].MessageId);
         Assert.All(payload, item =>
         {
-            Assert.Equal("Contoso", item.Company);
+            Assert.Equal(seed.CompanyName, item.Company);
             Assert.True(item.Processed);
             Assert.True(item.Date >= from);
             Assert.True(item.Date <= to);
@@ -63,55 +65,67 @@ public sealed class EmailStatisticsApiIntegrationTests
         });
     }
 
-    private static void SeedStatistics(ApiTestFactory factory)
+    private static SeedResult SeedStatistics(string dbPath)
     {
-        using var context = new ConfigurationDbContext(factory.ConfigurationDbPath);
+        using var context = new ConfigurationDbContext(dbPath);
         context.Database.EnsureCreated();
         context.EnsureEmailStatisticsSchema();
 
+        var uniqueSuffix = Guid.NewGuid().ToString("N")[..8];
+        var companyName = $"Contoso-IT-{uniqueSuffix}";
+        var expectedMessageId = $"contoso-in-range-{uniqueSuffix}";
+
+        var inRange = new EmailProcessStatistic
+        {
+            Date = new DateTime(2026, 3, 24, 10, 0, 0, DateTimeKind.Utc),
+            CompanyName = companyName,
+            UserMail = "mail@contoso.com",
+            Processed = true,
+            Subject = "Invoice 001",
+            AttachmentsCount = 2,
+            Mailbox = "Inbox",
+            StorageFolder = @"C:\Storage\Contoso",
+            StoredAttachments = [@"C:\Storage\Contoso\invoice001.pdf"],
+            MessageId = expectedMessageId
+        };
+
+        var outOfRange = new EmailProcessStatistic
+        {
+            Date = new DateTime(2026, 2, 22, 9, 0, 0, DateTimeKind.Utc),
+            CompanyName = companyName,
+            UserMail = "mail@contoso.com",
+            Processed = true,
+            Subject = "Invoice 002",
+            AttachmentsCount = 1,
+            Mailbox = "Inbox",
+            StorageFolder = @"C:\Storage\Contoso",
+            StoredAttachments = [@"C:\Storage\Contoso\invoice002.xml"],
+            MessageId = $"contoso-out-range-{uniqueSuffix}"
+        };
+
+        var ignored = new EmailProcessStatistic
+        {
+            Date = new DateTime(2026, 3, 24, 10, 0, 0, DateTimeKind.Utc),
+            CompanyName = companyName,
+            UserMail = "mail@contoso.com",
+            Processed = false,
+            Subject = "Notification",
+            AttachmentsCount = 0,
+            ReasonIgnored = "Subject does not match global keywords",
+            Mailbox = "Inbox",
+            StorageFolder = @"C:\Storage\Contoso",
+            StoredAttachments = Array.Empty<string>(),
+            MessageId = $"contoso-ignored-{uniqueSuffix}"
+        };
+
         context.EmailStatistics.AddRange(
-            new EmailProcessStatistic
-            {
-                Date = new DateTime(2026, 3, 24, 10, 0, 0, DateTimeKind.Utc),
-                CompanyName = "Contoso",
-                UserMail = "mail@contoso.com",
-                Processed = true,
-                Subject = "Invoice 001",
-                AttachmentsCount = 2,
-                Mailbox = "Inbox",
-                StorageFolder = @"C:\Storage\Contoso",
-                StoredAttachments = [@"C:\Storage\Contoso\invoice001.pdf"],
-                MessageId = "contoso-001"
-            },
-            new EmailProcessStatistic
-            {
-                Date = new DateTime(2026, 2, 22, 9, 0, 0, DateTimeKind.Utc),
-                CompanyName = "Contoso",
-                UserMail = "mail@contoso.com",
-                Processed = true,
-                Subject = "Invoice 002",
-                AttachmentsCount = 1,
-                Mailbox = "Inbox",
-                StorageFolder = @"C:\Storage\Contoso",
-                StoredAttachments = [@"C:\Storage\Contoso\invoice002.xml"],
-                MessageId = "contoso-002"
-            },
-            new EmailProcessStatistic
-            {
-                Date = new DateTime(2026, 3, 18, 9, 0, 0, DateTimeKind.Utc),
-                CompanyName = "Fabrikam",
-                UserMail = "mail@fabrikam.com",
-                Processed = false,
-                Subject = "Notification",
-                AttachmentsCount = 0,
-                ReasonIgnored = "Subject does not match global keywords",
-                Mailbox = "Inbox",
-                StorageFolder = @"C:\Storage\Fabrikam",
-                StoredAttachments = Array.Empty<string>(),
-                MessageId = "fabrikam-001"
-            });
+            inRange,
+            outOfRange,
+            ignored);
 
         context.SaveChanges();
+
+        return new SeedResult(companyName, expectedMessageId);
     }
 
     private sealed record EmailStatisticsItemResponse(
@@ -127,4 +141,6 @@ public sealed class EmailStatisticsApiIntegrationTests
         string StorageFolder,
         IReadOnlyCollection<string> StoredAttachments,
         string? MessageId);
+
+    private sealed record SeedResult(string CompanyName, string ExpectedMessageId);
 }

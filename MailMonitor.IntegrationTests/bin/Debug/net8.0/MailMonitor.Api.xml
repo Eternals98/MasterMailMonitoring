@@ -10,6 +10,30 @@
             </summary>
             <response code="200">Company list. Example: [{"id":"11111111-1111-1111-1111-111111111111","name":"Contoso","mail":"contoso@tenant.com"}]</response>
         </member>
+        <member name="M:MailMonitor.Api.Controllers.CompaniesController.SearchMailboxesAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Searches mailbox folders for a user and returns mailbox ids.
+            </summary>
+            <response code="200">Mailbox lookup matches.</response>
+            <response code="400">Invalid query input.</response>
+            <response code="503">Graph lookup unavailable.</response>
+        </member>
+        <member name="M:MailMonitor.Api.Controllers.CompaniesController.ResolveMailboxesAsync(MailMonitor.Api.Contracts.Companies.ResolveMailboxesRequest,System.Threading.CancellationToken)">
+            <summary>
+            Resolves mailbox metadata (name/path) for a list of mailbox ids.
+            </summary>
+            <response code="200">Resolved mailbox metadata.</response>
+            <response code="400">Invalid request payload.</response>
+            <response code="503">Graph lookup unavailable.</response>
+        </member>
+        <member name="M:MailMonitor.Api.Controllers.CompaniesController.GetRecentMailboxMessagesAsync(System.String,System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Verifies Graph connectivity for a mailbox and returns the latest emails (up to 5).
+            </summary>
+            <response code="200">Connectivity succeeded and recent emails were returned.</response>
+            <response code="400">Invalid query input.</response>
+            <response code="503">Connectivity check failed.</response>
+        </member>
         <member name="M:MailMonitor.Api.Controllers.CompaniesController.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Gets a company by id.
@@ -63,6 +87,13 @@
             <response code="204">Settings updated.</response>
             <response code="400">Invalid payload or invalid scopes JSON. Example: {"errors":{"graphUserScopesJson":["GraphUserScopesJson must be a valid JSON array of strings."]}}</response>
         </member>
+        <member name="M:MailMonitor.Api.Controllers.GraphSettingsController.VerifyAsync(MailMonitor.Api.Contracts.GraphSettings.VerifyGraphConnectionRequest,System.Threading.CancellationToken)">
+            <summary>
+            Verifies Microsoft Graph connectivity and stores the last verification result.
+            </summary>
+            <response code="200">Connectivity check succeeded.</response>
+            <response code="503">Connectivity check failed or no mailbox target is configured.</response>
+        </member>
         <member name="M:MailMonitor.Api.Controllers.HealthController.CheckGraphConnectivityAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Validates Microsoft Graph connectivity against a mailbox target.
@@ -95,6 +126,13 @@
             </summary>
             <response code="204">Settings updated.</response>
             <response code="400">Invalid payload. Example: {"errors":{"baseStorageFolder":["The BaseStorageFolder field is required."]}}</response>
+        </member>
+        <member name="M:MailMonitor.Api.Controllers.SettingsController.CheckStorageAccessAsync(MailMonitor.Api.Contracts.Settings.CheckStorageAccessRequest,System.Threading.CancellationToken)">
+            <summary>
+            Validates if the API process can access a target storage folder.
+            </summary>
+            <response code="200">Validation result with read/write flags.</response>
+            <response code="400">Invalid path format.</response>
         </member>
         <member name="M:MailMonitor.Api.Controllers.TriggersController.GetAsync(System.Threading.CancellationToken)">
             <summary>

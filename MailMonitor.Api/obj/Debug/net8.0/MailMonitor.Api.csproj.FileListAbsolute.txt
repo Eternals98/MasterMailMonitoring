@@ -272,3 +272,16 @@ C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\obj\Debug\net8.
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\obj\Debug\net8.0\MailMonitor.Api.xml
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\obj\Debug\net8.0\MailMonitor.Api.genruntimeconfig.cache
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\obj\Debug\net8.0\ref\MailMonitor.Api.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\bin\Debug\net8.0\appsettings.Production.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\bin\Debug\net8.0\appsettings.QA.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\appsettings.Development.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\appsettings.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\appsettings.Production.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\appsettings.QA.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.staticwebassets.endpoints.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.exe
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.runtimeconfig.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Api.xml

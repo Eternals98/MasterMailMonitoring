@@ -1,0 +1,8 @@
+[2026-03-31T12:05:23.2284066-05:00] Go-live validation started.
+[2026-03-31T12:05:23.7006668-05:00] API base URL: http://localhost:5146/api
+[2026-03-31T12:05:23.7779691-05:00] Storage path under validation: \\localhost\c$\Temp
+[2026-03-31T12:05:24.1368380-05:00] Calling Graph health endpoint: http://localhost:5146/api/health/graph
+[2026-03-31T12:05:31.3085662-05:00] Graph health status code: 0
+[2026-03-31T12:05:34.4897865-05:00] Calling storage access endpoint: http://localhost:5146/api/settings/storage-access/check
+[2026-03-31T12:05:38.8619534-05:00] Storage check status code: 0
+[2026-03-31T12:05:44.7310650-05:00] Summary written to: C:\Users\jarig\source\repos\MasterMailMonitoring\.\artifacts\dev-logs\go-live-validation-20260331-120523.summary.json

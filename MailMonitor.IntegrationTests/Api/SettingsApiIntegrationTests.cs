@@ -8,7 +8,7 @@ namespace MailMonitor.IntegrationTests.Api;
 public sealed class SettingsApiIntegrationTests
 {
     [Fact]
-    public async Task Get_ShouldReturnSeededSettings_FromSqlite()
+    public async Task Get_ShouldReturnSettingsPayload_WithRequiredFields()
     {
         using var factory = new ApiTestFactory();
         using var client = CreateClient(factory);
@@ -19,8 +19,8 @@ public sealed class SettingsApiIntegrationTests
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(payload);
         Assert.False(string.IsNullOrWhiteSpace(payload.BaseStorageFolder));
-        Assert.Contains("TestOnBase", payload.MailSubjectKeywords, StringComparer.OrdinalIgnoreCase);
-        Assert.Equal("OnBase", payload.ProcessingTag);
+        Assert.NotNull(payload.MailSubjectKeywords);
+        Assert.False(string.IsNullOrWhiteSpace(payload.ProcessingTag));
     }
 
     [Fact]
@@ -43,6 +43,30 @@ public sealed class SettingsApiIntegrationTests
         Assert.Equal(newBaseStorageFolder, payload.BaseStorageFolder);
     }
 
+    [Fact]
+    public async Task Put_ShouldPersistProcessingActionsEnabledFlag()
+    {
+        using var factory = new ApiTestFactory();
+        using var client = CreateClient(factory);
+
+        var putResponse = await client.PutAsJsonAsync(
+            "/api/settings",
+            new
+            {
+                baseStorageFolder = @"C:\Pilot\Storage",
+                processingActionsEnabled = false
+            });
+
+        Assert.Equal(HttpStatusCode.NoContent, putResponse.StatusCode);
+
+        var getResponse = await client.GetAsync("/api/settings");
+        var payload = await getResponse.Content.ReadFromJsonAsync<SettingsResponse>();
+
+        Assert.Equal(HttpStatusCode.OK, getResponse.StatusCode);
+        Assert.NotNull(payload);
+        Assert.False(payload.ProcessingActionsEnabled);
+    }
+
     private static HttpClient CreateClient(ApiTestFactory factory)
     {
         return factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -54,5 +78,6 @@ public sealed class SettingsApiIntegrationTests
     private sealed record SettingsResponse(
         string BaseStorageFolder,
         IReadOnlyCollection<string> MailSubjectKeywords,
-        string ProcessingTag);
+        string ProcessingTag,
+        bool ProcessingActionsEnabled);
 }

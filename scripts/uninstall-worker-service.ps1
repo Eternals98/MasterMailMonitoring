@@ -1,9 +1,9 @@
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
-
 param(
     [string]$ServiceName = "MailMonitor.Worker"
 )
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 if ($null -eq $service) {

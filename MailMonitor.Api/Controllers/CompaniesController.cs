@@ -1,5 +1,6 @@
 using MailMonitor.Api.Contracts.Companies;
 using MailMonitor.Application.Abstractions.Configuration;
+using MailMonitor.Application.Abstractions.Graph;
 using MailMonitor.Domain.Entities.Companies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,14 @@ public sealed class CompaniesController : ControllerBase
     private const string GetCompanyByIdRouteName = "GetCompanyById";
 
     private readonly IConfigurationService _configurationService;
+    private readonly IGraphClient _graphClient;
 
-    public CompaniesController(IConfigurationService configurationService)
+    public CompaniesController(
+        IConfigurationService configurationService,
+        IGraphClient graphClient)
     {
         _configurationService = configurationService;
+        _graphClient = graphClient;
     }
 
     /// <summary>
@@ -53,6 +58,201 @@ public sealed class CompaniesController : ControllerBase
     }
 
     /// <summary>
+    /// Searches mailbox folders for a user and returns mailbox ids.
+    /// </summary>
+    /// <response code="200">Mailbox lookup matches.</response>
+    /// <response code="400">Invalid query input.</response>
+    /// <response code="503">Graph lookup unavailable.</response>
+    [HttpGet("mailboxes/search")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<MailboxLookupResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status503ServiceUnavailable)]
+    public async Task<ActionResult<IReadOnlyCollection<MailboxLookupResponse>>> SearchMailboxesAsync(
+        [FromQuery] string? userMail,
+        [FromQuery] string? query,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var normalizedMail = userMail?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(normalizedMail))
+        {
+            ModelState.AddModelError(nameof(userMail), "userMail is required.");
+            return ValidationProblem(ModelState);
+        }
+
+        if (!string.IsNullOrWhiteSpace(query) && query.Trim().Length < 2)
+        {
+            ModelState.AddModelError(nameof(query), "query must have at least 2 characters.");
+            return ValidationProblem(ModelState);
+        }
+
+        try
+        {
+            var result = await _graphClient.SearchMailboxesAsync(normalizedMail, query ?? string.Empty, cancellationToken);
+
+            var response = result
+                .Select(item => new MailboxLookupResponse(item.Id, item.DisplayName, item.Path))
+                .ToList();
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new
+                {
+                    errorCode = "GraphMailboxSearch.Unavailable",
+                    errorMessage = ex.Message
+                });
+        }
+    }
+
+    /// <summary>
+    /// Resolves mailbox metadata (name/path) for a list of mailbox ids.
+    /// </summary>
+    /// <response code="200">Resolved mailbox metadata.</response>
+    /// <response code="400">Invalid request payload.</response>
+    /// <response code="503">Graph lookup unavailable.</response>
+    [HttpPost("mailboxes/resolve")]
+    [ProducesResponseType(typeof(IReadOnlyCollection<MailboxLookupResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status503ServiceUnavailable)]
+    public async Task<ActionResult<IReadOnlyCollection<MailboxLookupResponse>>> ResolveMailboxesAsync(
+        [FromBody] ResolveMailboxesRequest request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var normalizedMail = request.UserMail?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(normalizedMail))
+        {
+            ModelState.AddModelError(nameof(request.UserMail), "userMail is required.");
+            return ValidationProblem(ModelState);
+        }
+
+        var ids = request.MailboxIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Select(id => id.Trim())
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        if (ids.Count == 0)
+        {
+            ModelState.AddModelError(nameof(request.MailboxIds), "At least one mailbox id is required.");
+            return ValidationProblem(ModelState);
+        }
+
+        try
+        {
+            var resolved = await _graphClient.ResolveMailboxesAsync(normalizedMail, ids, cancellationToken);
+
+            var response = resolved
+                .Select(item => new MailboxLookupResponse(item.Id, item.DisplayName, item.Path))
+                .ToList();
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new
+                {
+                    errorCode = "GraphMailboxResolve.Unavailable",
+                    errorMessage = ex.Message
+                });
+        }
+    }
+
+    /// <summary>
+    /// Verifies Graph connectivity for a mailbox and returns the latest emails (up to 5).
+    /// </summary>
+    /// <response code="200">Connectivity succeeded and recent emails were returned.</response>
+    /// <response code="400">Invalid query input.</response>
+    /// <response code="503">Connectivity check failed.</response>
+    [HttpGet("mailboxes/recent")]
+    [ProducesResponseType(typeof(MailboxRecentMessagesResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(MailboxRecentMessagesResponse), StatusCodes.Status503ServiceUnavailable)]
+    public async Task<ActionResult<MailboxRecentMessagesResponse>> GetRecentMailboxMessagesAsync(
+        [FromQuery] string? userMail,
+        [FromQuery] string? mailboxId,
+        [FromQuery] int? take,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var normalizedMail = userMail?.Trim() ?? string.Empty;
+        var normalizedMailboxId = mailboxId?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(normalizedMail))
+        {
+            ModelState.AddModelError(nameof(userMail), "userMail is required.");
+            return ValidationProblem(ModelState);
+        }
+
+        if (string.IsNullOrWhiteSpace(normalizedMailboxId))
+        {
+            ModelState.AddModelError(nameof(mailboxId), "mailboxId is required.");
+            return ValidationProblem(ModelState);
+        }
+
+        var normalizedTake = take ?? 5;
+        if (normalizedTake is < 1 or > 5)
+        {
+            ModelState.AddModelError(nameof(take), "take must be between 1 and 5.");
+            return ValidationProblem(ModelState);
+        }
+
+        var connectivity = await _graphClient.CheckConnectivityAsync(normalizedMail, normalizedMailboxId, cancellationToken);
+        if (!connectivity.IsSuccess)
+        {
+            return StatusCode(
+                StatusCodes.Status503ServiceUnavailable,
+                new MailboxRecentMessagesResponse(
+                    DateTime.UtcNow,
+                    false,
+                    normalizedMail,
+                    normalizedMailboxId,
+                    [],
+                    connectivity.ErrorCode,
+                    connectivity.ErrorMessage));
+        }
+
+        var messages = await _graphClient.GetRecentMessagesAsync(
+            normalizedMail,
+            normalizedMailboxId,
+            normalizedTake,
+            cancellationToken);
+
+        var response = new MailboxRecentMessagesResponse(
+            DateTime.UtcNow,
+            true,
+            normalizedMail,
+            normalizedMailboxId,
+            messages
+                .OrderByDescending(message => message.ReceivedDateTime)
+                .Take(normalizedTake)
+                .Select(message => new MailboxRecentMessageResponse(
+                    message.Id ?? string.Empty,
+                    message.Subject ?? "(sin asunto)",
+                    message.ReceivedDateTime,
+                    message.HasAttachments ?? false,
+                    message.From?.EmailAddress?.Address ?? string.Empty))
+                .ToList(),
+            string.Empty,
+            string.Empty);
+
+        return Ok(response);
+    }
+
+    /// <summary>
     /// Gets a company by id.
     /// </summary>
     /// <response code="200">Company details. Example: {"id":"11111111-1111-1111-1111-111111111111","name":"Contoso","mail":"contoso@tenant.com"}</response>
@@ -83,6 +283,9 @@ public sealed class CompaniesController : ControllerBase
             company.StorageFolder,
             company.ReportOutputFolder,
             company.ProcessingTag,
+            company.OverrideGlobalProcessingTag,
+            company.OverrideGlobalStorageFolder,
+            company.OverrideGlobalReportOutputFolder,
             company.RecordType,
             company.ProcessedSubject,
             company.ProcessedDate,
@@ -119,7 +322,10 @@ public sealed class CompaniesController : ControllerBase
             request.AttachmentKeywords,
             request.StorageFolder,
             request.ReportOutputFolder,
-            request.ProcessingTag);
+            request.ProcessingTag,
+            request.OverrideGlobalProcessingTag,
+            request.OverrideGlobalStorageFolder,
+            request.OverrideGlobalReportOutputFolder);
 
         if (companyResult.IsFailure)
         {
@@ -140,6 +346,9 @@ public sealed class CompaniesController : ControllerBase
             companyResult.Value.StorageFolder,
             companyResult.Value.ReportOutputFolder,
             companyResult.Value.ProcessingTag,
+            companyResult.Value.OverrideGlobalProcessingTag,
+            companyResult.Value.OverrideGlobalStorageFolder,
+            companyResult.Value.OverrideGlobalReportOutputFolder,
             companyResult.Value.RecordType,
             companyResult.Value.ProcessedSubject,
             companyResult.Value.ProcessedDate,
@@ -191,7 +400,10 @@ public sealed class CompaniesController : ControllerBase
             request.AttachmentKeywords,
             request.StorageFolder,
             request.ReportOutputFolder,
-            request.ProcessingTag);
+            request.ProcessingTag,
+            request.OverrideGlobalProcessingTag,
+            request.OverrideGlobalStorageFolder,
+            request.OverrideGlobalReportOutputFolder);
 
         if (updateResult.IsFailure)
         {

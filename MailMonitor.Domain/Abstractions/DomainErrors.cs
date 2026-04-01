@@ -7,7 +7,11 @@ namespace MailMonitor.Domain.Abstractions
             public static readonly Error NameRequired = new("Company.NameRequired", "Company name is required.");
             public static readonly Error MailRequired = new("Company.MailRequired", "Company mail is required.");
             public static readonly Error StorageFolderRequired = new("Company.StorageFolderRequired", "Storage folder is required.");
+            public static readonly Error StorageFolderMustBeRelativeWhenUsingGlobal = new("Company.StorageFolderMustBeRelativeWhenUsingGlobal", "Storage folder must be relative when global storage is enabled.");
+            public static readonly Error StorageFolderMustBeAbsoluteWhenOverridingGlobal = new("Company.StorageFolderMustBeAbsoluteWhenOverridingGlobal", "Storage folder must be absolute when overriding global storage.");
             public static readonly Error ReportOutputFolderRequired = new("Company.ReportOutputFolderRequired", "Report output folder is required.");
+            public static readonly Error ReportOutputFolderMustBeRelativeWhenUsingGlobal = new("Company.ReportOutputFolderMustBeRelativeWhenUsingGlobal", "Report output folder must be relative when global report output is enabled.");
+            public static readonly Error ReportOutputFolderMustBeAbsoluteWhenOverridingGlobal = new("Company.ReportOutputFolderMustBeAbsoluteWhenOverridingGlobal", "Report output folder must be absolute when overriding global report output.");
             public static readonly Error InvalidStartFrom = new("Company.InvalidStartFrom", "StartFrom must be a valid date in ISO format or a parseable date value.");
             public static readonly Error ProcessingTagRequired = new("Company.ProcessingTagRequired", "Processing tag is required.");
             public static readonly Error ProcessedSubjectRequired = new("Company.ProcessedSubjectRequired", "Processed subject is required.");
@@ -44,6 +48,8 @@ namespace MailMonitor.Domain.Abstractions
         {
             public static readonly Error BaseStorageFolderRequired = new("Setting.BaseStorageFolderRequired", "Base storage folder is required.");
             public static readonly Error ProcessingTagRequired = new("Setting.ProcessingTagRequired", "Processing tag is required.");
+            public static readonly Error InvalidStorageMaxRetries = new("Setting.InvalidStorageMaxRetries", "Storage max retries must be between 0 and 10.");
+            public static readonly Error InvalidStorageDelayRange = new("Setting.InvalidStorageDelayRange", "Storage delay values are invalid. Max delay must be greater than or equal to base delay.");
         }
 
         public static class EmailProcessStatistic

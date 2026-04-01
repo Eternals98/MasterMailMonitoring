@@ -1,6 +1,9 @@
 using System.Text.Json;
 using MailMonitor.Api.Contracts.GraphSettings;
+using MailMonitor.Api.Contracts.Health;
 using MailMonitor.Application.Abstractions.Configuration;
+using MailMonitor.Application.Abstractions.Graph;
+using MailMonitor.Domain.Entities.Companies;
 using MailMonitor.Domain.Entities.Graph;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +14,14 @@ namespace MailMonitor.Api.Controllers;
 public sealed class GraphSettingsController : ControllerBase
 {
     private readonly IConfigurationService _configurationService;
+    private readonly IGraphClient _graphClient;
 
-    public GraphSettingsController(IConfigurationService configurationService)
+    public GraphSettingsController(
+        IConfigurationService configurationService,
+        IGraphClient graphClient)
     {
         _configurationService = configurationService;
+        _graphClient = graphClient;
     }
 
     /// <summary>
@@ -40,7 +47,11 @@ public sealed class GraphSettingsController : ControllerBase
             graphSettings.ClientId,
             graphSettings.TenantId,
             MaskSecret(graphSettings.ClientSecret),
-            graphSettings.GraphUserScopesJson);
+            graphSettings.GraphUserScopesJson,
+            graphSettings.LastVerificationAtUtc,
+            graphSettings.LastVerificationSucceeded,
+            graphSettings.LastVerificationErrorCode,
+            graphSettings.LastVerificationErrorMessage);
 
         return Ok(response);
     }
@@ -94,6 +105,56 @@ public sealed class GraphSettingsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Verifies Microsoft Graph connectivity and stores the last verification result.
+    /// </summary>
+    /// <response code="200">Connectivity check succeeded.</response>
+    /// <response code="503">Connectivity check failed or no mailbox target is configured.</response>
+    [HttpPost("verify")]
+    [ProducesResponseType(typeof(GraphConnectivityHealthResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GraphConnectivityHealthResponse), StatusCodes.Status503ServiceUnavailable)]
+    public async Task<ActionResult<GraphConnectivityHealthResponse>> VerifyAsync(
+        [FromBody] VerifyGraphConnectionRequest? request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var target = await ResolveTargetAsync(request?.UserMail, request?.MailboxId);
+        if (target is null)
+        {
+            var targetNotConfigured = new GraphConnectivityHealthResponse(
+                DateTime.UtcNow,
+                false,
+                string.Empty,
+                string.Empty,
+                "GraphHealth.TargetNotConfigured",
+                "No mailbox target is available for Graph connectivity validation.");
+
+            await PersistVerificationResultAsync(targetNotConfigured);
+
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, targetNotConfigured);
+        }
+
+        var result = await _graphClient.CheckConnectivityAsync(
+            target.Value.UserMail,
+            target.Value.MailboxId,
+            cancellationToken);
+
+        var response = new GraphConnectivityHealthResponse(
+            DateTime.UtcNow,
+            result.IsSuccess,
+            result.UserMail,
+            result.MailboxId,
+            result.ErrorCode,
+            result.ErrorMessage);
+
+        await PersistVerificationResultAsync(response);
+
+        return response.Healthy
+            ? Ok(response)
+            : StatusCode(StatusCodes.Status503ServiceUnavailable, response);
+    }
+
     private static bool IsValidScopesJson(string scopesJson)
     {
         if (string.IsNullOrWhiteSpace(scopesJson))
@@ -138,5 +199,47 @@ public sealed class GraphSettingsController : ControllerBase
         }
 
         return $"{new string('*', secret.Length - 4)}{secret[^4..]}";
+    }
+
+    private async Task PersistVerificationResultAsync(GraphConnectivityHealthResponse response)
+    {
+        var graphSettings = await _configurationService.GetGraphSettingsAsync();
+        if (graphSettings is null)
+        {
+            return;
+        }
+
+        graphSettings.SetVerificationResult(
+            response.Healthy,
+            response.ErrorCode,
+            response.ErrorMessage);
+
+        await _configurationService.UpdateGraphSettingsAsync(graphSettings);
+    }
+
+    private async Task<(string UserMail, string MailboxId)?> ResolveTargetAsync(string? userMail, string? mailboxId)
+    {
+        if (!string.IsNullOrWhiteSpace(userMail) && !string.IsNullOrWhiteSpace(mailboxId))
+        {
+            return (userMail.Trim(), mailboxId.Trim());
+        }
+
+        var companies = await _configurationService.GetCompaniesAsync();
+        var firstConfigured = companies
+            .FirstOrDefault(company =>
+                company.RecordType == Company.RecordTypeSetting &&
+                !string.IsNullOrWhiteSpace(company.Mail) &&
+                company.MailBox.Any(mailbox => !string.IsNullOrWhiteSpace(mailbox)));
+
+        if (firstConfigured is null)
+        {
+            return null;
+        }
+
+        var targetMailbox = firstConfigured.MailBox
+            .First(mailbox => !string.IsNullOrWhiteSpace(mailbox))
+            .Trim();
+
+        return (firstConfigured.Mail.Trim(), targetMailbox);
     }
 }

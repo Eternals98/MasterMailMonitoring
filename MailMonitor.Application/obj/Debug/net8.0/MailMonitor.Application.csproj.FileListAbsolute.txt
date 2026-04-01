@@ -29,3 +29,12 @@ C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Deb
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Debug\net8.0\refint\MailMonitor.Application.dll
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Debug\net8.0\MailMonitor.Application.pdb
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Debug\net8.0\ref\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Application.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Application.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Application.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Application.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Application.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Application.pdb

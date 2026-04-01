@@ -25,6 +25,8 @@ namespace MailMonitor.Infrastructure.Persistence
         }
 
         public DbSet<AppSetting> AppSettings => Set<AppSetting>();
+        public DbSet<SystemSetting> SystemSettings => Set<SystemSetting>();
+        public DbSet<GlobalSearchKeyword> GlobalSearchKeywords => Set<GlobalSearchKeyword>();
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Trigger> Triggers => Set<Trigger>();
         public DbSet<GraphSetting> GraphSettings => Set<GraphSetting>();
@@ -48,6 +50,8 @@ namespace MailMonitor.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AppSettingConfiguration());
+            modelBuilder.ApplyConfiguration(new SystemSettingConfiguration());
+            modelBuilder.ApplyConfiguration(new GlobalSearchKeywordConfiguration());
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new TriggerConfiguration());
             modelBuilder.ApplyConfiguration(new GraphSettingConfiguration());

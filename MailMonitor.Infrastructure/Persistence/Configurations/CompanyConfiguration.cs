@@ -73,6 +73,18 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasDefaultValue(Company.DefaultProcessingTag);
 
+            builder.Property(company => company.OverrideGlobalProcessingTag)
+                .IsRequired()
+                .HasDefaultValue(true);
+
+            builder.Property(company => company.OverrideGlobalStorageFolder)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.Property(company => company.OverrideGlobalReportOutputFolder)
+                .IsRequired()
+                .HasDefaultValue(false);
+
             builder.Property(company => company.RecordType)
                 .IsRequired()
                 .HasDefaultValue(Company.RecordTypeSetting);

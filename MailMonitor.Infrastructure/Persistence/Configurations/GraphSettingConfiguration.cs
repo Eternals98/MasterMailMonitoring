@@ -13,7 +13,7 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
             builder.HasKey(graphSetting => graphSetting.Id);
 
             builder.Property(graphSetting => graphSetting.Id)
-                .ValueGeneratedOnAdd();
+                .ValueGeneratedNever();
 
             builder.Property(graphSetting => graphSetting.Instance)
                 .IsRequired();
@@ -30,6 +30,18 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
             builder.Property(graphSetting => graphSetting.GraphUserScopesJson)
                 .IsRequired()
                 .HasDefaultValue("[]");
+
+            builder.Property(graphSetting => graphSetting.LastVerificationAtUtc);
+
+            builder.Property(graphSetting => graphSetting.LastVerificationSucceeded);
+
+            builder.Property(graphSetting => graphSetting.LastVerificationErrorCode)
+                .IsRequired()
+                .HasDefaultValue(string.Empty);
+
+            builder.Property(graphSetting => graphSetting.LastVerificationErrorMessage)
+                .IsRequired()
+                .HasDefaultValue(string.Empty);
         }
     }
 }

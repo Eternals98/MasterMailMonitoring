@@ -5,12 +5,18 @@ namespace MailMonitor.Domain.Entities.Graph
 {
     public sealed class GraphSetting
     {
+        public const int SingletonId = 1;
+
         public int Id { get; set; }
         public string Instance { get; set; } = string.Empty;
         public string ClientId { get; set; } = string.Empty;
         public string TenantId { get; set; } = string.Empty;
         public string ClientSecret { get; set; } = string.Empty;
         public string GraphUserScopesJson { get; set; } = "[]";
+        public DateTime? LastVerificationAtUtc { get; set; }
+        public bool? LastVerificationSucceeded { get; set; }
+        public string LastVerificationErrorCode { get; set; } = string.Empty;
+        public string LastVerificationErrorMessage { get; set; } = string.Empty;
 
         public Result Validate()
         {
@@ -65,6 +71,22 @@ namespace MailMonitor.Domain.Entities.Graph
                 .ToArray();
 
             GraphUserScopesJson = JsonSerializer.Serialize(normalizedScopes);
+        }
+
+        public void SetVerificationResult(bool succeeded, string? errorCode, string? errorMessage)
+        {
+            LastVerificationAtUtc = DateTime.UtcNow;
+            LastVerificationSucceeded = succeeded;
+            LastVerificationErrorCode = errorCode?.Trim() ?? string.Empty;
+            LastVerificationErrorMessage = errorMessage?.Trim() ?? string.Empty;
+        }
+
+        public void ClearVerification()
+        {
+            LastVerificationAtUtc = null;
+            LastVerificationSucceeded = null;
+            LastVerificationErrorCode = string.Empty;
+            LastVerificationErrorMessage = string.Empty;
         }
     }
 }

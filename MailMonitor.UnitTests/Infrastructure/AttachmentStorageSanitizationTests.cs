@@ -115,6 +115,60 @@ public sealed class AttachmentStorageSanitizationTests
         }
     }
 
+    [Fact]
+    public void StoreFile_ShouldUseCompanyAbsoluteStorage_WhenOverrideGlobalStorageFolderIsEnabled()
+    {
+        var rootPath = Path.Combine(Path.GetTempPath(), $"mailmonitor-storage-test-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(rootPath);
+
+        var dbPath = Path.Combine(rootPath, "config.db");
+        using var serviceProvider = BuildServiceProvider(dbPath);
+
+        try
+        {
+            var globalBase = Path.Combine(rootPath, "global-base");
+            var companyAbsolute = Path.Combine(rootPath, "company-absolute");
+
+            var storageService = serviceProvider.GetRequiredService<IAttachmentStorageService>();
+            var company = new Company
+            {
+                Name = "Northwind",
+                Mail = "mail@northwind.com",
+                StorageFolder = companyAbsolute,
+                OverrideGlobalStorageFolder = true,
+                ReportOutputFolder = "Reports",
+                ProcessingTag = "ONBASE"
+            };
+
+            var settings = new Setting { BaseStorageFolder = globalBase, ProcessingTag = "ONBASE" };
+            var attachment = new FileAttachment
+            {
+                Name = "invoice.pdf",
+                ContentBytes = [0x11, 0x22, 0x33]
+            };
+
+            var result = storageService.StoreFile(company, "Invoice Subject", attachment, settings);
+
+            Assert.True(result.IsSuccess);
+
+            var fullGlobalBase = Path.GetFullPath(globalBase);
+            var fullCompanyAbsolute = Path.GetFullPath(companyAbsolute);
+            var fullStoragePath = Path.GetFullPath(result.Value.StoragePath);
+            var fullFilePath = Path.GetFullPath(result.Value.FilePath);
+
+            Assert.StartsWith(fullCompanyAbsolute, fullStoragePath, StringComparison.OrdinalIgnoreCase);
+            Assert.StartsWith(fullCompanyAbsolute, fullFilePath, StringComparison.OrdinalIgnoreCase);
+            Assert.False(fullStoragePath.StartsWith(fullGlobalBase, StringComparison.OrdinalIgnoreCase));
+        }
+        finally
+        {
+            if (Directory.Exists(rootPath))
+            {
+                Directory.Delete(rootPath, true);
+            }
+        }
+    }
+
     private static ServiceProvider BuildServiceProvider(string dbPath)
     {
         var configuration = new ConfigurationBuilder()

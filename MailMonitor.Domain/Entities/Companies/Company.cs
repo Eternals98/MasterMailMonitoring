@@ -19,7 +19,10 @@ namespace MailMonitor.Domain.Entities.Companies
             IEnumerable<string>? attachmentKeywords,
             string storageFolder,
             string reportOutputFolder,
-            string processingTag)
+            string processingTag,
+            bool overrideGlobalProcessingTag,
+            bool overrideGlobalStorageFolder,
+            bool overrideGlobalReportOutputFolder)
             : base(id)
         {
             Name = name;
@@ -31,6 +34,9 @@ namespace MailMonitor.Domain.Entities.Companies
             StorageFolder = storageFolder;
             ReportOutputFolder = reportOutputFolder;
             ProcessingTag = processingTag;
+            OverrideGlobalProcessingTag = overrideGlobalProcessingTag;
+            OverrideGlobalStorageFolder = overrideGlobalStorageFolder;
+            OverrideGlobalReportOutputFolder = overrideGlobalReportOutputFolder;
         }
 
         public Company() : base(Guid.NewGuid())
@@ -46,6 +52,9 @@ namespace MailMonitor.Domain.Entities.Companies
         public string StorageFolder { get; set; } = string.Empty;
         public string ReportOutputFolder { get; set; } = string.Empty;
         public string ProcessingTag { get; set; } = DefaultProcessingTag;
+        public bool OverrideGlobalProcessingTag { get; set; } = true;
+        public bool OverrideGlobalStorageFolder { get; set; } = false;
+        public bool OverrideGlobalReportOutputFolder { get; set; } = false;
 
         // Legacy persistence flags kept for backward compatibility with the existing DB schema.
         public string RecordType { get; set; } = RecordTypeSetting;
@@ -72,7 +81,10 @@ namespace MailMonitor.Domain.Entities.Companies
                 null,
                 storageFolder,
                 reportOutputFolder,
-                DefaultProcessingTag);
+                DefaultProcessingTag,
+                true,
+                false,
+                false);
         }
 
         public static Result<Company> CreateValidated(
@@ -84,9 +96,20 @@ namespace MailMonitor.Domain.Entities.Companies
             IEnumerable<string>? attachmentKeywords,
             string storageFolder,
             string reportOutputFolder,
-            string processingTag = DefaultProcessingTag)
+            string processingTag = DefaultProcessingTag,
+            bool overrideGlobalProcessingTag = true,
+            bool overrideGlobalStorageFolder = false,
+            bool overrideGlobalReportOutputFolder = false)
         {
-            var validationResult = ValidateData(name, mail, startFrom, storageFolder, reportOutputFolder, processingTag);
+            var validationResult = ValidateData(
+                name,
+                mail,
+                startFrom,
+                storageFolder,
+                reportOutputFolder,
+                processingTag,
+                overrideGlobalStorageFolder,
+                overrideGlobalReportOutputFolder);
             if (validationResult.IsFailure)
             {
                 return Result.Failure<Company>(validationResult.Error);
@@ -102,7 +125,10 @@ namespace MailMonitor.Domain.Entities.Companies
                 attachmentKeywords,
                 storageFolder.Trim(),
                 reportOutputFolder.Trim(),
-                processingTag.Trim());
+                processingTag.Trim(),
+                overrideGlobalProcessingTag,
+                overrideGlobalStorageFolder,
+                overrideGlobalReportOutputFolder);
 
             return Result.Success(company);
         }
@@ -125,7 +151,10 @@ namespace MailMonitor.Domain.Entities.Companies
                 AttachmentKeywords,
                 storageFolder,
                 reportOutputFolder,
-                ProcessingTag);
+                ProcessingTag,
+                OverrideGlobalProcessingTag,
+                OverrideGlobalStorageFolder,
+                OverrideGlobalReportOutputFolder);
         }
 
         public Result Update(
@@ -137,9 +166,20 @@ namespace MailMonitor.Domain.Entities.Companies
             IEnumerable<string>? attachmentKeywords,
             string storageFolder,
             string reportOutputFolder,
-            string processingTag)
+            string processingTag,
+            bool overrideGlobalProcessingTag,
+            bool overrideGlobalStorageFolder,
+            bool overrideGlobalReportOutputFolder)
         {
-            var validationResult = ValidateData(name, mail, startFrom, storageFolder, reportOutputFolder, processingTag);
+            var validationResult = ValidateData(
+                name,
+                mail,
+                startFrom,
+                storageFolder,
+                reportOutputFolder,
+                processingTag,
+                overrideGlobalStorageFolder,
+                overrideGlobalReportOutputFolder);
             if (validationResult.IsFailure)
             {
                 return validationResult;
@@ -154,6 +194,9 @@ namespace MailMonitor.Domain.Entities.Companies
             StorageFolder = storageFolder.Trim();
             ReportOutputFolder = reportOutputFolder.Trim();
             ProcessingTag = processingTag.Trim();
+            OverrideGlobalProcessingTag = overrideGlobalProcessingTag;
+            OverrideGlobalStorageFolder = overrideGlobalStorageFolder;
+            OverrideGlobalReportOutputFolder = overrideGlobalReportOutputFolder;
 
             return Result.Success();
         }
@@ -224,7 +267,9 @@ namespace MailMonitor.Domain.Entities.Companies
             string startFrom,
             string storageFolder,
             string reportOutputFolder,
-            string processingTag)
+            string processingTag,
+            bool overrideGlobalStorageFolder,
+            bool overrideGlobalReportOutputFolder)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -251,6 +296,26 @@ namespace MailMonitor.Domain.Entities.Companies
                 return Result.Failure(DomainErrors.Company.ProcessingTagRequired);
             }
 
+            if (!overrideGlobalStorageFolder && IsAbsoluteOrRootedPath(storageFolder))
+            {
+                return Result.Failure(DomainErrors.Company.StorageFolderMustBeRelativeWhenUsingGlobal);
+            }
+
+            if (overrideGlobalStorageFolder && !IsAbsoluteOrRootedPath(storageFolder))
+            {
+                return Result.Failure(DomainErrors.Company.StorageFolderMustBeAbsoluteWhenOverridingGlobal);
+            }
+
+            if (!overrideGlobalReportOutputFolder && IsAbsoluteOrRootedPath(reportOutputFolder))
+            {
+                return Result.Failure(DomainErrors.Company.ReportOutputFolderMustBeRelativeWhenUsingGlobal);
+            }
+
+            if (overrideGlobalReportOutputFolder && !IsAbsoluteOrRootedPath(reportOutputFolder))
+            {
+                return Result.Failure(DomainErrors.Company.ReportOutputFolderMustBeAbsoluteWhenOverridingGlobal);
+            }
+
             if (!string.IsNullOrWhiteSpace(startFrom) &&
                 !DateTimeOffset.TryParse(startFrom, out _))
             {
@@ -258,6 +323,19 @@ namespace MailMonitor.Domain.Entities.Companies
             }
 
             return Result.Success();
+        }
+
+        private static bool IsAbsoluteOrRootedPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return false;
+            }
+
+            var normalized = path.Trim();
+            return normalized.StartsWith(@"\\", StringComparison.Ordinal) ||
+                   normalized.StartsWith("//", StringComparison.Ordinal) ||
+                   Path.IsPathRooted(normalized);
         }
     }
 }

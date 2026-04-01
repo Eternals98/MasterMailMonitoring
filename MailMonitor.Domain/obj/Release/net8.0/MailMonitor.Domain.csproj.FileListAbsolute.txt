@@ -1,0 +1,12 @@
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\bin\Release\net8.0\MailMonitor.Domain.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\bin\Release\net8.0\MailMonitor.Domain.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\bin\Release\net8.0\MailMonitor.Domain.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.AssemblyInfoInputs.cache
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.AssemblyInfo.cs
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.csproj.CoreCompileInputs.cache
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.sourcelink.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\refint\MailMonitor.Domain.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\MailMonitor.Domain.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Domain\obj\Release\net8.0\ref\MailMonitor.Domain.dll

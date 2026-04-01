@@ -108,9 +108,8 @@ namespace MailMonitor.Worker.Services
 
         private static string ResolveProcessingTag(Company company, Setting settings)
         {
-            var tag = string.IsNullOrWhiteSpace(company.ProcessingTag)
-                ? settings.ProcessingTag
-                : company.ProcessingTag;
+            var useCompanyTag = company.OverrideGlobalProcessingTag && !string.IsNullOrWhiteSpace(company.ProcessingTag);
+            var tag = useCompanyTag ? company.ProcessingTag : settings.ProcessingTag;
 
             return string.IsNullOrWhiteSpace(tag)
                 ? Company.DefaultProcessingTag

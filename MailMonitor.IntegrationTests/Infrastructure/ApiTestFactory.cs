@@ -2,21 +2,34 @@ using MailMonitor.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MailMonitor.IntegrationTests.Infrastructure;
 
 public sealed class ApiTestFactory : WebApplicationFactory<Program>
 {
+    private const string PersistenceDbPathEnvKey = "Persistence__ConfigurationDbPath";
+
     private readonly string _testRootPath;
+    private readonly string? _previousPersistenceDbPath;
 
     public ApiTestFactory()
     {
         _testRootPath = Path.Combine(Path.GetTempPath(), $"mailmonitor-api-integration-{Guid.NewGuid():N}");
         Directory.CreateDirectory(_testRootPath);
         ConfigurationDbPath = Path.Combine(_testRootPath, "mailmonitor.integration.db");
+
+        _previousPersistenceDbPath = Environment.GetEnvironmentVariable(PersistenceDbPathEnvKey);
+        Environment.SetEnvironmentVariable(PersistenceDbPathEnvKey, ConfigurationDbPath);
     }
 
     public string ConfigurationDbPath { get; }
+
+    public string GetResolvedConfigurationDbPath()
+    {
+        var resolvedPath = Services.GetRequiredService<string>();
+        return resolvedPath;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -46,6 +59,8 @@ public sealed class ApiTestFactory : WebApplicationFactory<Program>
         {
             return;
         }
+
+        Environment.SetEnvironmentVariable(PersistenceDbPathEnvKey, _previousPersistenceDbPath);
 
         if (Directory.Exists(_testRootPath))
         {

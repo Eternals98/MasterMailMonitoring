@@ -1,0 +1,99 @@
+Usando la configuración de inicio de C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\Properties\launchSettings.json...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://localhost:7016
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5146
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidadprueba@abonosagro.com and mailbox AAMkADI1NjQ0YWU0LTU2MmEtNDUxMS1iZGM3LWMyMTAwYzU4MmNhNwAuAAAAAABXZQQD1fDNRr2-S3QkRpLTAQBupptc987_QI6OTla8Kr7lAAQWV1SBAAA=.
+      System.ArgumentException: Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names (Parameter 'tenantId')
+         at Azure.Identity.Validations.ValidateTenantId(String tenantId, String argumentName, Boolean allowNull)
+         at Azure.Identity.ClientSecretCredential..ctor(String tenantId, String clientId, String clientSecret, TokenCredentialOptions options, CredentialPipeline pipeline, MsalConfidentialClient client)
+         at Azure.Identity.ClientSecretCredential..ctor(String tenantId, String clientId, String clientSecret)
+         at MailMonitor.Infrastructure.Graph.GraphAuthFactory.CreateClientAsync(CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphAuthFactory.cs:line 45
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 216
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidadprueba@abonosagro.com and mailbox AAMkADI1NjQ0YWU0LTU2MmEtNDUxMS1iZGM3LWMyMTAwYzU4MmNhNwAuAAAAAABXZQQD1fDNRr2-S3QkRpLTAQBupptc987_QI6OTla8Kr7lAAQWV1SBAAA=.
+      System.ArgumentException: Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names (Parameter 'tenantId')
+         at Azure.Identity.Validations.ValidateTenantId(String tenantId, String argumentName, Boolean allowNull)
+         at Azure.Identity.ClientSecretCredential..ctor(String tenantId, String clientId, String clientSecret, TokenCredentialOptions options, CredentialPipeline pipeline, MsalConfidentialClient client)
+         at Azure.Identity.ClientSecretCredential..ctor(String tenantId, String clientId, String clientSecret)
+         at MailMonitor.Infrastructure.Graph.GraphAuthFactory.CreateClientAsync(CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphAuthFactory.cs:line 45
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 216
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidadprueba@abonosagro.com and mailbox AAMkADI1NjQ0YWU0LTU2MmEtNDUxMS1iZGM3LWMyMTAwYzU4MmNhNwAuAAAAAABXZQQD1fDNRr2-S3QkRpLTAQBupptc987_QI6OTla8Kr7lAAQWV1SBAAA=.
+      Azure.Identity.AuthenticationFailedException: ClientSecretCredential authentication failed: 
+       ---> MSAL.NetCore.4.83.1.0.MsalServiceException:
+      	ErrorCode: unauthorized_client
+      Microsoft.Identity.Client.MsalServiceException: AADSTS700016: Application with identifier 'bddea0b2-8b45-49e2-b0aa-516c0365e7a7+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==' was not found in the directory 'Acesco'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant. Trace ID: 4fe440f1-53bc-4cd3-bd7e-aa013bd00900 Correlation ID: aa6c012e-c861-448a-ba98-067184ce3c97 Timestamp: 2026-03-30 21:26:27Z
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.ThrowServerException(HttpResponse response, RequestContext requestContext)
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.CreateResponse[T](HttpResponse response, RequestContext requestContext)
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.ExecuteRequestAsync[T](Uri endPoint, HttpMethod method, RequestContext requestContext, Boolean expectErrorsOn200OK, Boolean addCommonHeaders, IList`1 onBeforePostRequestHandlers)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendHttpAndClearTelemetryAsync(String tokenEndpoint, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendHttpAndClearTelemetryAsync(String tokenEndpoint, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, String scopeOverride, String tokenEndpointOverride, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.ExecuteAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.<>c__DisplayClass11_1.<<RunAsync>b__1>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.Identity.Client.Utils.StopwatchService.MeasureCodeBlockAsync(Func`1 codeBlock)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.RunAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.ApiConfig.Executors.ConfidentialClientExecutor.ExecuteAsync(AcquireTokenCommonParameters commonParameters, AcquireTokenForClientParameters clientParameters, CancellationToken cancellationToken)
+         at Azure.Identity.AbstractAcquireTokenParameterBuilderExtensions.ExecuteAsync[T](AbstractAcquireTokenParameterBuilder`1 builder, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientCoreAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+	StatusCode: 400 
+	ResponseBody: {"error":"unauthorized_client","error_description":"AADSTS700016: Application with identifier 'bddea0b2-8b45-49e2-b0aa-516c0365e7a7+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==' was not found in the directory 'Acesco'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant. Trace ID: 4fe440f1-53bc-4cd3-bd7e-aa013bd00900 Correlation ID: aa6c012e-c861-448a-ba98-067184ce3c97 Timestamp: 2026-03-30 21:26:27Z","error_codes":[700016],"timestamp":"2026-03-30 21:26:27Z","trace_id":"4fe440f1-53bc-4cd3-bd7e-aa013bd00900","correlation_id":"aa6c012e-c861-448a-ba98-067184ce3c97","error_uri":"https://login.microsoftonline.com/error?code=700016"}
+         --- End of inner exception stack trace ---
+         at Azure.Identity.CredentialDiagnosticScope.FailWrapAndThrow(Exception ex, String additionalMessage, Boolean isCredentialUnavailable)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Authentication.Azure.AzureIdentityAccessTokenProvider.GetAuthorizationTokenAsync(Uri uri, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider.AuthenticateRequestAsync(RequestInformation request, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.GetHttpResponseMessageAsync(RequestInformation requestInfo, CancellationToken cancellationToken, Activity activityForAttributes, String claims, Boolean isStreamResponse)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.SendAsync[ModelType](RequestInformation requestInfo, ParsableFactory`1 factory, Dictionary`2 errorMapping, CancellationToken cancellationToken)
+         at Microsoft.Graph.Users.Item.MailFolders.Item.MailFolderItemRequestBuilder.GetAsync(Action`1 requestConfiguration, CancellationToken cancellationToken)
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 218
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidadprueba@abonosagro.com and mailbox AAMkADI1NjQ0YWU0LTU2MmEtNDUxMS1iZGM3LWMyMTAwYzU4MmNhNwAuAAAAAABXZQQD1fDNRr2-S3QkRpLTAQBupptc987_QI6OTla8Kr7lAAQWV1SBAAA=.
+      Azure.Identity.AuthenticationFailedException: ClientSecretCredential authentication failed: 
+       ---> MSAL.NetCore.4.83.1.0.MsalServiceException:
+      	ErrorCode: unauthorized_client
+      Microsoft.Identity.Client.MsalServiceException: AADSTS700016: Application with identifier 'bddea0b2-8b45-49e2-b0aa-516c0365e7a7+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==' was not found in the directory 'Acesco'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant. Trace ID: aa225ed6-3893-4a90-bea6-ba85458b3a00 Correlation ID: 500b0034-c077-4bdf-a7f9-58a0d41f690c Timestamp: 2026-03-30 21:27:23Z
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.ThrowServerException(HttpResponse response, RequestContext requestContext)
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.CreateResponse[T](HttpResponse response, RequestContext requestContext)
+         at Microsoft.Identity.Client.OAuth2.OAuth2Client.ExecuteRequestAsync[T](Uri endPoint, HttpMethod method, RequestContext requestContext, Boolean expectErrorsOn200OK, Boolean addCommonHeaders, IList`1 onBeforePostRequestHandlers)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendHttpAndClearTelemetryAsync(String tokenEndpoint, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendHttpAndClearTelemetryAsync(String tokenEndpoint, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, String scopeOverride, String tokenEndpointOverride, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.ExecuteAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.<>c__DisplayClass11_1.<<RunAsync>b__1>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.Identity.Client.Utils.StopwatchService.MeasureCodeBlockAsync(Func`1 codeBlock)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.RunAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.ApiConfig.Executors.ConfidentialClientExecutor.ExecuteAsync(AcquireTokenCommonParameters commonParameters, AcquireTokenForClientParameters clientParameters, CancellationToken cancellationToken)
+         at Azure.Identity.AbstractAcquireTokenParameterBuilderExtensions.ExecuteAsync[T](AbstractAcquireTokenParameterBuilder`1 builder, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientCoreAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+	StatusCode: 400 
+	ResponseBody: {"error":"unauthorized_client","error_description":"AADSTS700016: Application with identifier 'bddea0b2-8b45-49e2-b0aa-516c0365e7a7+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==+rEiTBsJ+1aNP7oin+2jSzowEaOjg/IMy4Xk19ssxJi8eh1A==' was not found in the directory 'Acesco'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant. Trace ID: aa225ed6-3893-4a90-bea6-ba85458b3a00 Correlation ID: 500b0034-c077-4bdf-a7f9-58a0d41f690c Timestamp: 2026-03-30 21:27:23Z","error_codes":[700016],"timestamp":"2026-03-30 21:27:23Z","trace_id":"aa225ed6-3893-4a90-bea6-ba85458b3a00","correlation_id":"500b0034-c077-4bdf-a7f9-58a0d41f690c","error_uri":"https://login.microsoftonline.com/error?code=700016"}
+         --- End of inner exception stack trace ---
+         at Azure.Identity.CredentialDiagnosticScope.FailWrapAndThrow(Exception ex, String additionalMessage, Boolean isCredentialUnavailable)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Authentication.Azure.AzureIdentityAccessTokenProvider.GetAuthorizationTokenAsync(Uri uri, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider.AuthenticateRequestAsync(RequestInformation request, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.GetHttpResponseMessageAsync(RequestInformation requestInfo, CancellationToken cancellationToken, Activity activityForAttributes, String claims, Boolean isStreamResponse)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.SendAsync[ModelType](RequestInformation requestInfo, ParsableFactory`1 factory, Dictionary`2 errorMapping, CancellationToken cancellationToken)
+         at Microsoft.Graph.Users.Item.MailFolders.Item.MailFolderItemRequestBuilder.GetAsync(Action`1 requestConfiguration, CancellationToken cancellationToken)
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 218

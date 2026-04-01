@@ -29,4 +29,10 @@ public sealed class UpdateCompanyRequest
 
     [Required]
     public string ProcessingTag { get; init; } = string.Empty;
+
+    public bool OverrideGlobalProcessingTag { get; init; } = true;
+
+    public bool OverrideGlobalStorageFolder { get; init; } = false;
+
+    public bool OverrideGlobalReportOutputFolder { get; init; } = false;
 }

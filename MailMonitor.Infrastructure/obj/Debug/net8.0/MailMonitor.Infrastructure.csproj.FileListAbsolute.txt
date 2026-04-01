@@ -37,3 +37,15 @@ C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\obj\
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\obj\Debug\net8.0\MailMonitor.Infrastructure.pdb
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\obj\Debug\net8.0\MailMonitor.Infrastructure.genruntimeconfig.cache
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\obj\Debug\net8.0\ref\MailMonitor.Infrastructure.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Infrastructure.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Infrastructure.runtimeconfig.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Infrastructure.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\api\MailMonitor.Infrastructure.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Infrastructure.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Infrastructure.runtimeconfig.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Infrastructure.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\unit\MailMonitor.Infrastructure.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Infrastructure.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Infrastructure.runtimeconfig.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Infrastructure.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\artifacts\tmp-build\worker\MailMonitor.Infrastructure.pdb

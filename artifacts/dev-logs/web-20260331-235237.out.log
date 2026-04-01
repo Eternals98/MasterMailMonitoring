@@ -1,0 +1,23 @@
+
+> mailmonitor-web@0.1.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m879[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m60671[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m12:18:14 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m12:18:23 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m12:52:34 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SettingsPage.tsx, /src/pages/GraphSettingsPage.tsx, /src/pages/MonitoringPage.tsx, /src/pages/CompaniesPage.tsx[22m
+[2m12:52:46 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m12:52:52 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m12:53:04 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SettingsPage.tsx[22m
+[2m12:53:12 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/SettingsPage.tsx[22m
+[2m1:06:16 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:06:24 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:06:30 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:06:41 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:06:52 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:07:28 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m
+[2m1:08:51 a. m.[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/CompaniesPage.tsx[22m

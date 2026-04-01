@@ -1,0 +1,25 @@
+﻿{
+    "executedAtUtc":  "2026-03-31T17:05:42.1175482Z",
+    "apiBaseUrl":  "http://localhost:5146/api",
+    "evidence":  {
+                     "outLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\.\\artifacts\\dev-logs\\go-live-validation-20260331-120523.out.log",
+                     "errLog":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\.\\artifacts\\dev-logs\\go-live-validation-20260331-120523.err.log",
+                     "summary":  "C:\\Users\\jarig\\source\\repos\\MasterMailMonitoring\\.\\artifacts\\dev-logs\\go-live-validation-20260331-120523.summary.json"
+                 },
+    "gates":  [
+                  {
+                      "name":  "GraphHealth",
+                      "passed":  false,
+                      "statusCode":  0,
+                      "userMail":  "",
+                      "mailboxId":  ""
+                  },
+                  {
+                      "name":  "StorageAccess",
+                      "passed":  false,
+                      "statusCode":  0,
+                      "path":  "\\\\localhost\\c$\\Temp"
+                  }
+              ],
+    "overallPassed":  false
+}

@@ -5,4 +5,8 @@ public sealed record GraphSettingsResponse(
     string ClientId,
     string TenantId,
     string ClientSecretMasked,
-    string GraphUserScopesJson);
+    string GraphUserScopesJson,
+    DateTime? LastVerificationAtUtc,
+    bool? LastVerificationSucceeded,
+    string LastVerificationErrorCode,
+    string LastVerificationErrorMessage);

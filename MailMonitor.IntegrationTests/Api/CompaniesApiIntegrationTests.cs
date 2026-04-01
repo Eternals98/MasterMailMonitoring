@@ -24,7 +24,10 @@ public sealed class CompaniesApiIntegrationTests
             attachmentKeywords = new[] { "invoice", "tax" },
             storageFolder = @"Companies\Contoso",
             reportOutputFolder = @"Reports\Contoso",
-            processingTag = "ONBASE"
+            processingTag = "ONBASE",
+            overrideGlobalProcessingTag = true,
+            overrideGlobalStorageFolder = false,
+            overrideGlobalReportOutputFolder = false
         };
 
         var createResponse = await client.PostAsJsonAsync("/api/companies", createRequest);
@@ -41,6 +44,9 @@ public sealed class CompaniesApiIntegrationTests
         Assert.NotNull(getByIdPayload);
         Assert.Equal(createdCompany.Id, getByIdPayload.Id);
         Assert.Equal("pilot@contoso.com", getByIdPayload.Mail);
+        Assert.True(getByIdPayload.OverrideGlobalProcessingTag);
+        Assert.False(getByIdPayload.OverrideGlobalStorageFolder);
+        Assert.False(getByIdPayload.OverrideGlobalReportOutputFolder);
 
         var getFilteredResponse = await client.GetAsync($"/api/companies?name={Uri.EscapeDataString(companyName)}");
         var filteredCompanies = await getFilteredResponse.Content.ReadFromJsonAsync<List<CompanyListItemResponse>>();
@@ -58,9 +64,12 @@ public sealed class CompaniesApiIntegrationTests
             mailBox = new[] { "Inbox", "Archive" },
             fileTypes = new[] { "PDF" },
             attachmentKeywords = new[] { "invoice" },
-            storageFolder = @"Companies\Contoso\Updated",
-            reportOutputFolder = @"Reports\Contoso\Updated",
-            processingTag = "ONBASE-PILOT"
+            storageFolder = @"\\storage\contoso\updated",
+            reportOutputFolder = @"\\reports\contoso\updated",
+            processingTag = "ONBASE-PILOT",
+            overrideGlobalProcessingTag = false,
+            overrideGlobalStorageFolder = true,
+            overrideGlobalReportOutputFolder = true
         };
 
         var updateResponse = await client.PutAsJsonAsync($"/api/companies/{createdCompany.Id}", updateRequest);
@@ -74,6 +83,9 @@ public sealed class CompaniesApiIntegrationTests
         Assert.Equal($"{companyName} Updated", updatedCompany.Name);
         Assert.Equal("pilot-updated@contoso.com", updatedCompany.Mail);
         Assert.Equal("ONBASE-PILOT", updatedCompany.ProcessingTag);
+        Assert.False(updatedCompany.OverrideGlobalProcessingTag);
+        Assert.True(updatedCompany.OverrideGlobalStorageFolder);
+        Assert.True(updatedCompany.OverrideGlobalReportOutputFolder);
 
         var deleteResponse = await client.DeleteAsync($"/api/companies/{createdCompany.Id}");
         Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
@@ -101,6 +113,9 @@ public sealed class CompaniesApiIntegrationTests
         string StorageFolder,
         string ReportOutputFolder,
         string ProcessingTag,
+        bool OverrideGlobalProcessingTag,
+        bool OverrideGlobalStorageFolder,
+        bool OverrideGlobalReportOutputFolder,
         string RecordType,
         string ProcessedSubject,
         DateTime? ProcessedDate,

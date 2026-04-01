@@ -1,6 +1,3 @@
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
-
 param(
     [string]$ServiceName = "MailMonitor.Worker",
     [string]$WorkerProjectPath = ".\MailMonitor.Worker\MailMonitor.Worker.csproj",
@@ -9,6 +6,9 @@ param(
     [switch]$StartService,
     [switch]$ForceReinstall
 )
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 function Invoke-Sc {
     param([string[]]$Arguments)

@@ -1,0 +1,89 @@
+Usando la configuración de inicio de C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api\Properties\launchSettings.json...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://localhost:7016
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5146
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Api
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidad@abonosagro.com and mailbox AAMkADdkMWY0NjZlLTFmOWMtNGM3YS05YTNkLTBhYTQxNDFhM2QyYgAuAAAAAAAVN1-o3FuyQp6WQsIH6sltAQC5xOP5_1uAQ4L8d7YnzkRIAAAAAA5XAAA=.
+      System.OperationCanceledException: The operation was canceled.
+         at System.Threading.CancellationToken.ThrowOperationCanceledException()
+         at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, String scopeOverride, String tokenEndpointOverride, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.ExecuteAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.<>c__DisplayClass11_1.<<RunAsync>b__1>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.Identity.Client.Utils.StopwatchService.MeasureCodeBlockAsync(Func`1 codeBlock)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.RunAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.ApiConfig.Executors.ConfidentialClientExecutor.ExecuteAsync(AcquireTokenCommonParameters commonParameters, AcquireTokenForClientParameters clientParameters, CancellationToken cancellationToken)
+         at Azure.Identity.AbstractAcquireTokenParameterBuilderExtensions.ExecuteAsync[T](AbstractAcquireTokenParameterBuilder`1 builder, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientCoreAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Azure.Identity.CredentialDiagnosticScope.FailWrapAndThrow(Exception ex, String additionalMessage, Boolean isCredentialUnavailable)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Authentication.Azure.AzureIdentityAccessTokenProvider.GetAuthorizationTokenAsync(Uri uri, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider.AuthenticateRequestAsync(RequestInformation request, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.GetHttpResponseMessageAsync(RequestInformation requestInfo, CancellationToken cancellationToken, Activity activityForAttributes, String claims, Boolean isStreamResponse)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.SendAsync[ModelType](RequestInformation requestInfo, ParsableFactory`1 factory, Dictionary`2 errorMapping, CancellationToken cancellationToken)
+         at Microsoft.Graph.Users.Item.MailFolders.Item.MailFolderItemRequestBuilder.GetAsync(Action`1 requestConfiguration, CancellationToken cancellationToken)
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 218
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidad@abonosagro.com and mailbox AAMkADdkMWY0NjZlLTFmOWMtNGM3YS05YTNkLTBhYTQxNDFhM2QyYgAuAAAAAAAVN1-o3FuyQp6WQsIH6sltAQC5xOP5_1uAQ4L8d7YnzkRIAAAAAA5XAAA=.
+      System.OperationCanceledException: The operation was canceled.
+         at System.Threading.CancellationToken.ThrowOperationCanceledException()
+         at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, String scopeOverride, String tokenEndpointOverride, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.ExecuteAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.<>c__DisplayClass11_1.<<RunAsync>b__1>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.Identity.Client.Utils.StopwatchService.MeasureCodeBlockAsync(Func`1 codeBlock)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.RunAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.ApiConfig.Executors.ConfidentialClientExecutor.ExecuteAsync(AcquireTokenCommonParameters commonParameters, AcquireTokenForClientParameters clientParameters, CancellationToken cancellationToken)
+         at Azure.Identity.AbstractAcquireTokenParameterBuilderExtensions.ExecuteAsync[T](AbstractAcquireTokenParameterBuilder`1 builder, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientCoreAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Azure.Identity.CredentialDiagnosticScope.FailWrapAndThrow(Exception ex, String additionalMessage, Boolean isCredentialUnavailable)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Authentication.Azure.AzureIdentityAccessTokenProvider.GetAuthorizationTokenAsync(Uri uri, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider.AuthenticateRequestAsync(RequestInformation request, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.GetHttpResponseMessageAsync(RequestInformation requestInfo, CancellationToken cancellationToken, Activity activityForAttributes, String claims, Boolean isStreamResponse)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.SendAsync[ModelType](RequestInformation requestInfo, ParsableFactory`1 factory, Dictionary`2 errorMapping, CancellationToken cancellationToken)
+         at Microsoft.Graph.Users.Item.MailFolders.Item.MailFolderItemRequestBuilder.GetAsync(Action`1 requestConfiguration, CancellationToken cancellationToken)
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 218
+fail: MailMonitor.Infrastructure.Graph.GraphClient[0]
+      Graph connectivity check failed for user aaacontabilidad@abonosagro.com and mailbox AAMkADdkMWY0NjZlLTFmOWMtNGM3YS05YTNkLTBhYTQxNDFhM2QyYgAuAAAAAAAVN1-o3FuyQp6WQsIH6sltAQC5xOP5_1uAQ4L8d7YnzkRIAAAAAA5XAAA=.
+      System.OperationCanceledException: The operation was canceled.
+         at System.Threading.CancellationToken.ThrowOperationCanceledException()
+         at System.Threading.CancellationToken.ThrowIfCancellationRequested()
+         at Microsoft.Identity.Client.OAuth2.TokenClient.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, String scopeOverride, String tokenEndpointOverride, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.SendTokenRequestAsync(IDictionary`2 additionalBodyParameters, CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.GetAccessTokenAsync(CancellationToken cancellationToken, ILoggerAdapter logger)
+         at Microsoft.Identity.Client.Internal.Requests.ClientCredentialRequest.ExecuteAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.<>c__DisplayClass11_1.<<RunAsync>b__1>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.Identity.Client.Utils.StopwatchService.MeasureCodeBlockAsync(Func`1 codeBlock)
+         at Microsoft.Identity.Client.Internal.Requests.RequestBase.RunAsync(CancellationToken cancellationToken)
+         at Microsoft.Identity.Client.ApiConfig.Executors.ConfidentialClientExecutor.ExecuteAsync(AcquireTokenCommonParameters commonParameters, AcquireTokenForClientParameters clientParameters, CancellationToken cancellationToken)
+         at Azure.Identity.AbstractAcquireTokenParameterBuilderExtensions.ExecuteAsync[T](AbstractAcquireTokenParameterBuilder`1 builder, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientCoreAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.MsalConfidentialClient.AcquireTokenForClientAsync(String[] scopes, String tenantId, String claims, Boolean enableCae, Boolean async, CancellationToken cancellationToken)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Azure.Identity.CredentialDiagnosticScope.FailWrapAndThrow(Exception ex, String additionalMessage, Boolean isCredentialUnavailable)
+         at Azure.Identity.ClientSecretCredential.GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Authentication.Azure.AzureIdentityAccessTokenProvider.GetAuthorizationTokenAsync(Uri uri, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider.AuthenticateRequestAsync(RequestInformation request, Dictionary`2 additionalAuthenticationContext, CancellationToken cancellationToken)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.GetHttpResponseMessageAsync(RequestInformation requestInfo, CancellationToken cancellationToken, Activity activityForAttributes, String claims, Boolean isStreamResponse)
+         at Microsoft.Kiota.Http.HttpClientLibrary.HttpClientRequestAdapter.SendAsync[ModelType](RequestInformation requestInfo, ParsableFactory`1 factory, Dictionary`2 errorMapping, CancellationToken cancellationToken)
+         at Microsoft.Graph.Users.Item.MailFolders.Item.MailFolderItemRequestBuilder.GetAsync(Action`1 requestConfiguration, CancellationToken cancellationToken)
+         at MailMonitor.Infrastructure.Graph.GraphClient.CheckConnectivityAsync(String userMail, String mailboxId, CancellationToken cancellationToken) in C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Infrastructure\Graph\GraphClient.cs:line 218

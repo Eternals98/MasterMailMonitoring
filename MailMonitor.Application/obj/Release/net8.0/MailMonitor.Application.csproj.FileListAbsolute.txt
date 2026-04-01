@@ -1,0 +1,16 @@
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\bin\Release\net8.0\MailMonitor.Application.deps.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\bin\Release\net8.0\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\bin\Release\net8.0\MailMonitor.Application.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\bin\Release\net8.0\MailMonitor.Domain.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\bin\Release\net8.0\MailMonitor.Domain.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.csproj.AssemblyReference.cache
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.AssemblyInfoInputs.cache
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.AssemblyInfo.cs
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.csproj.CoreCompileInputs.cache
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.sourcelink.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMoni.3942CB17.Up2Date
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\refint\MailMonitor.Application.dll
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\MailMonitor.Application.pdb
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.Application\obj\Release\net8.0\ref\MailMonitor.Application.dll

@@ -1,4 +1,4 @@
-import { ApiError, toApiError } from "./apiError";
+﻿import { ApiError, toApiError } from "./apiError";
 
 const DEFAULT_TIMEOUT_MS = 10000;
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim();
@@ -18,6 +18,15 @@ export interface RequestOptions extends Omit<RequestInit, "body"> {
 export interface BlobResponse {
   blob: Blob;
   headers: Headers;
+}
+
+function isAbortLikeError(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) {
+    return false;
+  }
+
+  const candidate = error as { name?: unknown; code?: unknown };
+  return candidate.name === "AbortError" || candidate.code === 20;
 }
 
 function buildUrl(path: string, query?: RequestOptions["query"]): string {
@@ -81,8 +90,8 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       throw error;
     }
 
-    if (error instanceof DOMException && error.name === "AbortError") {
-      throw toApiError(null, undefined, "La solicitud superó el tiempo de espera configurado.");
+    if (isAbortLikeError(error)) {
+      throw toApiError(null, undefined, "La solicitud superÃ³ el tiempo de espera configurado.");
     }
 
     throw toApiError(null, undefined, "No se pudo completar la solicitud por error de red.");
@@ -122,8 +131,8 @@ export async function requestBlob(path: string, options: RequestOptions = {}): P
       throw error;
     }
 
-    if (error instanceof DOMException && error.name === "AbortError") {
-      throw toApiError(null, undefined, "La solicitud superó el tiempo de espera configurado.");
+    if (isAbortLikeError(error)) {
+      throw toApiError(null, undefined, "La solicitud superÃ³ el tiempo de espera configurado.");
     }
 
     throw toApiError(null, undefined, "No se pudo completar la solicitud por error de red.");
@@ -135,3 +144,4 @@ export async function requestBlob(path: string, options: RequestOptions = {}): P
 function isApiError(value: unknown): value is ApiError {
   return typeof value === "object" && value !== null && "code" in value && "message" in value;
 }
+

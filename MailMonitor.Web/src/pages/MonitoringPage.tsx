@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { EmptyState } from "../components/EmptyState";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
+import { TablePagination, clampPage, paginateItems } from "../components/TablePagination";
 import { Toast } from "../components/Toast";
 import { ApiError } from "../services/apiError";
 import { companiesService } from "../services/companiesService";
@@ -61,6 +62,8 @@ export function MonitoringPage(): JSX.Element {
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [tablePage, setTablePage] = useState(1);
+  const [tablePageSize, setTablePageSize] = useState(5);
 
   async function loadStatistics(activeFilters: MonitoringFormFilters): Promise<void> {
     try {
@@ -94,6 +97,10 @@ export function MonitoringPage(): JSX.Element {
     void loadCompaniesForFilter();
   }, []);
 
+  useEffect(() => {
+    setTablePage((previous) => clampPage(previous, statistics.length, tablePageSize));
+  }, [statistics, tablePageSize]);
+
   const processedCount = useMemo(
     () => statistics.filter((item) => item.processed).length,
     [statistics]
@@ -102,6 +109,10 @@ export function MonitoringPage(): JSX.Element {
   const ignoredCount = useMemo(
     () => statistics.filter((item) => !item.processed).length,
     [statistics]
+  );
+  const pagedStatistics = useMemo(
+    () => paginateItems(statistics, tablePage, tablePageSize),
+    [statistics, tablePage, tablePageSize]
   );
 
   async function handleFilterSubmit(event: FormEvent<HTMLFormElement>): Promise<void> {
@@ -224,7 +235,7 @@ export function MonitoringPage(): JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {statistics.map((item) => (
+              {pagedStatistics.map((item) => (
                 <tr key={item.id}>
                   <td>{formatDateTime(item.date)}</td>
                   <td>{item.company}</td>
@@ -237,6 +248,17 @@ export function MonitoringPage(): JSX.Element {
               ))}
             </tbody>
           </table>
+          <TablePagination
+            totalItems={statistics.length}
+            page={tablePage}
+            pageSize={tablePageSize}
+            onPageChange={(page) => setTablePage(clampPage(page, statistics.length, tablePageSize))}
+            onPageSizeChange={(pageSize) => {
+              const normalized = pageSize === 10 ? 10 : 5;
+              setTablePageSize(normalized);
+              setTablePage(1);
+            }}
+          />
         </article>
       ) : null}
 

@@ -68,6 +68,129 @@ public sealed class CompanyValidationTests
     }
 
     [Fact]
+    public void CreateValidated_ShouldFail_WhenStorageIsAbsolute_AndGlobalStorageIsEnabled()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"C:\CompanyA",
+            "Reports",
+            "ONBASE",
+            true,
+            false);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal(DomainErrors.Company.StorageFolderMustBeRelativeWhenUsingGlobal.Code, result.Error.Code);
+    }
+
+    [Fact]
+    public void CreateValidated_ShouldFail_WhenStorageIsRelative_AndGlobalStorageIsOverridden()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"CompanyA\Inbox",
+            "Reports",
+            "ONBASE",
+            true,
+            true);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal(DomainErrors.Company.StorageFolderMustBeAbsoluteWhenOverridingGlobal.Code, result.Error.Code);
+    }
+
+    [Fact]
+    public void CreateValidated_ShouldSucceed_WhenStorageIsAbsolute_AndGlobalStorageIsOverridden()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"\\server\share\contoso",
+            "Reports",
+            "ONBASE",
+            true,
+            true);
+
+        Assert.True(result.IsSuccess);
+        Assert.True(result.Value.OverrideGlobalStorageFolder);
+    }
+
+    [Fact]
+    public void CreateValidated_ShouldFail_WhenReportOutputIsAbsolute_AndGlobalReportOutputIsEnabled()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"CompanyA\Inbox",
+            @"\\server\reports\contoso",
+            "ONBASE",
+            true,
+            false,
+            false);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal(DomainErrors.Company.ReportOutputFolderMustBeRelativeWhenUsingGlobal.Code, result.Error.Code);
+    }
+
+    [Fact]
+    public void CreateValidated_ShouldFail_WhenReportOutputIsRelative_AndGlobalReportOutputIsOverridden()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"CompanyA\Inbox",
+            @"Reports\Contoso",
+            "ONBASE",
+            true,
+            false,
+            true);
+
+        Assert.True(result.IsFailure);
+        Assert.Equal(DomainErrors.Company.ReportOutputFolderMustBeAbsoluteWhenOverridingGlobal.Code, result.Error.Code);
+    }
+
+    [Fact]
+    public void CreateValidated_ShouldSucceed_WhenReportOutputIsAbsolute_AndGlobalReportOutputIsOverridden()
+    {
+        var result = Company.CreateValidated(
+            "Contoso",
+            "mail@contoso.com",
+            "2026-03-20T00:00:00Z",
+            ["Inbox"],
+            ["PDF"],
+            [],
+            @"CompanyA\Inbox",
+            @"D:\reports\contoso",
+            "ONBASE",
+            true,
+            false,
+            true);
+
+        Assert.True(result.IsSuccess);
+        Assert.True(result.Value.OverrideGlobalReportOutputFolder);
+    }
+
+    [Fact]
     public void RegisterProcessedEmail_ShouldFail_WhenSubjectIsEmpty()
     {
         var company = new Company();

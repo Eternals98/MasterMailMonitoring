@@ -2,6 +2,8 @@ using MailMonitor.Domain.Entities.Reporting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MailMonitor.Infrastructure.Persistence.Configurations
 {
@@ -14,6 +16,9 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
             builder.HasKey(statistic => statistic.Id);
 
             builder.Property(statistic => statistic.Id)
+                .HasConversion(
+                    id => id.ToString("D"),
+                    rawId => ParseLegacyStatisticId(rawId))
                 .ValueGeneratedNever();
 
             builder.Property(statistic => statistic.Date)
@@ -68,6 +73,27 @@ namespace MailMonitor.Infrastructure.Persistence.Configurations
             builder.HasIndex(statistic => statistic.MessageId);
             builder.HasIndex(statistic => statistic.Date);
             builder.HasIndex(statistic => statistic.CompanyName);
+        }
+
+        private static Guid ParseLegacyStatisticId(string? rawId)
+        {
+            if (Guid.TryParse(rawId, out var parsed))
+            {
+                return parsed;
+            }
+
+            if (string.IsNullOrWhiteSpace(rawId))
+            {
+                return Guid.Empty;
+            }
+
+            var normalized = rawId.Trim();
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(normalized));
+
+            Span<byte> guidBytes = stackalloc byte[16];
+            hash.AsSpan(0, 16).CopyTo(guidBytes);
+
+            return new Guid(guidBytes);
         }
     }
 }

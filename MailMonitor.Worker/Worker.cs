@@ -197,6 +197,26 @@ namespace MailMonitor.Worker
                 return;
             }
 
+            if (!settings.ProcessingActionsEnabled)
+            {
+                cycleMetrics.IncrementIgnored();
+
+                _processingLogService.LogStatistic(
+                    company,
+                    mailboxId,
+                    messageId,
+                    filterResult.Subject,
+                    false,
+                    filteredAttachments.Count,
+                    "Processing actions disabled: evaluation only, attachment download and tagging skipped",
+                    []);
+
+                _logger.LogInformation(
+                    "Processing actions are disabled. Skipping attachment storage and message tagging.");
+
+                return;
+            }
+
             var persistenceResult = _attachmentPersistenceService.StoreAttachments(
                 company,
                 settings,

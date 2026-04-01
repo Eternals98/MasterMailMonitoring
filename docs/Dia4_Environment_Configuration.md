@@ -2,6 +2,20 @@
 
 Este documento define la configuracion requerida para `Development`, `QA` y `Production`.
 
+## Archivos base por ambiente
+- API:
+  - `MailMonitor.Api/appsettings.Development.json`
+  - `MailMonitor.Api/appsettings.QA.json`
+  - `MailMonitor.Api/appsettings.Production.json`
+- Worker:
+  - `MailMonitor.Worker/appsettings.Development.json`
+  - `MailMonitor.Worker/appsettings.QA.json`
+  - `MailMonitor.Worker/appsettings.Production.json`
+- Web:
+  - `MailMonitor.Web/.env.example` (Development)
+  - `MailMonitor.Web/.env.qa.example`
+  - `MailMonitor.Web/.env.production.example`
+
 ## Variables de entorno de host
 - API:
   - `ASPNETCORE_ENVIRONMENT=Development|QA|Production`
@@ -25,6 +39,11 @@ Variables exclusivas/relevantes del worker:
 - `Scheduling__TimeZoneId`
 - `Scheduling__FallbackCronExpression`
 
+Variables de Web:
+- `VITE_API_BASE_URL`
+- `VITE_AUTH_USERNAME`
+- `VITE_AUTH_PASSWORD`
+
 ## Baseline sugerido por ambiente
 
 | Clave | Development | QA | Production |
@@ -40,11 +59,15 @@ Variables exclusivas/relevantes del worker:
 | `Storage__MaxRetries` | `4` | `3` | `3-5` |
 | `Storage__BaseDelayMilliseconds` | `250` | `300` | `300` |
 | `Storage__MaxDelayMilliseconds` | `3000` | `4000` | `4000-8000` |
+| `VITE_API_BASE_URL` | `http://localhost:5146/api` | URL API QA | URL API Production |
+| `VITE_AUTH_USERNAME` | `admin` | usuario QA | usuario prod |
+| `VITE_AUTH_PASSWORD` | `mailmonitor123` | secreto QA | secreto prod |
 
 ## Reglas de seguridad
 - No persistir secretos (`Graph__ClientSecret`) en repositorio.
 - Usar gestor de secretos (Key Vault/Secret Manager/variables protegidas del pipeline).
 - Rotar secretos antes de paso a piloto y registrar fecha de rotacion.
+- No versionar secretos finales de `VITE_AUTH_PASSWORD`; mantener solo valores ejemplo.
 
 ## Validacion minima por despliegue
 1. `GET /api/settings` responde `200`.

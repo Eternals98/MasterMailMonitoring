@@ -59,6 +59,7 @@ namespace MailMonitor.Infrastructure.Storage
             var resolvedPathResult = TryResolveStoragePaths(
                 settings.BaseStorageFolder,
                 company.StorageFolder,
+                company.OverrideGlobalStorageFolder,
                 mailSubject,
                 attachment.Name);
 
@@ -203,30 +204,21 @@ namespace MailMonitor.Infrastructure.Storage
         private static Result<ResolvedStoragePath> TryResolveStoragePaths(
             string baseStorageFolder,
             string? companyStorageFolder,
+            bool overrideGlobalStorageFolder,
             string? mailSubject,
             string attachmentName)
         {
-            if (string.IsNullOrWhiteSpace(baseStorageFolder))
+            var resolvedBasePathResult = ResolveBaseStoragePath(baseStorageFolder, companyStorageFolder, overrideGlobalStorageFolder);
+            if (resolvedBasePathResult.IsFailure)
             {
-                return Result.Failure<ResolvedStoragePath>(DomainErrors.Storage.InvalidBasePath);
+                return Result.Failure<ResolvedStoragePath>(resolvedBasePathResult.Error);
             }
 
-            string fullBasePath;
-            try
-            {
-                fullBasePath = Path.GetFullPath(baseStorageFolder.Trim());
-            }
-            catch (Exception)
-            {
-                return Result.Failure<ResolvedStoragePath>(DomainErrors.Storage.InvalidBasePath);
-            }
+            var fullBasePath = resolvedBasePathResult.Value;
 
-            if (string.IsNullOrWhiteSpace(fullBasePath))
-            {
-                return Result.Failure<ResolvedStoragePath>(DomainErrors.Storage.InvalidBasePath);
-            }
-
-            var safeCompanyFolder = BuildSafeRelativePath(companyStorageFolder);
+            var safeCompanyFolder = overrideGlobalStorageFolder
+                ? string.Empty
+                : BuildSafeRelativePath(companyStorageFolder);
             if (safeCompanyFolder is null)
             {
                 return Result.Failure<ResolvedStoragePath>(DomainErrors.Storage.InvalidRelativePath);
@@ -279,6 +271,41 @@ namespace MailMonitor.Infrastructure.Storage
             }
 
             return Result.Success(new ResolvedStoragePath(fullStorageDirectoryPath, fullFilePath));
+        }
+
+        private static Result<string> ResolveBaseStoragePath(
+            string baseStorageFolder,
+            string? companyStorageFolder,
+            bool overrideGlobalStorageFolder)
+        {
+            var candidate = overrideGlobalStorageFolder
+                ? companyStorageFolder
+                : baseStorageFolder;
+
+            if (string.IsNullOrWhiteSpace(candidate))
+            {
+                return Result.Failure<string>(DomainErrors.Storage.InvalidBasePath);
+            }
+
+            if (overrideGlobalStorageFolder && !IsAbsoluteOrRootedPath(candidate))
+            {
+                return Result.Failure<string>(DomainErrors.Storage.InvalidBasePath);
+            }
+
+            try
+            {
+                var fullBasePath = Path.GetFullPath(candidate.Trim());
+                if (string.IsNullOrWhiteSpace(fullBasePath))
+                {
+                    return Result.Failure<string>(DomainErrors.Storage.InvalidBasePath);
+                }
+
+                return Result.Success(fullBasePath);
+            }
+            catch (Exception)
+            {
+                return Result.Failure<string>(DomainErrors.Storage.InvalidBasePath);
+            }
         }
 
         private static string? BuildSafeRelativePath(string? rawRelativePath)
@@ -394,6 +421,14 @@ namespace MailMonitor.Infrastructure.Storage
             var normalizedCandidate = EnsureTrailingSeparator(candidatePath);
 
             return normalizedCandidate.StartsWith(normalizedBase, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsAbsoluteOrRootedPath(string path)
+        {
+            var normalized = path.Trim();
+            return normalized.StartsWith(@"\\", StringComparison.Ordinal) ||
+                   normalized.StartsWith("//", StringComparison.Ordinal) ||
+                   Path.IsPathRooted(normalized);
         }
 
         private static string EnsureTrailingSeparator(string path)

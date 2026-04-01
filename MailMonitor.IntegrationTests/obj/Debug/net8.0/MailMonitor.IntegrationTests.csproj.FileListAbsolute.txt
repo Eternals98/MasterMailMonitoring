@@ -506,3 +506,5 @@ C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bi
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.Testing.dll
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\Microsoft.AspNetCore.TestHost.dll
 C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\obj\Debug\net8.0\MvcTestingAppManifest.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\appsettings.Production.json
+C:\Users\jarig\source\repos\MasterMailMonitoring\MailMonitor.IntegrationTests\bin\Debug\net8.0\appsettings.QA.json

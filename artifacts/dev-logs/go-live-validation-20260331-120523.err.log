@@ -1,0 +1,5 @@
+[2026-03-31T12:05:31.8220423-05:00] Graph health request error: Excepción al llamar a "GetResult" con los argumentos "0": "Error al enviar la solicitud."
+[2026-03-31T12:05:32.1893692-05:00] Graph gate: FAIL
+[2026-03-31T12:05:40.2533207-05:00] Storage check request error: Excepción al llamar a "GetResult" con los argumentos "0": "Error al enviar la solicitud."
+[2026-03-31T12:05:40.3148525-05:00] UNC/storage gate: FAIL
+[2026-03-31T12:05:45.5583377-05:00] Go-live validation finished with FAIL.

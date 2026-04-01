@@ -1,11 +1,52 @@
 export interface Setting {
   baseStorageFolder: string;
   mailSubjectKeywords: string[];
+  globalSearchKeywords: string[];
   processingTag: string;
+  defaultReportOutputFolder: string;
+  defaultFileTypes: string[];
+  defaultAttachmentKeywords: string[];
+  schedulerTimeZoneId: string;
+  schedulerFallbackCronExpression: string;
+  storageMaxRetries: number;
+  storageBaseDelayMs: number;
+  storageMaxDelayMs: number;
+  graphHealthCheckEnabled: boolean;
+  mailboxSearchEnabled: boolean;
+  processingActionsEnabled: boolean;
+  updatedAtUtc: string;
+  updatedBy: string;
+  revision: number;
 }
 
 export interface UpdateSettingRequest {
   baseStorageFolder: string;
+  mailSubjectKeywords?: string[];
+  globalSearchKeywords?: string[];
+  processingTag?: string;
+  defaultReportOutputFolder?: string;
+  defaultFileTypes?: string[];
+  defaultAttachmentKeywords?: string[];
+  schedulerTimeZoneId?: string;
+  schedulerFallbackCronExpression?: string;
+  storageMaxRetries?: number;
+  storageBaseDelayMs?: number;
+  storageMaxDelayMs?: number;
+  graphHealthCheckEnabled?: boolean;
+  mailboxSearchEnabled?: boolean;
+  processingActionsEnabled?: boolean;
+  updatedBy?: string;
+}
+
+export interface StorageAccessCheckResult {
+  checkedAtUtc: string;
+  targetPath: string;
+  normalizedPath: string;
+  exists: boolean;
+  canRead: boolean;
+  canWrite: boolean;
+  success: boolean;
+  message: string;
 }
 
 export interface Company {
@@ -19,6 +60,9 @@ export interface Company {
   storageFolder: string;
   reportOutputFolder: string;
   processingTag: string;
+  overrideGlobalProcessingTag: boolean;
+  overrideGlobalStorageFolder: boolean;
+  overrideGlobalReportOutputFolder: boolean;
   recordType: string;
   processedSubject: string;
   processedDate: string | null;
@@ -50,6 +94,33 @@ export interface CompanyUpsertRequest {
   storageFolder: string;
   reportOutputFolder: string;
   processingTag: string;
+  overrideGlobalProcessingTag: boolean;
+  overrideGlobalStorageFolder: boolean;
+  overrideGlobalReportOutputFolder: boolean;
+}
+
+export interface MailboxLookupItem {
+  id: string;
+  displayName: string;
+  path: string;
+}
+
+export interface MailboxRecentMessageItem {
+  messageId: string;
+  subject: string;
+  receivedDateTime: string | null;
+  hasAttachments: boolean;
+  sender: string;
+}
+
+export interface MailboxRecentMessagesResult {
+  checkedAtUtc: string;
+  healthy: boolean;
+  userMail: string;
+  mailboxId: string;
+  messages: MailboxRecentMessageItem[];
+  errorCode: string;
+  errorMessage: string;
 }
 
 export interface CompanyUpdateRequest extends CompanyUpsertRequest {
@@ -62,6 +133,10 @@ export interface GraphSetting {
   tenantId: string;
   clientSecretMasked: string;
   graphUserScopesJson: string;
+  lastVerificationAtUtc: string | null;
+  lastVerificationSucceeded: boolean | null;
+  lastVerificationErrorCode: string;
+  lastVerificationErrorMessage: string;
 }
 
 export interface UpdateGraphSettingRequest {
@@ -70,6 +145,15 @@ export interface UpdateGraphSettingRequest {
   tenantId: string;
   clientSecret: string;
   graphUserScopesJson: string;
+}
+
+export interface GraphConnectivityHealth {
+  checkedAtUtc: string;
+  healthy: boolean;
+  userMail: string;
+  mailboxId: string;
+  errorCode: string;
+  errorMessage: string;
 }
 
 export interface Trigger {

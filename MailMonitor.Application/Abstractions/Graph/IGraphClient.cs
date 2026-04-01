@@ -10,6 +10,11 @@ namespace MailMonitor.Application.Abstractions.Graph
         string ErrorCode,
         string ErrorMessage);
 
+    public sealed record MailboxLookupResult(
+        string Id,
+        string DisplayName,
+        string Path);
+
     public interface IGraphClient
     {
         Task<IReadOnlyCollection<Message>> GetMessagesAsync(
@@ -32,6 +37,22 @@ namespace MailMonitor.Application.Abstractions.Graph
         Task<GraphConnectivityCheckResult> CheckConnectivityAsync(
             string userMail,
             string mailboxId,
+            CancellationToken cancellationToken = default);
+
+        Task<IReadOnlyCollection<Message>> GetRecentMessagesAsync(
+            string userMail,
+            string mailboxId,
+            int take = 5,
+            CancellationToken cancellationToken = default);
+
+        Task<IReadOnlyCollection<MailboxLookupResult>> SearchMailboxesAsync(
+            string userMail,
+            string query,
+            CancellationToken cancellationToken = default);
+
+        Task<IReadOnlyCollection<MailboxLookupResult>> ResolveMailboxesAsync(
+            string userMail,
+            IReadOnlyCollection<string> mailboxIds,
             CancellationToken cancellationToken = default);
     }
 }

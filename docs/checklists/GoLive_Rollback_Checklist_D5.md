@@ -49,3 +49,18 @@ Disparar rollback inmediato si ocurre alguno:
 - Timestamp de go-live o rollback.
 - Resultado de smoke post-despliegue.
 - Incidentes ocurridos y accion tomada.
+
+## 6) Ejecucion de validacion pre-go-live (2026-03-31)
+- Timestamp de ejecucion: 2026-03-31T17:05:23Z.
+- Comando ejecutado:
+  - `powershell -ExecutionPolicy Bypass -File scripts/validate-go-live.ps1 -StoragePath "\\localhost\c$\Temp"`
+- Resultado consolidado:
+  - Gate Graph (`GET /api/health/graph`): `FAIL` (status `0`, API no alcanzable en este entorno).
+  - Gate Storage/UNC (`POST /api/settings/storage-access/check`): `FAIL` (status `0`, API no alcanzable en este entorno).
+  - Resultado general: `FAIL`.
+- Evidencia generada:
+  - `artifacts/dev-logs/go-live-validation-20260331-120523.out.log`
+  - `artifacts/dev-logs/go-live-validation-20260331-120523.err.log`
+  - `artifacts/dev-logs/go-live-validation-20260331-120523.summary.json`
+- Decision de salida:
+  - `NO-GO` en este entorno hasta ejecutar validacion con API activa + credenciales Graph reales + ruta UNC operativa.
